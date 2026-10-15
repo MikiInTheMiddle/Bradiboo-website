@@ -1,6 +1,6 @@
 # Bradiboo — Decisions and Status
 
-Ultimo aggiornamento: 14 ottobre 2026
+Ultimo aggiornamento: 15 ottobre 2026
 
 ## Decisioni confermate
 
@@ -16,6 +16,9 @@ Ultimo aggiornamento: 14 ottobre 2026
 - I contenuti sono associabili a entità personaggio controllate.
 - Le pagine personaggio richiamano automaticamente i contenuti associati.
 - Menu, alberatura e collocazione delle pagine devono essere gestibili dal Content Studio.
+- Struttura, moduli, Content Studio e integrazione frontend vengono progettati nello stesso flusso operativo.
+- Si mantiene una sola chat attiva fino alla validazione dei moduli.
+- Dopo la struttura si identificano i moduli; per ogni modulo si definiscono dati, relazioni, gestione e variabili visuali.
 
 ## Realizzato
 
@@ -31,18 +34,18 @@ Ultimo aggiornamento: 14 ottobre 2026
 - Validazione della sitemap.
 - Validazione dei template.
 - Individuazione dei blocchi mancanti o ridondanti.
-- Definizione del modello dei contenuti e delle relazioni.
+- Inventario dei moduli pagina per pagina.
+- Definizione contestuale di contenuti, relazioni, variabili visuali e componente frontend.
 
 ## Prossimi checkpoint
 
 1. Approvare o correggere la navigazione principale.
 2. Validare le pagine contenute nella sitemap.
 3. Validare i template pagina.
-4. Validare l’inventario dei blocchi.
-5. Definire tipi di contenuto, campi e relazioni.
-6. Progettare il wireframe del Content Studio.
+4. Costruire e validare l’inventario dei moduli.
+5. Definire per ogni modulo campi, relazioni, query e variabili visuali.
+6. Tradurre i moduli nel Content Studio e collegarli al frontend.
 7. Passare al visual design e ai Figma specifici.
-8. Collegare frontend e Content Studio.
 
 ## Questioni aperte
 
