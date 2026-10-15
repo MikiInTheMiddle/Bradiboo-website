@@ -15,22 +15,20 @@ Il progetto procede in un unico flusso, rapido e verificabile:
 
 Struttura, Content Studio e frontend non sono più trattati come progetti separati. Ogni modulo viene analizzato contemporaneamente dal punto di vista editoriale, dati, visuale e tecnico.
 
-## Navigazione da validare
+## Navigazione pubblica corrente
 
 - Home
-- Il mondo
 - Braditriboo
 - Guarda
-- Gioca
-- Oltre lo schermo
 - Shop
 - Bradiboo Studio, con presenza più discreta
+
+`Il mondo` e Braditime vengono conservati nel wireframe come bozze non pubblicate e non compaiono nel menu. La precedente area “Oltre lo schermo” è confluita nella landing professionale Partnership di Bradiboo Studio.
 
 ## Alberatura corrente
 
 ```text
 Home
-├── Il mondo
 ├── Braditriboo
 │   └── Personaggio
 ├── Guarda
@@ -41,9 +39,6 @@ Home
 │   │   └── Che giornata!
 │   └── Format
 │       └── Pagina format
-├── Gioca
-│   └── Attività
-├── Oltre lo schermo
 ├── Shop
 └── Bradiboo Studio
     ├── Perché Bradiboo
@@ -51,6 +46,10 @@ Home
     ├── Partnership
     ├── Team
     └── Contatti
+
+Bozze non pubblicate
+├── Il mondo
+└── Braditime — integrazione esterna
 ```
 
 ## Template iniziali
@@ -63,8 +62,7 @@ Home
 - Serie o miniserie
 - Format
 - Episodio o contenuto media
-- Indice attività
-- Attività
+- Integrazione Braditime, bozza tecnica
 - Pagina editoriale Studio
 - Pagina contatti
 
@@ -164,7 +162,7 @@ La pagina personaggio utilizzerà questa logica per richiamare automaticamente i
 - episodio → serie;
 - contenuto ↔ personaggi;
 - format → personaggio conduttore;
-- attività ↔ contenuto di origine;
+- attività Braditime esterna ↔ personaggi e contenuto di origine;
 - prodotto ↔ personaggi o property;
 - pagina → template;
 - pagina → moduli;
@@ -182,6 +180,28 @@ La pagina personaggio utilizzerà questa logica per richiamare automaticamente i
 - Impostazioni
 
 Non verranno introdotti plugin, widget generici o libertà di composizione non necessarie. Il sistema dovrà essere sufficientemente flessibile da evolvere, ma abbastanza vincolato da non rompere il frontend.
+
+## Integrazione Braditime
+
+Braditime è un ambiente esterno basato su WordPress headless. Non viene ricostruito dentro il nuovo sito.
+
+Il sito Bradiboo dovrà poter ricevere tramite API almeno:
+
+- identificativo e titolo attività;
+- descrizione breve;
+- cover o thumbnail;
+- personaggi associati;
+- età, tema e altri metadati utili;
+- stato di pubblicazione;
+- URL dell’attività nell’ambiente Braditime.
+
+Le attività potranno essere mostrate come card contestuali in homepage, pagine personaggio, episodi, serie e format. La card appartiene al frontend Bradiboo, mentre la destinazione resta esterna.
+
+L’integrazione e i relativi moduli restano in stato bozza finché non saranno definite API, tassonomie condivise e responsabilità editoriale delle associazioni.
+
+## Partnership
+
+La precedente area “Oltre lo schermo” non è più una voce autonoma della navigazione. Publishing, prodotti, esperienze, digital, produzione, distribuzione, broadcast e licensing confluiscono nella landing `Bradiboo Studio / Partnership`.
 
 ## Variabili visuali
 

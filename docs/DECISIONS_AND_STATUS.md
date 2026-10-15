@@ -19,6 +19,12 @@ Ultimo aggiornamento: 15 ottobre 2026
 - Struttura, moduli, Content Studio e integrazione frontend vengono progettati nello stesso flusso operativo.
 - Si mantiene una sola chat attiva fino alla validazione dei moduli.
 - Dopo la struttura si identificano i moduli; per ogni modulo si definiscono dati, relazioni, gestione e variabili visuali.
+- La pagina Il mondo e il relativo modulo homepage restano in bozza non pubblicata per mancanza di materiale sufficiente.
+- Gioca viene ricondotto a Braditime, ambiente esterno basato su WordPress headless.
+- Le attività Braditime potranno apparire come card contestuali nel sito e apriranno l’applicazione esterna.
+- I moduli Braditime e la relativa integrazione API restano in bozza.
+- “Oltre lo schermo” viene rimosso dal menu e assorbito nella landing Partnership di Bradiboo Studio.
+- Il menu pubblico iniziale è ridotto a Braditriboo, Guarda, Shop e Studio; Home resta accessibile dal logo.
 
 ## Realizzato
 
@@ -28,6 +34,9 @@ Ultimo aggiornamento: 15 ottobre 2026
 - Mappa del sito navigabile.
 - Prima tassonomia dei blocchi.
 - Prima definizione concettuale del Content Studio.
+- Stati `draft / non pubblicato` introdotti nel wireframe per pagine e moduli.
+- Struttura Braditime rappresentata come futura integrazione WordPress headless.
+- Contenuti “Oltre lo schermo” trasferiti nella pagina Partnership.
 
 ## In corso
 
@@ -56,6 +65,8 @@ Ultimo aggiornamento: 15 ottobre 2026
 - Shop interno o esterno.
 - Autenticazione e ruoli del Content Studio.
 - Strategia di migrazione dei contenuti esistenti.
+- Contratto delle API WordPress Braditime e tassonomie condivise.
+- Nome definitivo della landing Partnership e relativo tono pubblico/professionale.
 
 ## Regola di aggiornamento
 
