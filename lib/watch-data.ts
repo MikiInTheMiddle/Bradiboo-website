@@ -4,7 +4,7 @@ import {sourceAudio,resolveCardAudio} from './card-audio';
 import {productionMetadata} from './production-metadata';
 import {mergeCardAppearance} from './card-appearance';
 import 'server-only';
-import { getPayload } from 'payload';
+import { createLocalReq, getPayload } from 'payload';
 import config from '@payload-config';
 import { youtubeEmbed, safeLink } from './presentation';
 import { defaultWatchFilters, filterWatch, type WatchItem, type WatchRail, type WatchCharacter } from './watch-model';
@@ -16,11 +16,12 @@ function rowContent(row:any){return {...(row?.cardTitle?{title:row.cardTitle}:{}
 
 export async function getWatchData(){
  const payload=await getPayload({config});
+ const req=await createLocalReq({},payload);
  const [result,cast,settings,vocabulary]=await Promise.all([
-  payload.find({collection:'contents',limit:1000,depth:2,overrideAccess:false,sort:'-createdAt'}),
-  payload.find({collection:'characters',limit:100,depth:1,overrideAccess:false,sort:'createdAt'}),
-  payload.findGlobal({slug:'watch',depth:2,overrideAccess:false}),
-  payload.find({collection:'watch-terms',limit:1000,sort:'name',depth:0,overrideAccess:false}),
+  payload.find({req,collection:'contents',limit:1000,depth:2,overrideAccess:false,sort:'-createdAt'}),
+  payload.find({req,collection:'characters',limit:100,depth:1,overrideAccess:false,sort:'createdAt'}),
+  payload.findGlobal({req,slug:'watch',depth:2,overrideAccess:false}),
+  payload.find({req,collection:'watch-terms',limit:1000,sort:'name',depth:0,overrideAccess:false}),
  ]);
  const termSlugs=(values?: (number|WatchTerm)[]|null)=>(values||[]).flatMap(t=>t&&typeof t==='object'?[t.slug]:[]);
  const themeOptions=vocabulary.docs.filter(t=>t.taxonomy==='topic').map(t=>({value:t.slug,label:t.name}));

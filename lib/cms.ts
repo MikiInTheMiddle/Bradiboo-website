@@ -16,7 +16,7 @@ import {mergeWideAppearance,type WideAppearance} from './wide-appearance';
 import {resolveFeaturedSlide} from './featured-model';
 import {mergeCardAppearance,type CardAppearance} from './card-appearance';
 import type {BlockTypography} from './text-style';
-import { getPayload } from 'payload';
+import { createLocalReq, getPayload } from 'payload';
 import config from '@payload-config';
 import {getHeadlessProduct} from './product-headless';
 import {normalizeProductSection,resolveProductSection,type ProductSection} from './product-model';
@@ -49,8 +49,9 @@ function manualCard(c:Card):WireLink {return {cardFunction:c.cardFunction,...sou
 function contentCard(c:Content):WireLink {return {audioTracks:sourceAudioTracks(c),...sourceVideo(c),cardAudio:sourceAudio(c),...productionMetadata(c),label:c.title,href:c.kind==='episodio'?`/guarda?contenuto=${encodeURIComponent(c.slug)}#watch-player`:safeLink(c.url)||'',description:c.description||undefined,image:mediaURL(c.cover),mobileImage:mediaURL(c.coverMobile),badge:c.highlightBadge||undefined,badgeBackgroundColor:c.highlightBadgeBackgroundColor||undefined,badgeTextColor:c.highlightBadgeTextColor||undefined};}
 export async function getCMSPage(path: string): Promise<WirePage | undefined> {
  const payload=await getPayload({config});
+ const req=await createLocalReq({},payload);
  const publication=await branchPublication(payload);if(hiddenBranchPath(path,publication))return;
- const result=await payload.find({collection:'pages',where:{path:{equals:path}},limit:1,depth:3,overrideAccess:preview});
+ const result=await payload.find({req,collection:'pages',where:{path:{equals:path}},limit:1,depth:3,overrideAccess:preview});
  const page=result.docs[0];if(!page)return;
  if(hiddenBranchPage(page,publication))return;
  const product=page.headlessProductSlug?await getHeadlessProduct(page.headlessProductSlug):undefined;
@@ -69,7 +70,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
   if(!id)return local;
   const key=`${relation}:${id}`;
   if(!cardSources.has(key))cardSources.set(key,(async()=>{
-   try{const doc=await payload.findByID({collection:relation,id,depth:2,overrideAccess:false});return sourceCard(relation,doc);}
+   try{const doc=await payload.findByID({req,collection:relation,id,depth:2,overrideAccess:false});return sourceCard(relation,doc);}
    catch(error:any){if([401,403,404].includes(error.status))return;throw error;}
   })());
   const base=await cardSources.get(key);
@@ -119,7 +120,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
     const source=block.gallerySourceMode==='linked'?block.gallerySource:page.galleryContext||(page.character?{relationTo:'characters' as const,value:page.character}:undefined);
     const id=source?.value&&typeof source.value==='object'?source.value.id:source?.value;
     if(source?.relationTo&&id){
-     try{const doc=await payload.findByID({collection:source.relationTo,id,depth:2,overrideAccess:preview});rows=sourceGalleryRows(doc);}
+     try{const doc=await payload.findByID({req,collection:source.relationTo,id,depth:2,overrideAccess:preview});rows=sourceGalleryRows(doc);}
      catch(error:any){if(![401,403,404].includes(error.status))throw error;rows=[];}
     }else rows=[];
    }
@@ -130,7 +131,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
   }
   if(type==='characterFriends'&&pageCharacter){
    const selected=pageCharacter.friends?.filter((c):c is Character=>typeof c==='object')||[];
-   const others=selected.length?selected:(await payload.find({collection:'characters',where:{id:{not_equals:pageCharacter.id}},limit:100,depth:1,overrideAccess:false})).docs;
+   const others=selected.length?selected:(await payload.find({req,collection:'characters',where:{id:{not_equals:pageCharacter.id}},limit:100,depth:1,overrideAccess:false})).docs;
    items=others.filter(c=>c.id!==pageCharacter.id).map(c=>({audioTracks:sourceAudioTracks(c),cardAudio:sourceAudio(c),section:c.editorialSection||'Braditriboo',identityAppearance:characterIdentityAppearance(c.cardIdentity),label:c.name,href:`/braditriboo/${c.slug}`,image:mediaURL(c.portrait),mobileImage:mediaURL(c.portraitMobile)}));type='rail';
   }
   if(block.backgroundMode==='page')visual.backgroundColor='transparent';
@@ -148,7 +149,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
    visual.skipReveal=true;
    const resolveSlide=(original:WireLink,override?:Card)=>({...resolveFeaturedSlide(original,override?manualCard(override):undefined),cardAudio:resolveCardAudio(selectedAudio(original,override?.audioSettings),override?.audioSettings)});
    if(block.mode==='automatic') {
-    const list=await payload.find({collection:'contents',where:{highlight:{equals:true}},sort:['highlightOrder','-createdAt'],limit:block.limit||6,depth:1,overrideAccess:false});
+    const list=await payload.find({req,collection:'contents',where:{highlight:{equals:true}},sort:['highlightOrder','-createdAt'],limit:block.limit||6,depth:1,overrideAccess:false});
     items=list.docs.map(c=>resolveSlide(contentCard(c),block.slideOverrides?.find(o=>(typeof o.content==='object'?o.content.id:o.content)===c.id)));
    }else items=await Promise.all((block.cards||[]).map(async c=>resolveFeaturedSlide(await resolveManual(c))));
   visual.presentation=block.presentation||'cards';visual.wideOverlayOpacity=block.wideOverlayOpacity??55;
@@ -162,7 +163,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
   }
   if(type==='episodes'){
    const id=typeof block.production==='object'&&block.production?block.production.id:block.production;
-   const episodes=id?(await payload.find({collection:'contents',where:{and:[{parent:{equals:id}},{kind:{equals:'episodio'}}]},sort:'createdAt',limit:block.limit||24,depth:1,overrideAccess:false})).docs:[];
+   const episodes=id?(await payload.find({req,collection:'contents',where:{and:[{parent:{equals:id}},{kind:{equals:'episodio'}}]},sort:'createdAt',limit:block.limit||24,depth:1,overrideAccess:false})).docs:[];
    items=episodes.map(contentCard);type='rail';
 
   }
@@ -177,20 +178,20 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
   }
   if(type==='dynamic') {
    const relation=block.character||page.character;const id=typeof relation==='object'&&relation?relation.id:relation;
-   const contents=id?await payload.find({collection:'contents',where:{characters:{contains:id}},sort:'-createdAt',limit:block.limit||6,depth:1,overrideAccess:false}):{docs:[]};items=contents.docs.map(contentCard);type='rail';
+   const contents=id?await payload.find({req,collection:'contents',where:{characters:{contains:id}},sort:'-createdAt',limit:block.limit||6,depth:1,overrideAccess:false}):{docs:[]};items=contents.docs.map(contentCard);type='rail';
   }
   if(contentSelectionBlocks.has(block.blockType)&&block.contentSelection?.enabled){
    if(block.contentSelection.by==='characters'){
-    const characters=await payload.find({collection:'characters',limit:1000,depth:1,overrideAccess:false});
+    const characters=await payload.find({req,collection:'characters',limit:1000,depth:1,overrideAccess:false});
     items=selectCharacterCards(characters.docs,block.contentSelection,page.character).map(c=>sourceCard('characters',c)!);
    }else{
-   const selected=await payload.find({collection:'contents',...contentSelectionQuery(block.contentSelection,page.character),depth:2,overrideAccess:false});
+   const selected=await payload.find({req,collection:'contents',...contentSelectionQuery(block.contentSelection,page.character),depth:2,overrideAccess:false});
    items=selected.docs.map(contentCard);
    }
   }
   items=items.filter(item=>!item.hidden&&!hiddenBranchPath(item.href,publication));
   if(items.some(item=>/^\/braditriboo\/[^/]+$/.test(item.href)&&!item.identityAppearance)){
-   if(!characterIdentities){const characters=await payload.find({collection:'characters',limit:100,depth:1,overrideAccess:false});characterIdentities=new Map(characters.docs.map(c=>[`/braditriboo/${c.slug}`,sourceCard('characters',c)!]));}
+   if(!characterIdentities){const characters=await payload.find({req,collection:'characters',limit:100,depth:1,overrideAccess:false});characterIdentities=new Map(characters.docs.map(c=>[`/braditriboo/${c.slug}`,sourceCard('characters',c)!]));}
    items=items.map(item=>{const source=characterIdentities?.get(item.href);return source?{...source,...item,image:item.image||source.image,mobileImage:item.mobileImage||source.mobileImage,identityAppearance:item.identityAppearance||source.identityAppearance}:item;});
   }
   items=items.map((item,index)=>{const override=block.cardOverrides?.find(o=>{

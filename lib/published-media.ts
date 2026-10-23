@@ -1,4 +1,18 @@
-import type { Access, Field, PayloadRequest } from 'payload';
+import type { Access, Field, Payload, PayloadRequest } from 'payload';
+
+// Coalesce simultaneous anonymous checks (a page can request many images).
+// Remove the promise as soon as it settles: never reuse an old authorization
+// result for a later request after an editor has unpublished content.
+const pendingChecks = new WeakMap<Payload, Promise<number[]>>();
+function publicMediaCheck(req: PayloadRequest): Promise<number[]> {
+  const pending = pendingChecks.get(req.payload);
+  if (pending) return pending;
+  const check = publicMedia(req).finally(() => {
+    if (pendingChecks.get(req.payload) === check) pendingChecks.delete(req.payload);
+  });
+  pendingChecks.set(req.payload, check);
+  return check;
+}
 
 /** Follow upload fields, never unrelated numeric IDs or draft blocks. */
 export function collectMediaReferences(fields: Field[], data: any, ids = new Set<number>()): Set<number> {
@@ -30,7 +44,9 @@ export function collectMediaReferences(fields: Field[], data: any, ids = new Set
 
 async function publicMedia(req: PayloadRequest): Promise<number[]> {
   const ids = new Set<number>();
-  for (const collection of ['pages', 'contents', 'characters', 'production-containers'] as const) {
+  // These reads are independent. Keep the authorization snapshot request-local,
+  // but avoid one remote database round trip waiting for the previous collection.
+  const collections = (['pages', 'contents', 'characters', 'production-containers'] as const).map(async collection => {
     let page = 1;
     do {
       const result = await req.payload.find({ collection, page, limit: 100, depth: 0, draft: false, overrideAccess: false, user: null });
@@ -38,18 +54,20 @@ async function publicMedia(req: PayloadRequest): Promise<number[]> {
       if (!result.hasNextPage) break;
       page++;
     } while (true);
-  }
-  for (const global of req.payload.config.globals) {
+  });
+  const globals = req.payload.config.globals.map(async global => {
     const doc = await req.payload.findGlobal({ slug: global.slug as 'navigation' | 'watch', depth: 0, overrideAccess: false, user: null });
     collectMediaReferences(global.fields, doc, ids);
-  }
+  });
+  await Promise.all([...collections, ...globals]);
   return [...ids];
 }
 
 export const publishedMediaRead: Access = async ({ req }) => {
   if (req.user) return true;
-  // Request-local only: no shared cache can expose a newly unpublished file.
+  // Retain the result only within this request; other requests share in-flight
+  // work above, never a settled authorization cache.
   const context = req.context as { publishedMediaIDs?: Promise<number[]> };
-  context.publishedMediaIDs ??= publicMedia(req);
+  context.publishedMediaIDs ??= publicMediaCheck(req);
   return { id: { in: await context.publishedMediaIDs } };
 };
