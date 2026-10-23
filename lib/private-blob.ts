@@ -1,3 +1,4 @@
+import { privateMediaResponse } from './private-media-response';
 import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage';
 import type { Adapter } from '@payloadcms/plugin-cloud-storage/types';
 import { getStorageFilePath } from '@payloadcms/plugin-cloud-storage/utilities';
@@ -19,15 +20,10 @@ const privateBlobAdapter: Adapter = ({ collection, prefix }) => ({
     const pathname = await getStorageFilePath({ collection, collectionPrefix: prefix, doc, filename: params.filename, req });
     const range = getRangeRequestInfo({ fileSize: Number((doc as { filesize?: number }).filesize), rangeHeader: req.headers.get('range') });
     if (range.type === 'invalid') return new Response(null, { status: range.status, headers: range.headers });
-    const result = await get(pathname, { access: 'private', headers: range.type === 'partial' ? { Range: `bytes=${range.rangeStart}-${range.rangeEnd}` } : undefined });
-    if (!result || result.statusCode !== 200) return new Response(null, { status: 404 });
-    const headers = new Headers(range.headers);
-    headers.set('Content-Type', result.blob.contentType);
-    headers.set('Content-Disposition', result.blob.contentDisposition);
-    headers.set('Cache-Control', 'private, no-store');
-    headers.set('X-Content-Type-Options', 'nosniff');
-    if (isXmlMimeType(result.blob.contentType)) headers.set('Content-Security-Policy', UPLOAD_CONTENT_SECURITY_POLICY);
-    return new Response(result.stream, { status: range.status, headers });
+    const result = await get(pathname, { access: 'private', ifNoneMatch: range.type === 'partial' ? undefined : req.headers.get('if-none-match') || undefined, headers: range.type === 'partial' ? { Range: `bytes=${range.rangeStart}-${range.rangeEnd}` } : undefined });
+    if (!result) return new Response(null, { status: 404 });
+    const csp = result.statusCode === 200 && isXmlMimeType(result.blob.contentType) ? UPLOAD_CONTENT_SECURITY_POLICY : undefined;
+    return privateMediaResponse(result, range, csp);
   },
 });
 

@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {privateMediaResponse} from '../lib/private-media-response';
+const meta={etag:'"asset-v1"',contentDisposition:'inline',contentType:'audio/mpeg'};
+const result=(bytes:number[])=>({statusCode:200,stream:new ReadableStream({start(c){c.enqueue(new Uint8Array(bytes));c.close();}}),blob:meta}) as any;
+const full=privateMediaResponse(result([1,2,3]),{status:200,headers:{'Accept-Ranges':'bytes'}});
+assert.equal(full.status,200);assert.equal(full.headers.get('Cache-Control'),'private, no-cache');
+assert.equal(full.headers.get('Vercel-CDN-Cache-Control'),'private, no-store');
+assert.equal(full.headers.get('ETag'),'"asset-v1"');
+assert.deepEqual([...new Uint8Array(await full.arrayBuffer())],[1,2,3]);
+const cached=privateMediaResponse({statusCode:304,stream:null,blob:{...meta,contentType:null}} as any,{status:200,headers:{'Content-Length':'999'}});
+assert.equal(cached.status,304);assert.equal(cached.body,null);assert.equal(cached.headers.get('Content-Length'),null);
+assert.equal(cached.headers.get('Cache-Control'),'private, no-cache');
+const partial=privateMediaResponse(result([1,2]),{status:206,headers:{'Accept-Ranges':'bytes','Content-Range':'bytes 0-1/3','Content-Length':'2'}});
+assert.equal(partial.status,206);assert.equal(partial.headers.get('Content-Range'),'bytes 0-1/3');
+assert.equal((await partial.arrayBuffer()).byteLength,2);
+const svg=privateMediaResponse(result([]),{status:200,headers:{}},"sandbox");
+assert.equal(svg.headers.get('Content-Security-Policy'),'sandbox');
+console.log('Private browser revalidation, empty 304, ETag, audio ranges and CSP headers passed.');

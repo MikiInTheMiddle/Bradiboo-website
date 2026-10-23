@@ -17,3 +17,9 @@ Rebuilding lazily after commit avoids trying to update the index in an `afterCha
 - TypeScript, production build and live page/media checks before release.
 
 The index is not a CDN cache. A publication withdrawal is checked against committed database state, without intentionally granting a cache grace period. Original files remain in private Blob storage.
+
+## Browser revalidation
+
+After authorization, media responses emit `Cache-Control: private, no-cache`, an ETag, and `Vercel-CDN-Cache-Control: private, no-store`. A subsequent full request can return 304 with no bytes if Blob confirms the ETag, but only after the media read permission has succeeded. Range audio requests remain 206 and bypass the full-response conditional path. No response is intentionally cached in a shared CDN. XML/SVG CSP is preserved. Browser-held or previously downloaded bytes cannot be revoked; the server rechecks access on subsequent HTTP requests.
+
+Live index measurement on the same 3,880,385-byte image: warm time to first byte 0.336s, compared with approximately 0.996s before indexing. Cold starts remain slower; transfer duration varies with network conditions. This is a single comparable measurement, not a latency guarantee.
