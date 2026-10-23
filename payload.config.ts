@@ -117,6 +117,10 @@ export default buildConfig({
       {name:'heroBackgroundMode',label:'Sviluppo del fondo',type:'radio',defaultValue:'solid',options:[{label:'Uniforme',value:'solid'},{label:'Gradiente verticale',value:'gradient'}],admin:{layout:'horizontal',condition:(_,s)=>Boolean(s.heroBackground),description:'Il colore iniziale segue la Hero. Il gradiente arriva al colore finale in fondo alla pagina.'}},
       {name:'customHeroBackgroundEnd',label:'Usa il colore finale della pagina invece di quello del Media',type:'checkbox',admin:{condition:(_,s)=>Boolean(s.heroBackground)&&s.heroBackgroundMode==='gradient',description:'Disattivato: eredita il finale dal Media della Hero. Se manca, usa il colore della pagina già salvato come riserva.'}},
       {...solidEdgeField('heroBackgroundEndColor','Colore finale — fondo pagina'),admin:{...solidEdgeField('heroBackgroundEndColor','Colore finale — fondo pagina').admin,condition:(_,s)=>Boolean(s.heroBackground)&&s.heroBackgroundMode==='gradient'&&Boolean(s.customHeroBackgroundEnd)}},
+      {name:'cloudBackground',label:'Nuvole sul fondo',type:'group',fields:[
+       {name:'enabled',label:'Attiva nuvole animate',type:'checkbox',defaultValue:false,admin:{description:'Tre livelli progressivi sopra al fondo e sotto ai contenuti. Movimento ridotto su mobile.'}},
+       ...[1,2,3].map(i=>({name:`layer${i}`,label:`Nuvole — livello ${i}`,type:'upload' as const,relationTo:'media' as const,admin:{condition:(_:unknown,s:any)=>Boolean(s.enabled),description:'Facoltativo: vuoto usa il livello predefinito.'}}))
+      ]},
       footerOverrideField,
       colorField('pageBackgroundColor', 'Fondo pagina', true),
       { name: 'pageBackgroundImage', label: 'Immagine fondo pagina', type: 'upload', relationTo: 'media' },

@@ -13615,6 +13615,24 @@ export interface Page {
    */
   customHeroBackgroundEnd?: boolean | null;
   heroBackgroundEndColor?: string | null;
+  cloudBackground?: {
+    /**
+     * Tre livelli progressivi sopra al fondo e sotto ai contenuti. Movimento ridotto su mobile.
+     */
+    enabled?: boolean | null;
+    /**
+     * Facoltativo: vuoto usa il livello predefinito.
+     */
+    layer1?: (number | null) | Media;
+    /**
+     * Facoltativo: vuoto usa il livello predefinito.
+     */
+    layer2?: (number | null) | Media;
+    /**
+     * Facoltativo: vuoto usa il livello predefinito.
+     */
+    layer3?: (number | null) | Media;
+  };
   footerOverride?: {
     /**
      * Disattivato: usa sempre il footer globale. Le impostazioni locali restano conservate.
@@ -21773,6 +21791,14 @@ export interface PagesSelect<T extends boolean = true> {
   heroBackgroundMode?: T;
   customHeroBackgroundEnd?: T;
   heroBackgroundEndColor?: T;
+  cloudBackground?:
+    | T
+    | {
+        enabled?: T;
+        layer1?: T;
+        layer2?: T;
+        layer3?: T;
+      };
   footerOverride?:
     | T
     | {

@@ -694,3 +694,26 @@
 }
 
 .site-ui .mobile-menu-dialog[data-keyboard="false"] .mobile-menu-close:focus { outline:none; box-shadow:none; }
+
+/* Optional page decoration sits above the page background, behind its content. */
+.site-ui .wf-page-background { position:relative; isolation:isolate; }
+.page-clouds { position:absolute; inset:0; pointer-events:none; z-index:0; }
+.page-cloud-viewport { position:sticky; top:0; height:100vh; overflow:hidden; }
+.page-cloud-layer { position:absolute; inset:-10vh -24px; background-position:center; background-size:100% 100%; background-repeat:no-repeat; opacity:0; will-change:transform,opacity; }
+.wf-page-background > :is(main,.wf-main) { position:relative; z-index:1; }
+.site-ui .wf-hero[data-character-hero="true"] .wf-block-title { font-size:min(calc(var(--character-title-base,clamp(54px,7.8vw,108px)) * 1.8),var(--character-title-fit,24vw))!important; line-height:.98; max-width:100%; overflow-wrap:anywhere; }
+@media(max-width:700px) {
+ .site-ui .wf-hero[data-character-hero="true"] .wf-block-content > div:first-child { text-align:center; }
+ .site-ui .wf-hero[data-character-hero="true"] .wf-block-title { text-align:center!important; }
+ .site-ui .wf-hero[data-character-hero="true"] .wf-description { text-align:center!important; }
+}
+@media(prefers-reduced-motion:reduce) { .page-cloud-layer { will-change:opacity; } }
+.site-ui .wf-hero[data-character-hero="true"] .wf-block-content:not(:has(> .wf-module-media)) { grid-template-columns:minmax(0,1fr); }
+
+/* BradiBITES container: halve only its mobile hero, keeping the heading centred. */
+@media(max-width:700px) {
+ .site-ui .wf-hero[data-compact-mobile-hero="true"] .wf-block-content { min-height:max(190px,calc(50svh - 140px)); padding-block:24px; grid-template-columns:minmax(0,1fr); align-items:center; }
+ .site-ui .wf-hero[data-compact-mobile-hero="true"] .wf-block-content > div:first-child { text-align:center; }
+ .site-ui .wf-hero[data-compact-mobile-hero="true"] :is(.wf-block-title,.wf-description) { text-align:center!important; margin-inline:auto; }
+}
+@media(max-width:600px) { .site-ui .wf-hero[data-compact-mobile-hero="true"] .wf-block-content { min-height:max(180px,calc(50svh - 135px)); } }
