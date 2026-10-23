@@ -11,6 +11,9 @@ importers:
       '@base-ui/react':
         specifier: 1.7.0
         version: 1.7.0(@date-fns/tz@1.5.0)(@types/react@19.2.14)(date-fns@4.1.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@libsql/client':
+        specifier: 0.14.0
+        version: 0.14.0
       '@payloadcms/db-sqlite':
         specifier: ^3.90.2
         version: 3.90.2(@cloudflare/workers-types@4.20260515.1)(payload@3.90.2(graphql@16.14.2)(supports-color@10.2.2)(typescript@5.9.3))(supports-color@10.2.2)
@@ -50,6 +53,9 @@ importers:
       input-otp:
         specifier: 1.4.2
         version: 1.4.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      libsql:
+        specifier: 0.4.7
+        version: 0.4.7
       lucide-react:
         specifier: 1.31.0
         version: 1.31.0(react@19.2.6)

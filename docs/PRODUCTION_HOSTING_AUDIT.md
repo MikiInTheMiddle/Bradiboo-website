@@ -30,3 +30,11 @@ Da verificare/raccogliere:
 - Piano di pubblicazione: ambiente di staging, verifica contenuti/bozze/accessi, backup della produzione attuale, prova migrazione e possibilità di rollback, verifica domini e percorsi legacy.
 
 Raccogliere prima i dati tramite repo, configurazioni e accessi già disponibili; chiedere all'utente soltanto ciò che manca. Questo è un promemoria nel progetto, non un'attività programmata o una richiesta di raccolta immediata delle credenziali.
+
+## 23 ottobre 2026 — Errore runtime libSQL su Vercel
+Il log runtime dell'utente mostra 42 messaggi riconducibili a `Cannot find module 'libsql'`, sulle richieste home e favicon. Next.js viene ora compilato; il driver SQLite, esternalizzato da withPayload, non viene risolto nella funzione distribuita.
+Aggiunti `@libsql/client@0.14.0` e `libsql@0.4.7` come dipendenze dirette, identiche alle versioni già transitive dell'adapter Payload. Nessun aggiornamento di versione o modifica del database. Verifica artefatti con `node scripts/check-libsql-traces.mjs` dopo `pnpm build`.
+Riferimenti: https://github.com/payloadcms/payload/issues/15079 e documentazione locale Next `serverExternalPackages`/`output`.
+Questa correzione riguarda il pacchetto server, non la persistenza dei dati: database remoto, auth token, migrazione contenuti e storage media restano da confermare con l'utente.
+Inclusi esplicitamente anche i binding nativi libSQL sotto la struttura pnpm tramite `outputFileTracingIncludes`: la prima verifica mostrava driver JS presente ma `.node` assente. Verificata build completa, trace di home/pagine/API Payload e query in memoria da un artefatto temporaneo costruito esclusivamente con i file elencati nella trace. Verifica locale macOS; il risultato del successivo deploy Linux Vercel resta da confermare.
+Il pannello Vercel non è autenticato nel browser disponibile; l'utente non sa se sia stato predisposto un database remoto. Nessuna destinazione/credenziale DB inventata o modificata.
