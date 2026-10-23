@@ -13,6 +13,7 @@ export function MobileNavigation({currentPath,sections,utilities,brand='Bradiboo
  const [open,setOpen]=useState(false),[closing,setClosing]=useState(false);
  const [phase,setPhase]=useState<'idle'|'out'|'in'>('idle');
  const [backward,setBackward]=useState(false);
+ const [keyboard,setKeyboard]=useState(false);
  const [selectedAngle,setSelectedAngle]=useState(1);
  const [geometry,setGeometry]=useState<CSSProperties>({});
  const id=useId(),router=useRouter();
@@ -20,7 +21,8 @@ export function MobileNavigation({currentPath,sections,utilities,brand='Bradiboo
  const active=(href:string)=>currentPath===href||currentPath.startsWith(href+'/');
  const close=()=>{if(dialog.current?.open&&!closing){clearTimeout(timer.current);dialog.current.style.setProperty('--mobile-current-height',`${dialog.current.getBoundingClientRect().height}px`);setClosing(true);}};
  const go=(event:{preventDefault:()=>void},href:string)=>{event.preventDefault();pendingHref.current=href;close();};
- const launch=()=>{
+ const launch=(event:{detail:number})=>{
+  setKeyboard(event.detail===0);
   setSelectedAngle([-2,-1,1,2][Math.floor(Math.random()*4)]);
   const bar=trigger.current?.closest('.wf-header-main')?.getBoundingClientRect();
   if(bar)setGeometry({'--mobile-left':`${bar.left}px`,'--mobile-top':`${bar.top}px`,'--mobile-width':`${bar.width}px`,'--mobile-bar-height':`${bar.height}px`} as CSSProperties);
@@ -40,7 +42,7 @@ export function MobileNavigation({currentPath,sections,utilities,brand='Bradiboo
  const arrow=<span className="mobile-menu-arrow" aria-hidden="true">→</span>;
  return <>
   <button ref={trigger} type="button" className="mobile-menu-trigger" aria-label="Apri menu" aria-haspopup="dialog" aria-expanded={open} aria-controls={id} onClick={launch}><svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="26"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg></button>
-  <dialog ref={dialog} id={id} className="mobile-menu-dialog" aria-label="Menu principale" style={{...geometry,'--menu-selected-angle':`${selectedAngle}deg`} as CSSProperties} data-closing={closing} onCancel={e=>{e.preventDefault();close();}} onClose={()=>{setOpen(false);setClosing(false);const href=pendingHref.current;pendingHref.current=null;if(href)router.push(href);else trigger.current?.focus();}} onAnimationEnd={e=>{if(e.target===e.currentTarget&&closing)dialog.current?.close();}} onClick={e=>{if(e.target!==e.currentTarget)return;const r=e.currentTarget.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)close();}}>
+  <dialog ref={dialog} id={id} className="mobile-menu-dialog" data-keyboard={keyboard} onPointerDown={()=>setKeyboard(false)} onKeyDown={e=>{if(e.key==='Tab')setKeyboard(true);}} aria-label="Menu principale" style={{...geometry,'--menu-selected-angle':`${selectedAngle}deg`} as CSSProperties} data-closing={closing} onCancel={e=>{e.preventDefault();close();}} onClose={()=>{setOpen(false);setClosing(false);const href=pendingHref.current;pendingHref.current=null;if(href)router.push(href);else trigger.current?.focus();}} onAnimationEnd={e=>{if(e.target===e.currentTarget&&closing)dialog.current?.close();}} onClick={e=>{if(e.target!==e.currentTarget)return;const r=e.currentTarget.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)close();}}>
    <div className="wf-header-main mobile-menu-bar"><Link href="/" className="wf-logo" onNavigate={e=>go(e,'/')}><img src="/bradiboo-logo.svg" width={173} height={35} alt={brand}/></Link><button type="button" className="mobile-menu-trigger mobile-menu-close" aria-label="Chiudi menu" onClick={close} autoFocus><svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="26"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg></button></div>
    <div className="mobile-menu-scroll"><nav className="mobile-menu-level" aria-label="Navigazione mobile" data-phase={phase} data-backward={backward} inert={phase==='out'||closing} onAnimationEnd={e=>{if(e.target===e.currentTarget&&phase==='in'){setPhase('idle');if(!e.currentTarget.contains(document.activeElement))e.currentTarget.querySelector<HTMLElement>('button,a')?.focus({preventScroll:true});}}}>
     {section?<>
