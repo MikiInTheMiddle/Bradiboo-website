@@ -55,7 +55,7 @@ export function FeaturedWide({block}:{block:WireBlock}) {
    </div>
    <div className="featured-wide-scrim" aria-hidden="true" style={{'--wide-shade':(appearance?.overlayOpacity??(backgroundMode==='image'?(block.wideOverlayOpacity??55):0))/100*(backgroundMode==='image'?(appearance?.backgroundOpacity??((block.opacity??1)*100))/100:1)} as CSSProperties}/>
    <div {...visibilityAttributes(appearance)} style={ctaVariables(appearance) as CSSProperties} className="featured-wide-content" aria-live="polite" aria-atomic="true">
-    {block.showText!==false&&<><CardEyebrow item={item} settings={[block,block.cardAppearance,item.wideAppearance]}/>{block.gallerySettings?.showTitle!==false&&item.label?.trim()&&<Heading className="featured-wide-title" style={blockTextStyle(typography,'title')}>{item.label}</Heading>}
+    {block.showText!==false&&<><CardEyebrow item={item} settings={[block,block.cardAppearance,item.wideAppearance]}/>{block.gallerySettings?.showTitle!==false&&item.label?.trim()&&<Heading className="featured-wide-title" style={{...blockTextStyle(typography,'title'),...(block.characterHero?{'--character-title-base':blockTextStyle(typography,'title')?.fontSize,'--character-title-fit':`${80/(Math.max(1,Array.from(item.label||'').length)*.58)}vw`}: {})} as CSSProperties}>{item.label}</Heading>}
     {block.gallerySettings?.showCaption!==false&&item.description&&<p className="featured-wide-note" style={blockTextStyle(typography,'note')}>{item.description}</p>}
     </>}{isSingleBlock&&block.facts&&<dl className="wf-facts">{block.facts.map(f=><div key={f.label}><dt>{f.label}</dt><dd>{f.value}</dd></div>)}</dl>}
     {isSingleBlock&&block.audio&&<div><audio controls src={block.audio} preload="none"/>{block.audioCaption&&<p>{block.audioCaption}</p>}</div>}

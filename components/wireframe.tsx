@@ -71,7 +71,7 @@ function BackgroundPicture({block}:{block:WireBlock}) {
 function Block({block,index,home=false}:{block:WireBlock;index:number;home?:boolean}) {
  if(!hasBlockContent(block))return null;
  const Heading=blockHeading(block.headingLevel,home&&block.type==='hero');
- if(block.presentation==='wide')return <section data-block-type={block.type} data-reveal={block.skipReveal?'off':undefined} className="wf-block wf-featured-wide"><div className="wf-block-label">BLOCK {String(index+1).padStart(2,'0')} · {block.label} · WIDE</div><FeaturedWide block={block}/></section>;
+ if(block.presentation==='wide')return <section data-character-hero={block.characterHero||undefined} data-compact-mobile-hero={block.compactMobileHero||undefined} data-block-type={block.type} data-reveal={block.skipReveal?'off':undefined} className="wf-block wf-featured-wide"><div className="wf-block-label">BLOCK {String(index+1).padStart(2,'0')} · {block.label} · WIDE</div><FeaturedWide block={block}/></section>;
  const own=block.type==='hero'&&block.ownBackground;
  const imageHero=block.type==='hero'&&block.heroImageMode;
  const style={'--character-title-base':block.characterHero?(blockTextStyle(block,'title')?.fontSize||'clamp(54px,7.8vw,108px)'):undefined,'--character-title-fit':block.characterHero?`${90/(Math.max(1,Array.from(block.title||'').length)*.58)}vw`:undefined,'--block-veil':(block.wideOverlayOpacity??55)/100,position:'relative',isolation:'isolate',color:textColorValue(block.textColor)||(imageHero?'#ffffff':undefined),...(block.type==='hero'?{}:{backgroundColor:block.backgroundColor?`color-mix(in srgb, ${block.backgroundColor} ${(block.opacity??1)*100}%, transparent)`:undefined,backdropFilter:block.blur?`blur(${block.blur}px)`:undefined})} as CSSProperties;
