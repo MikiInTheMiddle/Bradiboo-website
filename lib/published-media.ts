@@ -1,3 +1,6 @@
+import type { Client } from '@libsql/client';
+import { indexedPublishedMedia } from './media-publication-index';
+import { invalidateBranchPublication } from './branch-publication';
 import type { Access, Field, Payload, PayloadRequest } from 'payload';
 
 // Coalesce simultaneous anonymous checks (a page can request many images).
@@ -5,6 +8,13 @@ import type { Access, Field, Payload, PayloadRequest } from 'payload';
 // result for a later request after an editor has unpublished content.
 const pendingChecks = new WeakMap<Payload, Promise<number[]>>();
 function publicMediaCheck(req: PayloadRequest): Promise<number[]> {
+  if (process.env.MEDIA_PUBLICATION_INDEX === 'true') {
+    const client = (req.payload.db as unknown as {client: Client}).client;
+    return indexedPublishedMedia(client, () => {
+      invalidateBranchPublication({req});
+      return publicMedia(req);
+    });
+  }
   const pending = pendingChecks.get(req.payload);
   if (pending) return pending;
   const check = publicMedia(req).finally(() => {
@@ -71,3 +81,12 @@ export const publishedMediaRead: Access = async ({ req }) => {
   context.publishedMediaIDs ??= publicMediaCheck(req);
   return { id: { in: await context.publishedMediaIDs } };
 };
+
+/** Administrative backfill; reads only publicly accessible documents. */
+export async function rebuildMediaPublicationIndex(req: PayloadRequest) {
+  const client = (req.payload.db as unknown as {client: Client}).client;
+  return indexedPublishedMedia(client, () => {
+    invalidateBranchPublication({req});
+    return publicMedia(req);
+  });
+}
