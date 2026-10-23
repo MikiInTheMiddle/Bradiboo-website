@@ -49,3 +49,8 @@ Il pannello Vercel non è autenticato nel browser disponibile; l'utente non sa s
 - Variabili produzione/preview: PAYLOAD_SECRET (segreto), PAYLOAD_SCHEMA_PUSH=false, WIREFRAME_PREVIEW=false, endpoint Braditime, variabili gestite Turso e BLOB_STORE_ID. Nessun valore segreto nei documenti o nel repository.
 - I comandi di import/sync in scripts sono operazioni una tantum del primo rilascio, NON una sincronizzazione continua fra locale e produzione. Dopo il passaggio online la produzione diventa la sorgente dei contenuti.
 - Restano da verificare: deploy Vercel Linux e risposta HTTP reale; i tentativi precedenti alla configurazione completa segnalavano un errore interno Vercel dopo la build.
+
+### Verifiche remote e compatibilità builder
+- Commit 8e2bcbc: Vercel compila e completa TypeScript, prerender e trace, ma fallisce durante `Deploying outputs`; API riporta `readyStateReason: The deployment failed because of an internal Vercel error`, nessun errorCode e zero output. Nessun middleware/proxy nella repo. Anche i due tentativi del commit precedente falliscono allo stesso punto.
+- Verifiche dirette Payload→Turso: home, Braditriboo, Guarda, Shop e Studio caricano pagine pubblicate, blocchi e relazioni; accesso anonimo conferma 100 media referenziati e 13 privati. Tutti i controlli locali TypeScript/build passano.
+- Tentativo mirato: svuotare NEXT_ADAPTER_PATH nel comando next build per usare il builder tradizionale Vercel, conservando compilazione e controllo TypeScript. Riferimento primario sul fallback del builder: https://github.com/vercel/next.js/issues/96657 . È un'ipotesi di compatibilità dell'adapter, non una diagnosi definitiva dell'errore interno. Build locale col comando aggiornato riuscita.
