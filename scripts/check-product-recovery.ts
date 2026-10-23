@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {normalizeProductSection,resolveProductSection,productVideo} from '../lib/product-model';
+const products=JSON.parse(await readFile('work/reports/shop-headless-source-20261023.json','utf8'));
+const p=products.find((p:any)=>p.slug==='dove-sei');
+const psico=normalizeProductSection(p,'psico');
+assert.equal(psico.media?.kind,'video');assert.ok(psico.media?.url.includes('ekZGIlW'));assert.equal(psico.icons?.length,2);
+assert.equal(normalizeProductSection(p,'bookGallery').items?.length,3);
+assert.equal(normalizeProductSection(p,'gameGallery').items?.length,6);
+assert.ok(normalizeProductSection(p,'back').mobileImage);
+assert.ok(normalizeProductSection(p,'specs').image);assert.ok(normalizeProductSection(p,'specs').icons?.length);
+assert.equal(normalizeProductSection(p,'skills').items?.length,4);
+const local={type:'split' as const,title:'Locale',note:'Testo locale',media:{kind:'video' as const,url:'/local.mp4'},items:[]};
+assert.deepEqual(resolveProductSection(psico,local,{title:true,note:true,media:true,items:true}),{...local,image:undefined,mobileImage:undefined,icons:undefined});
+assert.equal(productVideo({media_location:'local',local_medias:{portrait:{url:'/portrait.mp4'}}})?.url,'/portrait.mp4');
+console.log('Recupero video, immagini, icone, competenze e override: OK');

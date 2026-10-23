@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {chooseHeroImage} from '../lib/hero-images';
+const first={image:'/first.svg',mobileImage:'/first-mobile.svg',focalX:0,focalY:100};
+const second={image:'/second.svg',focalX:80,focalY:20};
+assert.equal(chooseHeroImage([],()=>0),undefined);
+assert.equal(chooseHeroImage([{mobileImage:'/invalid.svg'}],()=>0),undefined);
+assert.equal(chooseHeroImage([{},first,second],()=>0),first);
+assert.equal(chooseHeroImage([first,second],()=>.999),second);
+assert.equal(chooseHeroImage([first],()=>.5),first);
+assert.equal(chooseHeroImage([first,second],()=>0)?.focalX,0);
+console.log('OK: immagini valide, scelta ai due estremi, fallback vuoto e coppie desktop/mobile/focus conservate.');

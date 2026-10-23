@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import sharp from 'sharp';
+import {sampleBottomColor,resolveHeroPageBackground} from '../lib/hero-edge-color';
+import {chooseHeroImage} from '../lib/hero-images';
+const image=await sharp({create:{width:100,height:100,channels:4,background:'#ff0000'}}).composite([{input:await sharp({create:{width:100,height:4,channels:4,background:'#12ab34'}}).png().toBuffer(),top:96,left:0}]).png().toBuffer();
+assert.equal(await sampleBottomColor(image),'#12ab34');
+assert.equal(await sampleBottomColor(await sharp({create:{width:4,height:4,channels:4,background:{r:0,g:0,b:0,alpha:0}}}).png().toBuffer()),undefined);
+const manual={color:'#ffffff',image:'/manual.png'};
+assert.deepEqual(resolveHeroPageBackground(manual,{linked:false},{color:'#12ab34'}),{backgroundColor:'#ffffff',backgroundImage:'/manual.png'});
+assert.deepEqual(resolveHeroPageBackground(manual,{linked:true}),{backgroundColor:'#ffffff',backgroundImage:'/manual.png'});
+assert.equal(resolveHeroPageBackground(manual,{linked:true},{color:'#12ab34',mobileColor:'#654321'}).backgroundMobileColor,'#654321');
+assert.deepEqual(resolveHeroPageBackground(manual,{linked:true,override:true,color:'#abcdef'},{color:'#12ab34'}),{backgroundColor:'#abcdef',backgroundImage:undefined,backgroundMobileColor:'#abcdef'});
+const selected=chooseHeroImage([{image:'/one.png',color:'#123456'},{image:'/two.png',color:'#654321'}],()=>.9);
+assert.equal(selected?.image,'/two.png');assert.equal(selected?.color,'#654321');
+const gradient=resolveHeroPageBackground(manual,{linked:true,mode:'gradient',endColor:'#7235e8'},{color:'#123456',mobileColor:'#654321'});
+assert.equal(gradient.backgroundColor,'linear-gradient(to bottom, #123456 0%, #7235e8 100%)');
+assert.equal(gradient.backgroundMobileColor,'linear-gradient(to bottom, #654321 0%, #7235e8 100%)');
+assert.equal(resolveHeroPageBackground(manual,{linked:true,mode:'solid',endColor:'#7235e8'},{color:'#123456'}).backgroundColor,'#123456');
+
+console.log('OK: bordo inferiore, casuale, mobile, override, fallback e gradiente fino al colore finale.');
+const inheritedEnd=resolveHeroPageBackground(manual,{linked:true,mode:'gradient',endColor:'#7235e8'},{color:'#123456',endColor:'#aabbcc',mobileColor:'#654321',mobileEndColor:'#ddeeff'});
+assert.equal(inheritedEnd.backgroundColor,'linear-gradient(to bottom, #123456 0%, #aabbcc 100%)');
+assert.equal(inheritedEnd.backgroundMobileColor,'linear-gradient(to bottom, #654321 0%, #ddeeff 100%)');
+assert.equal(resolveHeroPageBackground(manual,{linked:true,mode:'gradient',endColor:'#7235e8',overrideEnd:true},{color:'#123456',endColor:'#aabbcc'}).backgroundColor,'linear-gradient(to bottom, #123456 0%, #7235e8 100%)');
+assert.equal(resolveHeroPageBackground(manual,{linked:true,mode:'solid'},{color:'#123456',endColor:'#aabbcc'}).backgroundColor,'#123456');

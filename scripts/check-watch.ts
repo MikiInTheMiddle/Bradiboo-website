@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {filterWatch,pickWatch,remoteMatches,type WatchItem} from '../lib/watch-model';
+const base={description:'',characters:[],themes:[],keywords:[],kind:'serie',demo:false};
+const items:WatchItem[]=[{...base,id:'a',title:'Bosco',characters:['placido'],themes:['curiosita'],keywords:['natura'],video:{kind:'youtube',url:'https://www.youtube.com/embed/example'}},{...base,id:'b',title:'Musica',characters:['nancy'],themes:['pazienza'],keywords:['musica']},{...base,id:'c',title:'Scoperte',characters:['mimi'],themes:['curiosita'],keywords:['natura']}];
+const f={characters:[],themes:[],keywords:[]};
+assert.equal(filterWatch(items,f).length,3);
+assert.deepEqual(filterWatch(items,{...f,characters:['placido','nancy']}).map(i=>i.id),['a','b']);
+assert.deepEqual(filterWatch(items,{...f,characters:['placido'],keywords:['musica']}),[]);
+assert.deepEqual(filterWatch(items,{...f,themes:['curiosita'],keywords:['natura']}).map(i=>i.id),['a','c']);
+assert.equal(filterWatch(items,{...f,query:' BOSCO '})[0].id,'a');
+assert.equal(filterWatch(items,{...f,playableOnly:true}).length,1);
+assert.equal(pickWatch(items,'a',()=>0)?.id,'b');
+assert.equal(pickWatch([]),undefined);
+assert.equal(pickWatch([items[0]],'a')?.id,'a');
+console.log('Guarda: filtri combinati, video disponibili, ricerca, casualità e catalogo vuoto verificati.');
+
+assert.deepEqual(remoteMatches(items,['natura','musica']).map(i=>i.id),['a']);
+assert.deepEqual(remoteMatches(items,[]),[]);
+assert.deepEqual(remoteMatches(items,['musica']),[]);
+console.log('Telecomando: OR keyword, esclusione demo e nessun fallback verificati.');

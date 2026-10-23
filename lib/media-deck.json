@@ -1,0 +1,17 @@
+{
+ "clusters": [
+  {"slug":"serie","title":"Serie","description":"Le grandi avventure della Braditriboo, al centro dell’universo narrativo di Bradiboo."},
+  {"slug":"miniserie","title":"Miniserie","description":"Storie brevi che raccontano il quotidiano dei personaggi, le loro relazioni e il mondo che abitano."},
+  {"slug":"format","title":"Format","description":"Ogni membro della Braditriboo ha passioni, interessi e competenze proprie che diventano il punto di partenza per contenuti verticali di divulgazione e intrattenimento attraverso la personalità di ciascun personaggio."}
+ ],
+ "products": [
+  {"slug":"bradiboo","kind":"serie","title":"Bradiboo — La serie","url":"/guarda/serie/bradiboo","image":"serie","description":"Sei amici molto diversi affrontano le piccole grandi sfide del crescere, trasformando ogni esperienza in un’avventura fatta di comicità, scoperta e nuovi punti di vista.","synopsis":"Ogni episodio parte da qualcosa che adulti e bambini stanno vivendo: una paura, una domanda o qualcosa di difficile da capire. Raccontarsi una storia insieme apre la porta a un’avventura della Braditriboo che ne conserva il cuore emotivo. Tornati alla realtà, non c’è una morale, ma un nuovo punto di vista da condividere."},
+  {"slug":"che-giornata","kind":"miniserie","title":"Che giornata!","url":"/guarda/miniserie/che-giornata","image":"miniserie","description":"Storie più brevi che seguono la Braditriboo nel suo quotidiano: amicizie, piccoli imprevisti, giochi, incontri e avventure che permettono di conoscere meglio i personaggi, le loro relazioni e il mondo che abitano.","synopsis":"Ogni episodio inizia intorno al falò, dove la Braditriboo si ritrova a fine giornata. Un oggetto, un ricordo o qualcosa appena successo diventa l’occasione per raccontare una piccola avventura vissuta sull’Isola, tra amicizie, imprevisti, giochi e scoperte. Alla fine si torna sempre al falò, insieme."},
+  {"slug":"arte","kind":"format","title":"Oltre la tela","url":"/guarda/format/arte","image":"arte","description":"Arte, opere e artisti famosi e meno conosciuti, raccontati con uno sguardo fuori dagli schemi.","host":"nancy"},
+  {"slug":"fitness","kind":"format","title":"Muovi le piume!","url":"/guarda/format/fitness","image":"fitness","description":"Aerobica e fitness, piume in movimento, ritmo anni ’80 e vietato stare fermi.","host":"petronilla"},
+  {"slug":"focus","kind":"format","title":"BradiLOFI","url":"/guarda/format/focus","image":"focus","description":"Musica lo-fi per concentrarsi, rilassarsi e prendersela con calma.","host":"bradford"},
+  {"slug":"natura","kind":"format","title":"Sfide bestiali","url":"/guarda/format/natura","image":"natura","description":"Domande, curiosità e sfide per veri esploratori del mondo animale.","host":"placido","badge":"In pre-produzione"},
+  {"slug":"scienza","kind":"format","title":"Il lab di Joe","url":"/guarda/format/scienza","image":"scienza","description":"Cose complicatissime spiegate in modo sorprendentemente semplice.","host":"joe","badge":"In pre-produzione"},
+  {"slug":"cultura","kind":"format","title":"Parole da ricordare","url":"/guarda/format/cultura","image":"cultura","description":"Parole curiose, dimenticate o quasi, troppo belle per lasciarle andare.","host":"mimi","badge":"In pre-produzione"}
+ ]
+}

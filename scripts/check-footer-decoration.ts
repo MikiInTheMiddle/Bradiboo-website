@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {getPayload} from 'payload';
+import config from '../payload.config';
+import {FooterDecoration,footerDecorationStyle} from '../components/footer-decoration';
+assert.equal(renderToStaticMarkup(createElement(FooterDecoration,{decoration:{enabled:false,image:{url:'/test.svg'}}})), '');
+assert.equal(footerDecorationStyle({enabled:true,image:1}),undefined);
+const bandStyle=footerDecorationStyle({enabled:true,image:{url:'/band.webp',width:5132,height:321},mobileImage:{url:'/mobile.webp',width:1000,height:200},layout:'band'}) as Record<string,string>;
+assert.equal(bandStyle['--footer-band-height'],`calc(100vw * ${321/5132})`);
+assert.equal(bandStyle['--footer-band-mobile-height'],'calc(100vw * 0.2)');
+const fallbackStyle=footerDecorationStyle({enabled:true,image:{url:'/band.webp',width:5132,height:321},layout:'band'}) as Record<string,string>;
+assert.ok(fallbackStyle['--footer-band-mobile-height'].startsWith('max(160px,'));
+const html=renderToStaticMarkup(createElement(FooterDecoration,{decoration:{enabled:true,image:{url:'/desktop.svg'},mobileImage:{url:'/mobile.svg'}}}));
+assert.ok(html.includes('src="/desktop.svg"'));assert.ok(html.includes('srcSet="/mobile.svg"'));assert.ok(html.includes('alt=""'));assert.ok(html.includes('aria-hidden="true"'));
+if(!process.env.DATABASE_URL?.startsWith('file:/private/tmp/'))throw new Error('Usare una copia temporanea DB');
+const payload=await getPayload({config});
+try{
+ const before=await payload.findGlobal({slug:'navigation',depth:0});
+ const image=(await payload.find({collection:'media',limit:1,depth:0})).docs[0];
+ assert.ok(image);
+ await payload.updateGlobal({slug:'navigation',data:{footerDecoration:{enabled:true,image:image.id,layout:'center',height:180,mobileHeight:80,maxWidth:900,position:'overlap'}}});
+ const enabled=await payload.findGlobal({slug:'navigation',depth:1});
+ const rendered=renderToStaticMarkup(createElement(FooterDecoration,{decoration:enabled.footerDecoration}));
+ assert.ok(rendered.includes('<picture'));
+ await payload.updateGlobal({slug:'navigation',data:{footerDecoration:{...enabled.footerDecoration,image:image.id,enabled:false}}});
+ const after=await payload.findGlobal({slug:'navigation',depth:0});
+ assert.equal(after.footerDecoration?.enabled,false);assert.equal(after.footerDecoration?.image,image.id);assert.equal(after.footerDecoration?.height,180);
+ assert.deepEqual(after.items,before.items);assert.deepEqual(after.studioItems,before.studioItems);assert.deepEqual(after.footerItems,before.footerItems);assert.equal(after.footerNote,before.footerNote);
+ assert.equal(renderToStaticMarkup(createElement(FooterDecoration,{decoration:after.footerDecoration})), '');
+ console.log('OK: desktop/mobile decorativi, assenza file, salvataggio dimensioni, toggle conserva immagine e navigazione/footer invariati.');
+}finally{await payload.destroy();}

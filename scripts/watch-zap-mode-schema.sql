@@ -1,0 +1,1 @@
+ALTER TABLE watch ADD COLUMN full_zap INTEGER;

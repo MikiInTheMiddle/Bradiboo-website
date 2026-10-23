@@ -1,13 +1,24 @@
-export type WireLink = { label: string; href: string };
-export type WireBlock = {
-  type: 'hero' | 'intro' | 'grid' | 'rail' | 'split' | 'media' | 'related' | 'cta' | 'list';
+import type {FooterOverride} from './footer-override';
+import type {WideAppearance} from './wide-appearance';
+import type {CardAppearance} from './card-appearance';
+import type {BlockTypography} from './text-style';
+export type WireLink = {rating?:{value:number;max:number};hidden?:boolean;cardFunction?:string;actionSettings?:any;audioTracks?:Record<string,import('./card-audio').CardAudio|undefined>;cardAudio?:import('./card-audio').CardAudio;textOnly?:boolean;section?:string;container?:{id:string;title:string;href?:string};production?:{id:string;title:string;href?:string};identityAppearance?:CardAppearance; wideAppearance?:WideAppearance; wideBadge?:string;mobileImage?:string;focalX?:number;focalY?:number;hideBadge?:boolean;appearance?:CardAppearance; label: string; href: string; image?: string; description?: string; badge?: string; badgeBackgroundColor?: string; badgeTextColor?:string; ctaLabel?: string; video?: string; youtube?: string; alt?: string };
+export type WireBlock = BlockTypography & {productSection?:string;icons?:{url?:string;alt?:string}[];requiresItems?:boolean;showAudioControl?:boolean;gallerySettings?:{layout?:string;gap?:number;showTitle?:boolean;showCaption?:boolean};ctaAlign?:import('./cta-alignment').CTAAlignment;
+ eyebrowMode?:'auto'|'custom'|'hidden'|null;eyebrowText?:string|null;
+  watchRailMode?:string;watchRailSelections?:import('./watch-rail-selection').WatchRailSelection[];cardAppearance?:CardAppearance;catalogOverrides?:{cardFunction?:string;videoSettings?:any;audioSettings?:any;id?:string;position?:number;appearance?:CardAppearance;title?:string|null;description?:string|null;image?:string;mobileImage?:string;focalX?:number;focalY?:number}[];
+  cardLayout?:'auto'|'grid'|'carousel'|'compact';presentation?:'cards'|'wide';wideOverlayOpacity?:number;
+  type: 'watchExperience' | 'zapExperience' | 'hero' | 'intro' | 'grid' | 'rail' | 'split' | 'media' | 'related' | 'cta' | 'list';
+  heroImageMode?:boolean;
+  skipReveal?:boolean;
   label: string;
   title: string;
   note?: string;
   items?: WireLink[];
   status?: 'draft';
+  mobileImage?:string;focalX?:number;focalY?:number;showText?:boolean; contentLayout?:string; backgroundMode?:string; badge?: string; badgeBackgroundColor?: string; badgeTextColor?:string; backgroundColor?: string; backgroundImage?: string; opacity?: number; blur?: number; ownBackground?: boolean;
+  media?: { url: string; mobileImage?:string; mobileVideo?:string; kind: 'image' | 'video' | 'youtube' }; cta?: WireLink; carousel?: boolean; facts?: {label:string;value:string}[]; audio?: string; audioCaption?: string; emptyMessage?: string; gallery?: boolean;
 };
-export type WirePage = { path: string; group: string; title: string; purpose: string; status?: 'draft'; blocks: WireBlock[] };
+export type WirePage = {footerOverride?:FooterOverride; path: string; group: string; title: string; purpose: string; status?: 'draft'; blocks: WireBlock[]; redirectTo?:string; backgroundColor?: string; backgroundImage?: string; backgroundMobileColor?:string };
 
 const characters: WireLink[] = ['Bradford','Placido','Joe','Petronilla','Nancy','Mimì'].map(name => ({ label:name, href:`/braditriboo/${name.toLowerCase().replace('ì','i')}` }));
 const formats: WireLink[] = ['Focus','Fitness','Arte','Natura','Scienza','Cultura'].map(name => ({ label:name, href:`/guarda/format/${name.toLowerCase()}` }));

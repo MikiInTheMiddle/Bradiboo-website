@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {registerHooks} from 'node:module';
+import {getPayload} from 'payload';
+import config from '../payload.config';
+registerHooks({resolve(specifier,context,next){return specifier==='server-only'?{url:'data:text/javascript,export{}',shortCircuit:true}:next(specifier,context);}});
+const {getCMSPage}=await import('../lib/cms');
+const {getWatchData}=await import('../lib/watch-data');
+if(!process.env.DATABASE_URL?.startsWith('file:/private/tmp/'))throw new Error('Solo DB temporaneo');
+const p=await getPayload({config});
+try{
+ const content=(await p.find({collection:'contents',where:{watchKind:{exists:true}},limit:1,depth:0})).docs[0];
+ const mobile=(await p.find({collection:'media',limit:1,where:{mimeType:{contains:'image/'}},depth:0})).docs[0];assert.ok(content);assert.ok(mobile.url);
+ await p.update({collection:'contents',id:content.id,data:{coverMobile:mobile.id}});
+ assert.equal((await getWatchData()).items.find(i=>i.id===String(content.id))?.mobileImage,mobile.url);
+ const page=(await p.find({collection:'pages',where:{path:{equals:'/'}},limit:1,depth:0})).docs[0];assert.ok(page.blocks);
+ const before=await getCMSPage('/');
+ const blocks=structuredClone(page.blocks) as any[];
+ const collection=blocks.find(b=>b.blockType==='collection'&&b.mode==='characters');assert.ok(collection);
+ const character=typeof collection.cast[0].character==='object'?collection.cast[0].character.id:collection.cast[0].character;
+ await p.update({collection:'characters',id:character,data:{portraitMobile:mobile.id}});
+ const inherited=await getCMSPage('/');
+ const castCard=inherited?.blocks.flatMap(b=>b.items||[]).find(i=>i.href===before?.blocks.flatMap(b=>b.items||[]).find(i=>i.href.startsWith('/braditriboo/'))?.href);
+ assert.equal(castCard?.mobileImage,mobile.url);
+ assert.equal(castCard?.description,before?.blocks.flatMap(b=>b.items||[]).find(i=>i.href===castCard?.href)?.description);
+ const alternate=(await p.find({collection:'media',limit:1,where:{and:[{mimeType:{contains:'image/'}},{id:{not_equals:mobile.id}}]},depth:0})).docs[0];assert.ok(alternate.url);
+ collection.cast[0].mobileImage=alternate.id;
+ await p.update({collection:'pages',id:page.id,data:{blocks}});
+ assert.equal((await getCMSPage('/'))?.blocks.flatMap(b=>b.items||[]).find(i=>i.href===castCard?.href)?.mobileImage,alternate.url);
+ collection.cast[0].mobileImage=null;await p.update({collection:'pages',id:page.id,data:{blocks}});
+ assert.equal((await getCMSPage('/'))?.blocks.flatMap(b=>b.items||[]).find(i=>i.href===castCard?.href)?.mobileImage,mobile.url);
+ console.log('OK: sorgente produzione ereditata da Guarda; personaggi ereditano mobile senza aggiungere descrizione; override salvato.');
+}finally{await p.destroy();}

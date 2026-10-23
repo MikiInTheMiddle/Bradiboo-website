@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {filterWatch,pickWatch,remoteMatches,type WatchItem} from '../lib/watch-model';
+const base={description:'',characters:[],themes:[],kind:'video',demo:false};
+const items:WatchItem[]=[{...base,id:'a',title:'Uno',keywords:['musica','arte'],production:{title:'BradiLOFI'},video:{kind:'file',url:'/one.mp4'}},{...base,id:'b',title:'Due',keywords:['musica'],video:{kind:'file',url:'/two.mp4'}},{...base,id:'c',title:'Tre',keywords:['arte']}];
+const filters={characters:[],themes:[],keywords:['musica','arte']};
+assert.deepEqual(filterWatch(items,{...filters,keywordMatch:'all'}).map(i=>i.id),['a']);
+assert.equal(filterWatch(items,{...filters,keywordMatch:'any'}).length,3);
+assert.equal(filterWatch(items,{...filters,keywords:[],query:'bradilofi'})[0]?.id,'a');
+assert.equal(filterWatch(items,{...filters,playableOnly:true}).length,2);
+assert.deepEqual(remoteMatches(items,['arte']).map(i=>i.id),['a']);
+assert.equal(pickWatch(items,'a',()=>0)?.id,'b');assert.equal(pickWatch([],undefined,()=>0),undefined);
+console.log('Watch filters, keyword any/all, production search and random selection passed.');

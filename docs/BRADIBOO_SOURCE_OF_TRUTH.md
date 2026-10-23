@@ -39,3 +39,10 @@ Questo documento raccoglie i principi condivisi del nuovo ecosistema digitale Br
 - Design system finale.
 - Tecnologia definitiva di persistenza e hosting del Content Studio.
 - Ruoli e permessi editoriali oltre alla prima versione essenziale.
+
+## Fonte personaggi acquisita — 16 ottobre 2026
+
+`Bradiboo_Pitch Bible.pdf`, fornita dall'utente dal percorso CloudMounter `_DOC PER ESTERNI`, è disponibile e consultata (37 pagine). Per caratterizzazione e tratti usare le schede alle pagine 7–12; per gli universi sonori la pagina 23. Il deck resta la fonte strategica. Le descrizioni del frontend legacy non prevalgono sulla bible. Non trasformare frasi editoriali di presentazione in citazioni di episodi, né attribuire età, rapporti familiari o scene non documentati.
+
+## Allineamento frontend/Content Studio — 17 ottobre 2026
+Guarda e ZAP! sono pagine Payload con moduli ordinabili; dati video e vocabolari rimangono entità separate. La lettura dell'episodio è nel player, senza dettaglio obbligatorio. Menu principale, menu contestuale Studio e footer sono configurazioni condivise ma distinte. Studio raccoglie identità/approccio/slate del deck e manifesto/collaborazioni della repo legacy; fonti annotate sulle pagine. Visual ed editing definitivo restano una fase successiva. Vedi SITE_COHERENCE_AND_STUDIO.md.

@@ -1,0 +1,4 @@
+import {getPayload} from 'payload';import config from '../payload.config';import {writeFile} from 'node:fs/promises';
+const p=await getPayload({config});try{const page=(await p.find({collection:'pages',where:{path:{equals:'/guarda'}},depth:0,limit:1})).docs[0];if(!page)throw Error('Guarda missing');console.log(page.blocks?.map(b=>({type:b.blockType,id:b.id,title:'title' in b?b.title:'',draft:'draft' in b?b.draft:undefined})));
+const legacy=page.blocks?.filter(b=>b.blockType==='rail'&&b.draft&&['Serie','Miniserie','BradiBITES'].includes(b.title||''));if(legacy?.length){await writeFile(`work/backups/guarda-before-removing-legacy-rails-${Date.now()}.json`,JSON.stringify(page,null,2));await p.update({collection:'pages',id:page.id,data:{blocks:page.blocks?.filter(b=>!legacy.some(l=>l.id===b.id))},depth:0});console.log('Removed unused legacy container rails:',legacy.map(b=>b.title));}}
+finally{await p.destroy()}

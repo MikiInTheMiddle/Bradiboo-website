@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {mergeCardAppearance} from '../lib/card-appearance';
+import {cardHoverAttributes} from '../lib/card-style';
+import {applyCardFunction} from '../lib/card-function';
+import {applyWatchCardFunction} from '../lib/watch-card-function';
+const common={cardFunction:'video' as const,composition:'half' as const};
+const appearance=mergeCardAppearance(common,{enabled:false,titleVisibility:'hide'});
+assert.equal(appearance?.composition,'half');assert.equal(appearance?.titleVisibility,'hide');assert.equal(cardHoverAttributes(appearance)['data-card-composition'],'half');
+assert.equal(mergeCardAppearance(common,{composition:'overlay'})?.composition,'overlay');
+assert.equal(mergeCardAppearance(common,{composition:'inherit'})?.composition,'half');
+const item={label:'Episodio',href:'/guarda',youtube:'https://www.youtube.com/embed/abc'};
+assert.equal(applyCardFunction(item,{cardFunction:common.cardFunction}).cardFunction,'video');
+assert.equal(applyCardFunction(item,{cardFunction:'content'}).youtube,undefined);
+assert.deepEqual(applyCardFunction(item,{cardFunction:'inherit'}),item);
+const watch:any={id:'1',title:'Episodio',description:'',kind:'serie',characters:[],themes:[],keywords:[],demo:false,video:{kind:'youtube',url:item.youtube}};
+const content=applyWatchCardFunction(watch,{cardFunction:'content'});assert.equal(content.video,undefined);
+assert.equal(applyWatchCardFunction(content,{cardFunction:'video'}).video?.url,item.youtube);
+console.log('OK: Half/Default/Wide, visibilità indipendente, eredità e override funzione, video recuperato anche dopo un override Contenuto.');

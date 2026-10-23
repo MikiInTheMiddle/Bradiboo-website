@@ -1,0 +1,218 @@
+[
+  {
+    "slug": "bradford",
+    "identity": "Il bradipo",
+    "tagline": "Con calma.",
+    "description": "Bradford è un cucciolo di bradipo riflessivo e sorprendentemente maturo. Si muove e parla con calma, osserva molto e non sente il bisogno di riempire ogni silenzio. Preferisce prendersi il tempo necessario per capire quello che gli succede intorno. Ma proprio perché guarda le cose da un’altra velocità, spesso nota ciò che agli altri è sfuggito. E quando finalmente dice qualcosa, di solito vale la pena ascoltarlo. La sua lentezza non è un limite: è semplicemente il suo modo di stare al mondo. Anche se, qualche volta, persino Bradford deve capire quando è arrivato il momento di muoversi.",
+    "passions": [
+      {
+        "text": "Mindfulness"
+      },
+      {
+        "text": "Meditazione"
+      },
+      {
+        "text": "Yoga"
+      },
+      {
+        "text": "Chinesiologia"
+      },
+      {
+        "text": "Nuoto"
+      }
+    ],
+    "traits": [
+      {
+        "text": "Empatia"
+      },
+      {
+        "text": "Osservatore"
+      },
+      {
+        "text": "Nuotatore formidabile"
+      }
+    ],
+    "music": "Lo-fi · Chill · Sonorità morbide",
+    "sourceReference": "Pitch Bible 2026, pagina 7; universo musicale pagina 23."
+  },
+  {
+    "slug": "placido",
+    "identity": "Il colibrì",
+    "tagline": "Prima si parte. Poi si pensa. Forse.",
+    "description": "Placido è un colibrì tutt’altro che placido. Parla veloce, vola veloce e pensa ancora più veloce. È curioso, impulsivo, colorato e contagiosamente allegro: davanti a qualcosa di nuovo, la sua prima reazione è quasi sempre buttarcisi dentro. È un trascinatore naturale. La sua voglia di fare finisce spesso per mettere in movimento anche gli altri e, quando il morale scende, Placido sa tirarlo su come pochi. Vuole vedere, provare e scoprire tutto, possibilmente adesso. Qualche volta questo significa arrivare dove nessun altro sarebbe arrivato. Qualche altra, contro un albero. Fermarsi ogni tanto? Ci sta lavorando.",
+    "passions": [
+      {
+        "text": "Natura"
+      },
+      {
+        "text": "Esplorazione"
+      },
+      {
+        "text": "Musica"
+      },
+      {
+        "text": "Polistrumentista"
+      }
+    ],
+    "traits": [
+      {
+        "text": "Energia inesauribile"
+      },
+      {
+        "text": "Curiosità incontenibile"
+      },
+      {
+        "text": "Improvvisazione"
+      },
+      {
+        "text": "Trascinatore"
+      }
+    ],
+    "music": "Hawaiian · Ska · Skate punk",
+    "sourceReference": "Pitch Bible 2026, pagina 8; universo musicale pagina 23."
+  },
+  {
+    "slug": "joe",
+    "identity": "L’alieno",
+    "tagline": "Di un altro pianeta. Letteralmente.",
+    "description": "Il suo vero nome è Wyjkx Wkx Kjyxw, ma nessuno è mai riuscito a pronunciarlo. Così, per tutti, è semplicemente Joe. La sua navicella si è guastata durante un viaggio ed è precipitata sull’Isola, dove ha trovato nuovi amici e una nuova casa, senza dimenticare chi ha lasciato sul suo pianeta. Porta con sé tecnologia, conoscenze e un modo completamente diverso di interpretare il mondo: vede possibilità che agli altri sfuggono e, qualche volta, capisce tutto completamente al contrario. Non parla la lingua degli altri, ma questo non gli impedisce di farsi capire. Joe non butta via niente: recupera e riusa tutto ciò che trova sull’Isola per costruire le sue invenzioni. Creatività, problem solving e rispetto per l’ambiente sono semplicemente il suo modo di fare le cose.",
+    "passions": [
+      {
+        "text": "Tecnologia"
+      },
+      {
+        "text": "Scienza"
+      },
+      {
+        "text": "Invenzioni"
+      },
+      {
+        "text": "Problem solving"
+      }
+    ],
+    "traits": [
+      {
+        "text": "Mutaforma"
+      },
+      {
+        "text": "Pensiero laterale"
+      },
+      {
+        "text": "Lingua aliena"
+      },
+      {
+        "text": "Fraintendimenti terrestri"
+      }
+    ],
+    "music": "Elettronica · Synth · Sonorità digitali",
+    "sourceReference": "Pitch Bible 2026, pagina 9; universo musicale pagina 23."
+  },
+  {
+    "slug": "petronilla",
+    "identity": "La paperella a rotelle",
+    "tagline": "Arrendersi non è un’opzione.",
+    "description": "Petronilla è una papera di legno a rotelle che arriva direttamente dagli anni ’80. Letteralmente: qualcuno l’ha smarrita su una spiaggia chissà dove e, dopo un viaggio lungo e misterioso, è approdata sull’Isola. Del mondo conosce quello che esisteva allora. Mode, musica, espressioni e riferimenti si sono praticamente fermati lì e Petronilla non sembra avere nessuna fretta di aggiornarli. Sportiva, energica e tremendamente competitiva, stare ferma non è esattamente la sua specialità. Quando qualcosa non funziona, difficilmente si arrende: prova ancora, cambia strada e riparte. A volte con così tanta determinazione da dimenticarsi di ascoltare gli altri. Per Petronilla quasi tutto può diventare una sfida. E possibilmente una sfida da vincere.",
+    "passions": [
+      {
+        "text": "Sport"
+      },
+      {
+        "text": "Fitness"
+      },
+      {
+        "text": "Movimento"
+      },
+      {
+        "text": "Sfide"
+      }
+    ],
+    "traits": [
+      {
+        "text": "Competitiva"
+      },
+      {
+        "text": "Determinata"
+      },
+      {
+        "text": "Problem solver"
+      },
+      {
+        "text": "Orgogliosamente anni ’80"
+      }
+    ],
+    "music": "Pop · Fitness · Synth anni ’80",
+    "sourceReference": "Pitch Bible 2026, pagina 10; universo musicale pagina 23."
+  },
+  {
+    "slug": "mimi",
+    "identity": "La dinosaura",
+    "tagline": "Enorme. In tutti i sensi. Ma vorrebbe starci sempre.",
+    "description": "Mimì è una cucciola di dinosauro. Cucciola, sì. Ma enorme. È così grande che spesso non entra nelle stanze, nelle fotografie o semplicemente nell’inquadratura. E anche se gli altri fanno di tutto per farle spazio, lei finisce spesso per sentirsi un po’ fuori. È timida e supersensibile, e convivere con una presenza così ingombrante quando si vorrebbe quasi passare inosservati non è sempre facile. Mimì ha però imparato a costruirsi il suo mondo. Ha una memoria straordinaria, sa moltissime cose e guarda il presente con una curiosa nostalgia per altri tempi. Colleziona fossili, lavora a maglia e riempie la sua casa di centrini. È vegetariana per scelta e ha quasi sempre un fatto, un ricordo o un aneddoto da raccontare. Forse non riuscirà mai a entrare completamente nell’inquadratura. Ma sta imparando che non serve diventare più piccoli per trovare il proprio posto.",
+    "passions": [
+      {
+        "text": "Fossili"
+      },
+      {
+        "text": "Lavoro a maglia"
+      },
+      {
+        "text": "Conoscenza"
+      },
+      {
+        "text": "Memoria formidabile"
+      }
+    ],
+    "traits": [
+      {
+        "text": "Enorme"
+      },
+      {
+        "text": "Timida"
+      },
+      {
+        "text": "Supersensibile"
+      },
+      {
+        "text": "Un po’ d’altri tempi"
+      }
+    ],
+    "music": "Jazz · Classica · Big band",
+    "sourceReference": "Pitch Bible 2026, pagina 11; universo musicale pagina 23."
+  },
+  {
+    "slug": "nancy",
+    "identity": "La ragnetta",
+    "tagline": "Non le interessa. Forse.",
+    "description": "Nancy è una piccola ragnetta artista che vive in un tronco buio, nel punto più buio dell’Isola. E a lei va benissimo così. Ha quell’aria perennemente disinteressata di chi sembra non avere particolare voglia di partecipare a niente. Poche parole, entusiasmo accuratamente sotto controllo e una naturale inclinazione a guardare il lato più oscuro delle cose. Ma quella distanza è soprattutto un modo per proteggersi. Nancy è molto più sensibile di quanto lasci vedere: teme il giudizio degli altri e mostrare ciò che prova, o qualcosa che ha creato, significa esporsi davvero. La sua arte riesce spesso a dire quello che lei preferirebbe non dire. Nel suo tronco ha trovato il posto perfetto per nascondersi. Nella Braditriboo, quello in cui non ha bisogno di farlo.",
+    "passions": [
+      {
+        "text": "Arte"
+      },
+      {
+        "text": "Disegno"
+      },
+      {
+        "text": "Creazione"
+      },
+      {
+        "text": "Metal"
+      }
+    ],
+    "traits": [
+      {
+        "text": "Zero-voglia attitude"
+      },
+      {
+        "text": "Ironia dark"
+      },
+      {
+        "text": "Sensibile"
+      },
+      {
+        "text": "Teatralmente pessimista"
+      }
+    ],
+    "music": "Rock · Hard rock · Metal · Growl",
+    "sourceReference": "Pitch Bible 2026, pagina 12; universo musicale pagina 23."
+  }
+]

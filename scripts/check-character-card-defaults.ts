@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';import {characterIdentityAppearance} from '../lib/character-card-identity';import {mergeCardAppearance} from '../lib/card-appearance';import {cardHoverAttributes,cardSurfaceStyle} from '../lib/card-style';import {sourceCard,inheritCard} from '../lib/card-source';
+const character={id:1,name:'Test',slug:'test',description:'Descrizione',portrait:{url:'/portrait.svg'},portraitMobile:{url:'/portrait-mobile.webp'},cardIdentity:{enabled:true,backgroundColor:'#123456'}};
+const linked=sourceCard('characters',character)!;assert.equal(linked.image,'/portrait.svg');assert.equal(linked.mobileImage,'/portrait-mobile.webp');
+const base=mergeCardAppearance(linked.identityAppearance)!;
+assert.equal(base.backgroundMode,'transparent');assert.equal(base.titleColor,'#ffffff');assert.equal(base.descriptionVisibility,'hide');assert.equal(base.hoverBackgroundColor,'#123456');assert.equal(base.composition,'stacked');assert.equal(cardHoverAttributes(base)['data-card-kind'],'character');
+const local=mergeCardAppearance(base,{enabled:true,backgroundColor:'#abcdef',titleColor:'#111111',composition:'overlay',descriptionVisibility:'show',hoverMode:'custom',hoverBackgroundColor:'#ffffff'})!;
+assert.equal(local.backgroundMode,'color');assert.match(String(cardSurfaceStyle(local)?.background),/#abcdef/);assert.equal(local.composition,'overlay');assert.equal(local.hoverBackgroundColor,'#ffffff');assert.equal(local.descriptionVisibility,'show');
+const photo=inheritCard(linked,{label:'Local',href:'',image:'/local.png'},{sourceMode:'linked',overrideImage:true});assert.equal(photo.image,'/local.png');assert.equal(photo.mobileImage,'/portrait-mobile.webp');
+assert.equal(characterIdentityAppearance().backgroundMode,'transparent');assert.equal(characterIdentityAppearance({enabled:false}).characterCard,true);
+console.log('OK: preset normale e hover, foto desktop/mobile ereditate, override locali di immagini/colori/visibilità/Wide e personaggi nuovi senza identità configurata.');

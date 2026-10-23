@@ -1,0 +1,5 @@
+import type {CollectionConfig,GlobalConfig} from 'payload';
+const groups:Record<string,string>={pages:'Sito e pagine',characters:'Universo Bradiboo',contents:'Universo Bradiboo','production-containers':'Universo Bradiboo',media:'Risorse condivise','watch-terms':'Risorse condivise',users:'Amministrazione'};
+const order=['pages','characters','production-containers','contents','media','watch-terms','users'];
+export function groupCollections(collections:CollectionConfig[]){return collections.map(c=>({...c,admin:{...c.admin,group:groups[c.slug]||c.admin?.group},...(c.slug==='contents'?{labels:{singular:'Produzione / video',plural:'Produzioni e video'}}:{})})).sort((a,b)=>order.indexOf(a.slug)-order.indexOf(b.slug));}
+export function groupGlobals(globals:GlobalConfig[]){return globals.map(g=>({...g,label:g.slug==='navigation'?'Menu e footer':g.slug==='watch'?'Catalogo, filtri e ZAP!':g.label,admin:{...g.admin,group:g.slug==='navigation'?'Sito e pagine':g.slug==='watch'?'Guarda e ZAP!':g.admin?.group}}));}

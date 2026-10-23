@@ -1,0 +1,148 @@
+{
+  "sources": {
+    "deck": "Bradiboo_Deck 2026.pdf, pp. 2–3, 17–23",
+    "legacy": "bradiboo-legacy-frontend/src/app/[locale]/(content)"
+  },
+  "approach": [
+    {
+      "color": "yellow",
+      "title": "Creare Connessioni Significative",
+      "subtitle": "Stimolare lo Sviluppo Personale Attraverso il Dialogo e l'Immaginazione",
+      "text": "Bradiboo si propone di offrire una nuova modalità di trascorrere tempo di qualità tra adulti e bambini, mirando a stimolare creatività, immaginazione, consapevolezza e dialogo. Oltre all'intrattenimento, il focus è sullo sviluppo personale di entrambi i partecipanti, con storie validate da un punto di vista psicopedagogico ed educativo. Queste narrazioni coinvolgenti esplorano le sfide e le risorse personali attraverso vari personaggi, incoraggiando un viaggio di auto-riflessione e crescita."
+    },
+    {
+      "color": "deepblue",
+      "title": "Life Skills nell'Esperienza Narrativa",
+      "subtitle": "Favorire il Benessere e la Crescita Personale",
+      "text": "Le storie proposte da Bradiboo si concentrano sulle life skills identificate dall'OMS, mirando al miglioramento del benessere e al potenziamento dei comportamenti positivi. Attraverso queste narrazioni inclusive e pertinenti alla quotidianità, i personaggi mostrano sia competenze che limiti in modo non giudicante, incoraggiando l'identificazione e la trasformazione di sfide in risorse."
+    },
+    {
+      "color": "green",
+      "title": "Attività Formativa",
+      "subtitle": "Strumenti per il Potenziamento delle Competenze",
+      "text": "Le attività proposte da Bradiboo non sono semplici 'lavoretti', ma strumenti potenziali per rafforzare il significato e l'apprendimento di skills vitali. Adattabili a diverse età e competenze, queste attività offrono un coinvolgimento graduale degli adulti e si differenziano per tipologia e situazione d'uso. Lo scopo è quello di favorire un dialogo e una riflessione che aiutino sia l'adulto che il bambino a crescere personalmente e relazionalmente."
+    },
+    {
+      "color": "red",
+      "title": "Esperienze Condivise per l'Apprendimento Emotivo",
+      "subtitle": "Consolidare Competenze Attraverso l'Emozione e la Relazione",
+      "text": "Bradiboo cerca di creare esperienze condivise che veicolino l'apprendimento attraverso le emozioni, riconoscendo l'importanza della componente emotiva e relazionale nello sviluppo di competenze. Favorire un clima positivo e gratificante durante l'esperienza di apprendimento è cruciale per consolidare conoscenze e abilità in modo duraturo."
+    },
+    {
+      "color": "purple",
+      "title": "Guida e Flessibilità",
+      "subtitle": "Promuovere una Relazione Autentica e Adattabile",
+      "text": "L'adulto che guida e propone le attività di Bradiboo è incoraggiato a essere presente fisicamente ed emotivamente, senza pretese o distrazioni. L'approccio suggerito è di lasciarsi guidare dal bambino, offrendo supporto e osservando le sue reazioni. Bradiboo fornisce gli strumenti, ma la relazione è curata dagli adulti, che devono adattare le attività alle esigenze e ai tempi dei bambini."
+    }
+  ],
+  "team": [
+    {
+      "name": "Michele",
+      "surname": "Panzeri",
+      "role": "Co-Founder",
+      "skill": "Design, Strategy & stuff"
+    },
+    {
+      "name": "Andrea",
+      "surname": "Motta",
+      "role": "Co-Founder",
+      "skill": "Words & stuff"
+    },
+    {
+      "name": "Lorenzo",
+      "surname": "Di Capua",
+      "role": "Co-Founder",
+      "skill": "Strategy & stuff"
+    },
+    {
+      "name": "Martina",
+      "surname": "Mazzoleni",
+      "role": "Advisor",
+      "skill": "Psicopedagogia"
+    },
+    {
+      "name": "Luca",
+      "surname": "Lodi",
+      "role": "",
+      "skill": "Full Stack Developer"
+    },
+    {
+      "name": "Flavio",
+      "surname": "Mortarino",
+      "role": "Production",
+      "skill": ""
+    }
+  ],
+  "companies": {
+    "services": [
+      {
+        "title": "BradiYOU",
+        "color": "yellow",
+        "text": "Raccontiamo tematiche e valori importanti per il brand attraverso le nostre property, <strong>customizzando i contenuti, prodotti ed esperienze esclusive.</strong>"
+      },
+      {
+        "title": "BradiGIFT",
+        "color": "red",
+        "text": "I prodotti Bradiboo o personalizzati per il brand diventano <strong>strumenti di welfare e retention</strong> per i dipendenti, clienti, collaboratori e network aziendale."
+      },
+      {
+        "title": "BradiCare",
+        "color": "purple",
+        "text": "Supportiamo le aziende nei loro progetti sociali – già attivi o in fase di avvio – offrendo contenuti, strumenti e format educativi capaci di generare impatto. Collaboriamo con realtà che operano nel sociale, nella cultura e nella sanità per creare iniziative concrete a sostegno di bambini e famiglie."
+      }
+    ],
+    "steps": [
+      {
+        "color": "yellow",
+        "title": "Scegli il tuo servizio.",
+        "text": "Puoi distribuire i prodotti Bradiboo all’interno del network aziendale, oppure regalare prodotti Bradiboo  personalizzati, o creati appositamente per il tuo brand."
+      },
+      {
+        "color": "deepblue",
+        "title": "Fai un bel regalo.",
+        "text": "Regala prodotti Bradiboo personalizzati, o creati appositamente per il tuo brand, per fare awareness."
+      },
+      {
+        "color": "green",
+        "title": "Fatti un bel regalo",
+        "text": "Distribuisci prodotti Bradiboo personalizzati a collaboratori, fornitori, clienti per aumentare la retention."
+      },
+      {
+        "color": "red",
+        "title": "Racconta il tuo impegno.",
+        "text": "Grazie ad un media kit completo che documenta le azioni che il tuo brand ha intrapreso per avere un impatto positivo nel sociale."
+      }
+    ]
+  },
+  "social": {
+    "services": [
+      {
+        "title": "BradiCare",
+        "color": "purple",
+        "text": "Supportiamo i partner sociali nei loro progetti - già attivi o in fase di avvio - offrendo contenuti, strumenti e format educativi capaci di generare impatto. Collaboriamo con realtà che operano nel sociale, nella cultura e nella sanità per creare iniziative concrete a sostegno di bambini e famiglie."
+      }
+    ],
+    "steps": [
+      {
+        "color": "yellow",
+        "title": "Entra a far parte del nostro network.",
+        "text": "Raccontaci chi siete e in che ambito operate. Basta un modulo: pochi minuti per cominciare."
+      },
+      {
+        "color": "deepblue",
+        "title": "Ci conosciamo meglio",
+        "text": "Vi contattiamo per capire cosa vi serve davvero e come possiamo esservi utili."
+      },
+      {
+        "color": "green",
+        "title": "Sviluppiamo insieme il progetto giusto",
+        "text": "In base alle vostre esigenze, progettiamo con voi contenuti, attività, personalizzazioni ed esperienze."
+      },
+      {
+        "color": "red",
+        "title": "Si parte (e si racconta)",
+        "text": "Avviamo il progetto, vi supportiamo nella sua attuazione e—se vorrete—vi aiutiamo a raccontarne l’impatto."
+      }
+    ]
+  }
+}

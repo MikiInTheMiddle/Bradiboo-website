@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {inheritCard,sourceCard} from '../lib/card-source';
+const base=sourceCard('characters',{name:'Mimì',slug:'mimi',description:'Testo sorgente',portrait:{url:'/mimi.png'}})!;
+const local={label:'Titolo locale',description:'Testo locale',image:'/local.png',href:'/locale',appearance:{enabled:true,composition:'overlay' as const,overlayOpacity:0}};
+const inherited=inheritCard(base,local,{sourceMode:'linked',source:{relationTo:'characters',value:1}});
+assert.equal(inherited.image,'/mimi.png');assert.equal(inherited.description,'Testo sorgente');assert.equal(inherited.href,'/braditriboo/mimi');assert.equal(inherited.appearance?.overlayOpacity,0);
+const textOverride=inheritCard(base,local,{sourceMode:'linked',overrideContent:true});assert.equal(textOverride.label,'Titolo locale');assert.equal(textOverride.image,'/mimi.png');
+const photoOverride=inheritCard(base,local,{sourceMode:'linked',overrideImage:true});assert.equal(photoOverride.image,'/local.png');assert.equal(photoOverride.label,'Mimì');
+assert.equal(inheritCard(base,local,{sourceMode:'manual'}),local);
+assert.equal(inheritCard(base,{...local,description:''},{sourceMode:'linked',overrideContent:true}).description,'');
+const page=sourceCard('pages',{_status:'published',title:'Pagina',path:'/guarda/serie',blocks:[{blockType:'hero',title:'Serie',note:'Introduzione',media:{url:'/serie.png'}}]})!;
+assert.equal(page.image,'/serie.png');assert.equal(page.href,'/guarda/serie');assert.equal(sourceCard('pages',{_status:'draft'}),undefined);
+console.log('OK: source defaults, independent text/image overrides, manual switch, page hero/media fallback and draft exclusion.');
+
+assert.equal(inheritCard(base,{...local,description:undefined},{sourceMode:'linked',overrideContent:true}).description,undefined);
+assert.equal(inheritCard(base,{...local,description:undefined},{sourceContent:1}).description,'Testo sorgente');
+const responsive=sourceCard('contents',{_status:'published',title:'Episodio',slug:'ep',kind:'episodio',cover:{url:'/desktop.webp'},coverMobile:{url:'/mobile.webp'}})!;
+assert.equal(responsive.mobileImage,'/mobile.webp');
+assert.equal(inheritCard(responsive,{label:'',href:''},{sourceMode:'linked'}).mobileImage,'/mobile.webp');
+assert.equal(inheritCard(responsive,{label:'',href:'',mobileImage:'/override.webp'},{sourceMode:'linked'}).mobileImage,'/override.webp');
+assert.equal(inheritCard(responsive,{label:'',href:'',image:'/override-desktop.webp'},{sourceMode:'linked',overrideImage:true}).mobileImage,'/mobile.webp');
+assert.equal(sourceCard('characters',{name:'Mimì',slug:'mimi',portrait:{url:'/portrait.svg'},portraitMobile:{url:'/portrait-mobile.svg'}})?.mobileImage,'/portrait-mobile.svg');
+assert.equal(sourceCard('contents',{_status:'published',title:'Solo principale',slug:'single',cover:{url:'/single.webp'}})?.mobileImage,undefined);
+const pageResponsive=sourceCard('pages',{_status:'published',title:'Pagina',path:'/pagina',blocks:[{blockType:'hero',backgroundImage:{url:'/hero.webp'},mobileImage:{url:'/hero-mobile.webp'},focalX:0,focalY:100}]})!;
+assert.equal(pageResponsive.mobileImage,'/hero-mobile.webp');assert.equal(pageResponsive.focalX,0);
+assert.equal(inheritCard(pageResponsive,{label:'',href:''},{sourceMode:'linked'}).focalY,100);
+const randomPage=sourceCard('pages',{_status:'published',title:'Pagina',path:'/pagina',blocks:[{blockType:'hero',randomHero:true,heroImages:[{image:{url:'/random.webp'},mobileImage:{url:'/random-mobile.webp'}}]}]})!;
+assert.equal(randomPage.image,'/random.webp');assert.equal(randomPage.mobileImage,'/random-mobile.webp');
+console.log('OK: principali/mobile ereditate, override indipendenti e vuoto ripristina sorgente, fallback principale, pagine e focus.');
+
+assert.equal(sourceCard('pages',{_status:'published',title:'Pagina',path:'/pagina',blocks:[{blockType:'media',media:{url:'/section.webp'},mediaMobileImage:{url:'/section-mobile.webp'}}]})?.mobileImage,'/section-mobile.webp');

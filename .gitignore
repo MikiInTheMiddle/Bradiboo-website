@@ -37,3 +37,8 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# Payload local data
+/bradiboo.db*
+/media/
+*.tsbuildinfo

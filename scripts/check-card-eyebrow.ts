@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {resolveCardEyebrow} from '../lib/card-eyebrow';
+import {sourceCard,inheritCard} from '../lib/card-source';
+import {mergeCardAppearance} from '../lib/card-appearance';
+import {mergeWideAppearance} from '../lib/wide-appearance';
+import {FeaturedWide} from '../components/featured-wide';
+import {CardEyebrow} from '../components/card-eyebrow';
+const source=sourceCard('contents',{id:11,_status:'published',recordType:'episode',title:'Episodio',slug:'episodio',kind:'episodio',container:{id:1,title:'Serie'},parent:{id:9,title:'Braditriboo'},cover:{url:'/desktop.webp'},coverMobile:{url:'/mobile.webp'}})!;
+assert.equal(resolveCardEyebrow(source),'Serie · Braditriboo');
+assert.equal(resolveCardEyebrow(sourceCard('characters',{name:'Joe',slug:'joe'})!),'Braditriboo');
+assert.equal(resolveCardEyebrow(sourceCard('characters',{name:'Joe',slug:'joe',editorialSection:'Universo'})!),'Universo');
+assert.equal(resolveCardEyebrow({section:'News'}),'News');
+assert.equal(resolveCardEyebrow({} ),undefined);
+assert.equal(resolveCardEyebrow(source,{eyebrowMode:'hidden'}),undefined);
+assert.equal(resolveCardEyebrow(source,{eyebrowMode:'custom',eyebrowText:'Speciale'}),'Speciale');
+assert.equal(resolveCardEyebrow(source,{eyebrowMode:'custom',eyebrowText:'Blocco'},{eyebrowMode:'auto'}),'Serie · Braditriboo');
+assert.equal(resolveCardEyebrow(source,{eyebrowMode:'custom',eyebrowText:''}),undefined);
+const local=inheritCard(source,{label:'Locale',href:'/altra-destinazione'}, {sourceMode:'linked',overrideContent:true});
+assert.equal(resolveCardEyebrow(local),'Serie · Braditriboo','Indipendente dal link locale');
+const a=mergeCardAppearance({eyebrowMode:'hidden'},{enabled:false,eyebrowMode:'custom',eyebrowText:'Locale'});
+assert.equal(resolveCardEyebrow(source,a),'Locale','Controllo editoriale indipendente da personalizzazione colori');
+const wide=mergeWideAppearance({enabled:false,eyebrowMode:'custom',eyebrowText:'Slide'});
+assert.equal(resolveCardEyebrow(source,wide),'Slide');
+for(const mode of ['cards','wide'] as const){
+ const html=mode==='wide'?renderToStaticMarkup(createElement(FeaturedWide,{block:{type:'media',label:'Highlights',title:'Highlights',presentation:'wide',items:[source]}})):renderToStaticMarkup(createElement(CardEyebrow,{item:source}));
+ assert.ok(html.includes('class="card-eyebrow"'));assert.ok(html.includes('Serie · Braditriboo'));
+ if(mode==='wide')assert.ok(html.indexOf('Serie · Braditriboo')<html.indexOf('featured-wide-title'));
+}
+console.log('OK: gerarchia/sezione, nessun dato nessuno spazio, auto/custom/hidden, override indipendenti, link indipendente e rendering Wide sopra al titolo.');

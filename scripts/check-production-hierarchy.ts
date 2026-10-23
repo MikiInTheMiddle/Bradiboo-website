@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {getPayload} from 'payload';
+import config from '../payload.config';
+import {sourceCard,inheritCard} from '../lib/card-source';
+import {productionMetadata} from '../lib/production-metadata';
+if(!process.env.DATABASE_URL?.startsWith('file:/private/tmp/'))throw new Error('Solo DB temporaneo');
+const p=await getPayload({config});
+try{
+ const group=(await p.find({collection:'production-containers',where:{slug:{equals:'format'}},depth:1})).docs[0];
+ assert.ok(group.productions?.docs?.length);
+ const production=await p.findByID({collection:'contents',id:5,depth:1});
+ assert.equal(production.recordType,'production');assert.ok(production.episodes?.docs?.length);
+ const episode=await p.findByID({collection:'contents',id:12,depth:2});
+ assert.equal(productionMetadata(episode).container?.title,'Format');assert.equal(productionMetadata(episode).production?.id,'5');
+ const source=sourceCard('contents',episode)!;
+ assert.ok(source.image);assert.equal(source.production?.id,'5');
+ const local=inheritCard(source,{label:'Locale',href:'/locale',image:'/override.webp',mobileImage:'/mobile.webp'},{sourceMode:'linked',overrideContent:true,overrideImage:true});
+ assert.equal(local.image,'/override.webp');assert.equal(local.mobileImage,'/mobile.webp');assert.equal(local.label,'Locale');assert.equal(local.production?.id,'5');
+ const custom=await p.create({collection:'production-containers',data:{title:'Nuovo contenitore di prova',slug:'nuovo-test',url:'/nuovo'}});
+ const created=await p.create({collection:'contents',data:{kind:'format',title:'Produzione test',slug:'test-produzione',url:'/test-produzione',container:custom.id,cover:production.cover&&typeof production.cover==='object'?production.cover.id:production.cover}});
+ assert.equal(created.recordType,'production');
+ const createdEpisode=await p.create({collection:'contents',data:{kind:'episodio',title:'Episodio test',slug:'test-episodio',url:'/test-episodio',parent:created.id,container:group.id}});
+ assert.equal(createdEpisode.recordType,'episode');assert.equal(typeof createdEpisode.container==='object'?createdEpisode.container?.id:createdEpisode.container,custom.id);
+ await p.update({collection:'contents',id:created.id,data:{container:group.id}});
+ const moved=await p.findByID({collection:'contents',id:createdEpisode.id,depth:0});assert.equal(moved.container,group.id);
+ await assert.rejects(p.update({collection:'contents',id:createdEpisode.id,data:{parent:createdEpisode.id}}));
+ await assert.rejects(p.delete({collection:'production-containers',id:group.id}));
+ await p.update({collection:'contents',id:createdEpisode.id,data:{parent:null,container:custom.id}});
+ const direct=await p.findByID({collection:'contents',id:createdEpisode.id,depth:1});assert.equal(productionMetadata(direct).production,undefined);assert.equal(productionMetadata(direct).container?.id,String(custom.id));
+ assert.equal(sourceCard('production-containers',{...custom,cover:{url:'/landscape.webp'},coverMobile:{url:'/portrait.webp'}})?.mobileImage,'/portrait.webp');
+ console.log('OK: join contenitori/produzioni/episodi, nuovo contenitore, creazione nidificata, appartenenza automatica e sincronizzata, no cicli, no eliminazioni con figli, sorgenti e override preservati.');
+}finally{await p.destroy();}
