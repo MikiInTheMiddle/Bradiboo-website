@@ -6,7 +6,7 @@ export function FloatingHeader({children,immersive=false}:{children:ReactNode;im
  const header=useRef<HTMLElement>(null);
  function rotateButton(event:PointerEvent<HTMLElement>){
   if(event.pointerType!=='mouse'||!(event.target instanceof Element))return;
-  const button=event.target.closest<HTMLElement>('a:not(.wf-logo),button');
+  const button=event.target.closest<HTMLElement>('a,button');
   if(!button||!event.currentTarget.contains(button)||event.relatedTarget instanceof Node&&button.contains(event.relatedTarget))return;
   button.style.setProperty('--menu-hover-angle',`${((.25+Math.random()*1.75)*(Math.random()<.5?-1:1)).toFixed(2)}deg`);
  }

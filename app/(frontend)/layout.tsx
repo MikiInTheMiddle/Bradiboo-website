@@ -1,3 +1,5 @@
+import {Suspense} from 'react';
+import {NavigationProgress} from '@/components/navigation-progress';
 import {CookieConsent} from '@/components/cookie-consent';
 import type { Metadata } from 'next';
 import './globals.css';
@@ -16,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it">
-      <body><CookieConsent>{children}</CookieConsent></body>
+      <body><Suspense fallback={null}><NavigationProgress/></Suspense><CookieConsent>{children}</CookieConsent></body>
     </html>
   );
 }
