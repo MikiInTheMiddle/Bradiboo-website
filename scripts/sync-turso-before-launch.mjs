@@ -2,12 +2,13 @@
 import {createClient} from '@libsql/client';
 process.loadEnvFile('/private/tmp/bradiboo-production.env');
 const local=createClient({url:'file:./bradiboo.db'});
-const baseline=createClient({url:'file:./work/backups/deploy-20261023-122434/bradiboo.db'});
+const baseline=createClient({url:process.env.BASELINE_DATABASE_URL||'file:./work/backups/deploy-20261023-122434/bradiboo.db'});
 const remote=createClient({url:process.env.TURSO_DATABASE_URL,authToken:process.env.TURSO_AUTH_TOKEN});
 const quote=s=>'"'+s.replaceAll('"','""')+'"';
 const changes=[];
 try{
- const tables=(await local.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")).rows.map(r=>r.name);
+ const ephemeral=new Set(['users_sessions','payload_preferences','payload_preferences_rels']);
+ const tables=(await local.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")).rows.map(r=>r.name).filter(t=>!ephemeral.has(t));
  for(let start=0;start<tables.length;start+=10){
   const group=tables.slice(start,start+10);
   const statements=group.map(t=>`SELECT * FROM ${quote(t)} ORDER BY rowid`);
@@ -20,6 +21,12 @@ try{
    if(editorialRows(b[j])!==editorialRows(original[j]))throw Error('Remote data changed since import; refusing sync: '+table);
    const rows=r=>r.rows.map(row=>cols.map(c=>row[c]));
    if(JSON.stringify(rows(a[j]))===JSON.stringify(rows(b[j])))continue;
+   // Payload regenerates relation row IDs on save. Keep existing remote IDs when
+   // every logical relationship is identical; no deletion or content change.
+   if(table.endsWith('_rels')){
+    const logical=result=>JSON.stringify(result.rows.map(row=>JSON.stringify(cols.filter(c=>c!=='id').map(c=>row[c]))).sort());
+    if(logical(a[j])===logical(b[j])){console.log('Preserved equivalent relationship IDs: '+table);continue;}
+   }
    const info=await local.execute(`PRAGMA table_info(${quote(table)})`);
    const keys=info.rows.filter(c=>Number(c.pk)>0).sort((x,y)=>x.pk-y.pk).map(c=>c.name);
    if(!keys.length)throw Error('Missing primary key: '+table);
