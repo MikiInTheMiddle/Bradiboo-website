@@ -1,7 +1,8 @@
 import {hasBlockContent} from '@/lib/block-content-visibility';
 import {FloatingHeader} from './floating-header';
 import {FooterLinks,FooterNote} from './site-footer-links';
-import {WatchNavigation} from './watch-navigation';
+import {WatchNavigation,getNavigationGroups} from './watch-navigation';
+import {MobileNavigation} from './mobile-navigation';
 import {WatchNavigationMenu} from './watch-navigation-menu';
 import {ConsentVideo} from '@/components/cookie-consent';
 import {CardVideo} from './card-video';
@@ -27,7 +28,7 @@ import { getSiteNavigation } from '@/lib/cms';
 import type { WireBlock, WirePage } from '@/lib/wireframe';
 
 export async function WireShell({children,currentPath='/',immersiveHome=false,footerOverride}:{children:React.ReactNode;currentPath?:string;immersiveHome?:boolean;footerOverride?:FooterOverride}){
- const navigation=await getSiteNavigation();
+ const [navigation,menuGroups]=await Promise.all([getSiteNavigation(),getNavigationGroups()]);
  const footer=resolveFooterOverride(navigation.footerDecoration,footerOverride);
  const decorationStyle=footerDecorationStyle(footer.decoration);
  const active=(href:string)=>href==='/'?currentPath==='/':href==='/studio'?currentPath==='/studio':currentPath===href||currentPath.startsWith(href+'/');
@@ -41,7 +42,9 @@ export async function WireShell({children,currentPath='/',immersiveHome=false,fo
  const studioMenu=currentPath==='/studio'||currentPath.startsWith('/studio/');
  const studioEntries=(navigation.studioItems||[]).filter(item=>item.href!==navigation.studioHref).map((item,index)=>({id:index,title:item.label,url:item.href,productions:[]}));
  const studioControl=studioMenu&&studioLink&&studioEntries.length?<WatchNavigationMenu currentPath={currentPath} label={navigation.studioNavTitle||'Navigazione Studio'} className="navigation-studio" alwaysOpen containers={studioEntries}>{studioLink}</WatchNavigationMenu>:studioLink;
- return <UXPreview key={currentPath} style={decorationStyle} className={`site-ui${currentPath.startsWith('/legal/')?' legal-ui':''}${currentPath==='/'?' home-ui':''}${immersiveHome?' home-immersive':''}`} enabled={process.env.WIREFRAME_PREVIEW === 'true'}><FloatingHeader immersive={immersiveHome}><div className="wf-header-main"><Link href="/" className="wf-logo">{<img src="/bradiboo-logo.svg" width={173} height={35} alt={navigation.brand||'Bradiboo'}/>}</Link><nav aria-label="Navigazione principale">{links(primaryItems,true)}</nav><div className="wf-header-utilities">{shopItems.map(item=><Link key={item.href} className="wf-studio" href={item.href} aria-current={active(item.href)?'page':undefined}><CookieLabel className="navigation-cookie">{item.label}</CookieLabel></Link>)}{studioControl}</div></div></FloatingHeader>{children}<footer className={`wf-footer${decorationStyle?' wf-footer-decorated':''}`} data-footer-layout={footer.decoration?.layout||'band'} data-footer-decoration={footer.decoration?.position||'inside'} style={{...decorationStyle,...(footer.color?{background:resolveColor(footer.color)}:{})}}><FooterDecoration decoration={footer.decoration}/><strong>{navigation.footerTitle}</strong><FooterLinks/>{navigation.footerNote&&<FooterNote text={navigation.footerNote}/>}</footer></UXPreview>;
+ const mobileSections=primaryItems.filter(item=>['/braditriboo','/guarda'].includes(item.href)).map(item=>({...item,entries:item.href==='/braditriboo'?menuGroups.characters:menuGroups.watch}));
+ if(navigation.studioHref)mobileSections.push({label:navigation.studioLabel||'Studio',href:navigation.studioHref,entries:studioEntries});
+ return <UXPreview key={currentPath} style={decorationStyle} className={`site-ui${currentPath.startsWith('/legal/')?' legal-ui':''}${currentPath==='/'?' home-ui':''}${immersiveHome?' home-immersive':''}`} enabled={process.env.WIREFRAME_PREVIEW === 'true'}><FloatingHeader immersive={immersiveHome}><div className="wf-header-main"><Link href="/" className="wf-logo">{<img src="/bradiboo-logo.svg" width={173} height={35} alt={navigation.brand||'Bradiboo'}/>}</Link><nav aria-label="Navigazione principale">{links(primaryItems,true)}</nav><div className="wf-header-utilities">{shopItems.map(item=><Link key={item.href} className="wf-studio" href={item.href} aria-current={active(item.href)?'page':undefined}><CookieLabel className="navigation-cookie">{item.label}</CookieLabel></Link>)}{studioControl}</div><MobileNavigation currentPath={currentPath} sections={mobileSections} utilities={[...shopItems,...primaryItems.filter(item=>!['/braditriboo','/guarda'].includes(item.href))]}/></div></FloatingHeader>{children}<footer className={`wf-footer${decorationStyle?' wf-footer-decorated':''}`} data-footer-layout={footer.decoration?.layout||'band'} data-footer-decoration={footer.decoration?.position||'inside'} style={{...decorationStyle,...(footer.color?{background:resolveColor(footer.color)}:{})}}><FooterDecoration decoration={footer.decoration}/><strong>{navigation.footerTitle}</strong><FooterLinks/>{navigation.footerNote&&<FooterNote text={navigation.footerNote}/>}</footer></UXPreview>;
 }
 
 function Cards({block,home=false}:{block:WireBlock;home?:boolean}) {

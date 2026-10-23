@@ -580,3 +580,33 @@
 .site-ui [data-product-section="specs"] .wf-facts dd { margin:0; text-align:right; }
 .site-ui [data-product-section="skills"] meter::-webkit-meter-optimum-value { background:var(--home-purple); }
 .site-ui [data-product-section="skills"] meter::-moz-meter-bar { background:var(--home-purple); }
+
+/* Mobile navigation: one modal, with one hierarchy level visible at a time. */
+.site-ui .mobile-menu-trigger { display:none; }
+.mobile-menu-dialog { display:none; }
+@media(max-width:800px) {
+ .site-ui .wf-header-main { grid-template-columns:minmax(0,1fr) auto; }
+ .site-ui .wf-header-main > nav,.site-ui .wf-header-utilities { display:none; }
+ .site-ui .wf-header-main > .wf-logo { justify-self:start; }
+ .site-ui .mobile-menu-trigger { display:grid; place-items:center; width:44px; height:44px; padding:0; border:0; border-radius:50%; background:var(--menu-selected); color:var(--menu-selected-ink); cursor:pointer; }
+ .mobile-menu-dialog[open] { display:block; position:fixed; inset:0; width:calc(100% - 24px); max-width:560px; height:calc(100dvh - 24px); max-height:calc(100dvh - 24px); margin:auto; padding:0; border:0; border-radius:32px; background:#fff; color:#243162; overflow:auto; overscroll-behavior:contain; box-shadow:0 12px 60px #15153433; }
+ .mobile-menu-dialog::backdrop { background:rgb(25 20 55 / 45%); backdrop-filter:blur(6px); }
+ body:has(.mobile-menu-dialog[open]) { overflow:hidden; }
+ .mobile-menu-panel { padding:24px 22px max(24px,env(safe-area-inset-bottom)); }
+ .mobile-menu-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px; }
+ .mobile-menu-heading h2 { font-size:clamp(24px,6vw,34px); margin:0; }
+ .mobile-menu-close { flex:none; border:0; background:#f0ebff; color:#7135ed; border-radius:50%; width:44px; height:44px; font-size:30px; cursor:pointer; }
+ .mobile-menu-options { display:grid; gap:18px; margin:22px 0; }
+ .mobile-menu-options :is(a,button) { display:flex; justify-content:center; align-items:center; gap:10px; width:100%; min-height:54px; border:0; padding:0; background:transparent; color:#7135ed; text-decoration:none; font:inherit; cursor:pointer; }
+ .mobile-menu-options .bradi-cookie { width:100%; font-size:19px; }
+ .mobile-menu-primary .bradi-cookie { font-size:clamp(23px,6vw,30px); }
+ .mobile-menu-options .bradi-cookie-face { width:100%; box-sizing:border-box; justify-content:center; padding:16px 18px; white-space:normal; text-align:center; }
+ .mobile-menu-options :is(a,button) > span[aria-hidden] { position:absolute; right:36px; }
+ .mobile-menu-options :is(a,button):has(> span[aria-hidden]) { position:relative; padding-right:0; }
+ .mobile-menu-options :is(a,button):has(> span[aria-hidden]) .bradi-cookie-face { padding-inline:28px; }
+ .mobile-menu-secondary { margin-top:36px; }
+ .mobile-menu-back,.mobile-menu-destination { display:block; min-height:44px; padding:10px 0; border:0; background:transparent; color:#7135ed; font:inherit; text-decoration:none; cursor:pointer; }
+ .mobile-menu-destination { font-weight:700; }
+ .mobile-menu-dialog :focus-visible { outline:3px solid #f8c023; outline-offset:5px; }
+ .site-ui .mobile-menu-dialog .bradi-cookie { transform:none!important; }
+}
