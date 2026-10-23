@@ -1,4 +1,6 @@
 import {branchRead,invalidateBranchPublication} from './lib/branch-publication';
+import {publishedMediaRead} from './lib/published-media';
+import {privateMediaStorage} from './lib/private-blob';
 import {productionPageURL,ensureHierarchyPage} from './lib/production-pages';
 import {galleryPhotosField,momentsField,galleryFields} from './lib/gallery-fields';
 import {footerOverrideField} from './lib/footer-override';
@@ -63,15 +65,19 @@ for (const block of blocks) {
   } };
 }
 export default buildConfig({
+  plugins: [privateMediaStorage],
   secret: process.env.PAYLOAD_SECRET || '',
   admin: { user: 'users', components:{afterNavLinks:['/components/admin/ZapShortcut#ZapShortcut']}, meta: { titleSuffix: '— Bradiboo Content Studio' } },
   i18n: { supportedLanguages: { it }, fallbackLanguage: 'it' },
   editor: lexicalEditor(), sharp,
-  db: sqliteAdapter({ push: process.env.PAYLOAD_SCHEMA_PUSH !== 'false', client: { url: process.env.DATABASE_URL || 'file:./bradiboo.db' } }),
+  db: sqliteAdapter({ push: process.env.PAYLOAD_SCHEMA_PUSH !== 'false', client: {
+    url: process.env.DATABASE_URL || process.env.TURSO_DATABASE_URL || 'file:./bradiboo.db',
+    authToken: process.env.DATABASE_AUTH_TOKEN || process.env.TURSO_AUTH_TOKEN,
+  } }),
   typescript: { outputFile: path.resolve('payload-types.ts') },
   collections: groupCollections(organizeCollections([watchTerms,
     { slug: 'users', labels: { singular: 'Utente', plural: 'Utenti' }, auth: true, access: { ...editable, read: authenticated }, fields: [{ name: 'name', label: 'Nome', type: 'text' }] },
-    { slug: 'media', hooks:{beforeChange:[mediaEdgeColor]}, labels: { singular: 'Media', plural: 'Media' }, access: { ...editable, read: () => true }, upload: { staticDir: path.resolve('media') }, fields: [{name:'bottomEdgeColor',label:'Colore bordo inferiore (automatico)',type:'text',admin:{readOnly:true,description:'Rilevato dall’immagine per il raccordo con il fondo pagina.'}}, {name:'hasHeroGradientEndColor',label:'Associa un colore finale al gradiente della Hero',type:'checkbox',admin:{description:'Quando questa immagine è usata come Hero, la pagina può ereditare questo colore finale. Il fondo Uniforme continua a usare solo il colore del bordo inferiore.'}}, {...solidEdgeField('heroGradientEndColor','Colore finale del gradiente'),admin:{...solidEdgeField('heroGradientEndColor','Colore finale del gradiente').admin,condition:(_,s)=>Boolean(s.hasHeroGradientEndColor)}}, { name: 'alt', label: 'Testo alternativo', type: 'text', required: true }] },
+    { slug: 'media', hooks:{beforeChange:[mediaEdgeColor]}, labels: { singular: 'Media', plural: 'Media' }, access: { ...editable, read: publishedMediaRead }, upload: { staticDir: path.resolve('media') }, fields: [{name:'bottomEdgeColor',label:'Colore bordo inferiore (automatico)',type:'text',admin:{readOnly:true,description:'Rilevato dall’immagine per il raccordo con il fondo pagina.'}}, {name:'hasHeroGradientEndColor',label:'Associa un colore finale al gradiente della Hero',type:'checkbox',admin:{description:'Quando questa immagine è usata come Hero, la pagina può ereditare questo colore finale. Il fondo Uniforme continua a usare solo il colore del bordo inferiore.'}}, {...solidEdgeField('heroGradientEndColor','Colore finale del gradiente'),admin:{...solidEdgeField('heroGradientEndColor','Colore finale del gradiente').admin,condition:(_,s)=>Boolean(s.hasHeroGradientEndColor)}}, { name: 'alt', label: 'Testo alternativo', type: 'text', required: true }] },
     { slug: 'characters', labels: { singular: 'Personaggio', plural: 'Personaggi' }, admin: { useAsTitle: 'name' }, access: { ...editable, read: () => true }, fields: [
       { name: 'name', label: 'Nome', type: 'text', required: true }, { name: 'slug', type: 'text', required: true, unique: true },
       ...characterFields,
@@ -118,5 +124,5 @@ export default buildConfig({
     ] },
   ])),
   globals: groupGlobals(organizeGlobals([watchGlobal, {slug:'navigation',label:'Menu, footer e navigazione Studio',access:{read:()=>true,update:authenticated},fields:siteNavigationFields}])),
-  onInit: seedWireframe,
+  onInit: process.env.NODE_ENV === 'production' ? undefined : seedWireframe,
 });

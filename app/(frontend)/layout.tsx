@@ -4,9 +4,9 @@ import './globals.css';
 import './home.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
-  title: 'Bradiboo — Structure Wireframe',
-  description: 'Prototipo navigabile della struttura del nuovo sito Bradiboo.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000')),
+  title: 'Bradiboo',
+  description: 'Il mondo di Bradiboo: personaggi, storie e video.',
 };
 
 export default function RootLayout({

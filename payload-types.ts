@@ -13766,6 +13766,8 @@ export interface Media {
   hasHeroGradientEndColor?: boolean | null;
   heroGradientEndColor?: string | null;
   alt: string;
+  prefix?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -21982,6 +21984,8 @@ export interface MediaSelect<T extends boolean = true> {
   hasHeroGradientEndColor?: T;
   heroGradientEndColor?: T;
   alt?: T;
+  prefix?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
