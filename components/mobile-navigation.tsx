@@ -24,7 +24,7 @@ export function MobileNavigation({currentPath,sections,utilities,brand='Bradiboo
   if(bar)setGeometry({'--mobile-left':`${bar.left}px`,'--mobile-top':`${bar.top}px`,'--mobile-width':`${bar.width}px`,'--mobile-bar-height':`${bar.height}px`} as CSSProperties);
   const current=sections.find(s=>active(s.href));
   setSection(current);setProduction(current?.entries.find(entry=>entry.productions.some(item=>active(item.url))));
-  pendingHref.current=null;setPhase('idle');setClosing(false);dialog.current?.showModal();setOpen(true);
+  pendingHref.current=null;setPhase('idle');setClosing(false);dialog.current?.showModal();dialog.current?.querySelector<HTMLButtonElement>('.mobile-menu-close')?.focus({preventScroll:true});setOpen(true);
  };
  const level=(next?:Section,child?:MobileMenuEntry,back=false)=>{
   if(phase==='out')return;

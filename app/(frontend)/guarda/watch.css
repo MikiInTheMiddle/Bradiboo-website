@@ -294,3 +294,18 @@
  .site-ui .watch-search-dialog .watch-search-filter-groups summary { padding:11px 12px; font-size:11px; }
  .site-ui .watch-search-dialog .watch-filter-options label { font-size:13px; }
 }
+
+.watch-details-toggle { display:none; }
+@media(max-width:700px) {
+ .watch-unified .watch-youtube { display:none; }
+ .watch-unified:has([data-zap-mode="quick"]) .watch-now { padding-top:20px; }
+ .watch-details-toggle { display:flex; justify-content:space-between; align-items:center; width:calc(100% - 36px); margin:0 18px 18px; padding:12px 16px; border:0; border-radius:22px; background:#f0e8ff; color:#7135ed; font:600 14px/1.4 var(--home-caption); text-align:left; cursor:pointer; }
+ .watch-episode-sheet[data-expanded="false"] { display:none; }
+ .site-ui .watch-unified .watch-zap[data-zap-mode] { position:fixed; inset:auto auto calc(env(safe-area-inset-bottom,0px) + 22px) 50%; width:180px; height:auto; margin:0; padding:0; display:flex; flex-direction:row; justify-content:center; align-items:flex-end; gap:14px; overflow:visible; background:transparent; box-shadow:none; border-radius:0; transform:translateX(-50%); transition:transform .3s ease,opacity .3s ease; z-index:20; }
+ .site-ui .watch-unified .watch-zap[data-player-visible="false"] { transform:translate(-50%,calc(100% + 100px)); opacity:0; pointer-events:none; }
+ .site-ui .watch-unified .watch-zap[data-zap-mode] .watch-zap-toggle { width:80px; height:80px; min-height:80px; padding:6px; margin-bottom:14px; background:#fff; border-radius:50%; box-shadow:var(--bradi-offset-shadow); }
+ .site-ui .watch-unified .watch-zap[data-zap-mode] #watch-zap-controls:not([hidden]) { width:auto; flex:none; min-height:54px; overflow:visible; }
+ .site-ui .watch-unified .watch-zap[data-zap-mode] #watch-zap-controls .watch-zap-search { width:54px; height:54px; min-height:54px; max-height:54px; flex:none; padding:13px; background:#fff; box-shadow:var(--bradi-offset-shadow); }
+ .site-ui .watch-stage[data-zap-open="true"] .watch-zap[data-zap-mode="full"] #watch-zap-controls { position:absolute; bottom:112px; padding:12px; border-radius:28px; background:#fff; max-height:55dvh; overflow:auto; }
+}
+@media(prefers-reduced-motion:reduce) { .site-ui .watch-unified .watch-zap[data-zap-mode] { transition:none; } }

@@ -654,3 +654,28 @@
  .site-ui .wf-logo:is(:hover,[data-press-feedback],[data-navigation-pending]),.wf-items > :is(a,article):is([data-press-feedback],[data-navigation-pending]),.watch-card:is([data-press-feedback],[data-navigation-pending]),.gallery-card:is([data-press-feedback],[data-navigation-pending]) { transform:none; }
  .site-ui .mobile-menu-dialog .mobile-menu-options :is(a,button):is([data-press-feedback],[data-navigation-pending]) :is(.bradi-cookie,.mobile-menu-text),.site-ui .mobile-menu-trigger[data-press-feedback] { transform:none!important; }
 }
+
+/* Open mobile navigation uses the inverse palette of the closed header. */
+@media(max-width:800px) {
+ .site-ui .mobile-menu-dialog[open] { --menu-surface:#7135ed; --menu-ink:#fff; --menu-selected:#fff; --menu-selected-ink:#7135ed; background:#7135ed; color:#fff; }
+ .site-ui .mobile-menu-dialog .mobile-menu-bar { background:transparent; }
+ .site-ui .mobile-menu-dialog .wf-logo img { filter:brightness(0) invert(1); }
+ .site-ui .mobile-menu-dialog .wf-logo:not(:focus-visible) { outline:none; box-shadow:none; }
+ .site-ui .mobile-menu-dialog .mobile-menu-options :is(a,button),.site-ui .mobile-menu-dialog .mobile-menu-back { color:#fff; }
+ .site-ui .mobile-menu-dialog .mobile-menu-close { background:#fff; color:#7135ed; }
+ .site-ui .mobile-menu-dialog .mobile-menu-options .bradi-cookie-face { background:#fff!important; color:#7135ed!important; }
+ .site-ui .mobile-menu-dialog .mobile-menu-options :is(a,button):is([data-press-feedback],[data-navigation-pending]) .mobile-menu-text { background:#fff; color:#7135ed; }
+}
+@media(max-width:600px) {
+ /* Match the Highlights gutter instead of accumulating nested card gutters. */
+ .site-ui .wf-block-content:has(.wf-items) { padding-inline:0; }
+ .site-ui .wf-block-content .wf-carousel,.site-ui .wf-block-content .wf-rail-scroll { width:100%; min-width:0; }
+ .site-ui .wf-block:not(.wf-character-grid) .wf-carousel-items > :is(a,article),
+ .site-ui .wf-rail:not(.wf-character-grid):not([data-card-layout="compact"]) .wf-items:not(.wf-carousel-items) > :is(a,article) { flex-basis:100%; width:100%; max-width:100%; }
+ .site-ui .wf-character-grid .wf-items > :is(a,article) { padding:8px 2px 12px; }
+ .site-ui .wf-block .wf-items:has(> [data-profile-field]) { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding:0; margin:0; width:100%; }
+ .site-ui .wf-block .wf-items:has(> [data-profile-field]) > :is(a,article) { width:auto; max-width:none; min-width:0; padding:18px 14px; margin:0; align-self:stretch; border-radius:22px; }
+ .site-ui .wf-block .wf-items:has(> [data-profile-field]) strong { font-size:18px; }
+ .site-ui .wf-block .wf-items:has(> [data-profile-field]) p { font-size:14px; line-height:1.5; }
+ .site-ui .wf-block .wf-items > [data-profile-field="music"] { grid-column:1/-1; order:1; }
+}
