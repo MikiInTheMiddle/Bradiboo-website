@@ -134,7 +134,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
   if(type==='characterFriends'&&pageCharacter){
    const selected=pageCharacter.friends?.filter((c):c is Character=>typeof c==='object')||[];
    const others=selected.length?selected:(await payload.find({req,collection:'characters',where:{id:{not_equals:pageCharacter.id}},limit:100,depth:1,overrideAccess:false})).docs;
-   items=others.filter(c=>c.id!==pageCharacter.id).map(c=>({audioTracks:sourceAudioTracks(c),cardAudio:sourceAudio(c),section:c.editorialSection||'Braditriboo',identityAppearance:characterIdentityAppearance(c.cardIdentity),label:c.name,href:`/braditriboo/${c.slug}`,image:mediaURL(c.portrait),mobileImage:mediaURL(c.portraitMobile)}));type='rail';
+   items=others.filter(c=>c.id!==pageCharacter.id).map(c=>({hoverImage:mediaURL(c.cardIdentity?.hoverImage),audioTracks:sourceAudioTracks(c),cardAudio:sourceAudio(c),section:c.editorialSection||'Braditriboo',identityAppearance:characterIdentityAppearance(c.cardIdentity),label:c.name,href:`/braditriboo/${c.slug}`,image:mediaURL(c.portrait),mobileImage:mediaURL(c.portraitMobile)}));type='rail';
   }
   if(block.backgroundMode==='page')visual.backgroundColor='transparent';
   if(type==='hero')Object.assign(visual,{heroImageMode:block.backgroundMode==='image',ownBackground:block.backgroundMode==='own'||block.backgroundMode==='image',backgroundImage:mediaURL(block.backgroundImage),opacity:(block.backgroundOpacity??100)/100,blur:block.backgroundBlur||0,...(block.backgroundMode==='image'?{backgroundColor:'#223668'}:{}),cta:block.ctaLabel&&safeLink(block.ctaURL)?{label:block.ctaLabel,href:safeLink(block.ctaURL)!}:undefined});
@@ -146,6 +146,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
    const chosen=chooseHeroImage((block.heroImages||[]).map(c=>({image:mediaURL(c.image),mobileImage:mediaURL(c.mobileImage),focalX:c.focalX??50,focalY:c.focalY??50,color:c.customEdgeColor?edgeColor(c.edgeColor):mediaEdge(c.image),mobileColor:c.customEdgeColor?edgeColor(c.edgeColor):mediaEdge(c.mobileImage)||mediaEdge(c.image),endColor:mediaEnd(c.image),mobileEndColor:mediaEnd(c.image)})));
    if(chosen){Object.assign(visual,{backgroundImage:chosen.image,mobileImage:chosen.mobileImage,focalX:chosen.focalX,focalY:chosen.focalY});heroColor=chosen.color;heroMobileColor=chosen.mobileColor;heroEnd=chosen.endColor;heroMobileEnd=chosen.mobileEndColor;}
   }
+  if(type==='hero')Object.assign(visual,{heroLoadingColor:heroColor,heroMobileLoadingColor:heroMobileColor});
   if(!heroBackground&&type==='hero'&&block.backgroundMode==='image')heroBackground={color:heroColor,mobileColor:heroMobileColor,endColor:heroEnd,mobileEndColor:heroMobileEnd};
   if(type==='featured') {
    visual.skipReveal=true;
@@ -159,7 +160,7 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
   }
   if(type==='collection') {
    if(block.mode==='catalog')items=(block.entries||[]).flatMap(e=>typeof e.content==='object'&&e.content._status==='published'?[{...contentCard(e.content),cardAudio:resolveCardAudio(sourceAudio(e.content,(e as any).audioSettings?.track||'card'),(e as any).audioSettings),...cardContent(e),...slideSettings(e),appearance:e.appearance}]:[]);
-   else if(block.mode==='characters')items=(block.cast||[]).flatMap(e=>typeof e.character==='object'?[{audioTracks:sourceAudioTracks(e.character),section:e.character.editorialSection||'Braditriboo',identityAppearance:characterIdentityAppearance(e.character.cardIdentity),mobileImage:mediaURL(e.character.portraitMobile),...slideSettings(e),appearance:e.appearance,label:e.character.name,href:`/braditriboo/${e.character.slug}`,image:mediaURL(e.character.portrait),cardAudio:resolveCardAudio(sourceAudio(e.character,(e as any).audioSettings?.track||'card'),(e as any).audioSettings),...cardContent(e)}]:[]);
+   else if(block.mode==='characters')items=(block.cast||[]).flatMap(e=>typeof e.character==='object'?[{hoverImage:mediaURL(e.character.cardIdentity?.hoverImage),audioTracks:sourceAudioTracks(e.character),section:e.character.editorialSection||'Braditriboo',identityAppearance:characterIdentityAppearance(e.character.cardIdentity),mobileImage:mediaURL(e.character.portraitMobile),...slideSettings(e),appearance:e.appearance,label:e.character.name,href:`/braditriboo/${e.character.slug}`,image:mediaURL(e.character.portrait),cardAudio:resolveCardAudio(sourceAudio(e.character,(e as any).audioSettings?.track||'card'),(e as any).audioSettings),...cardContent(e)}]:[]);
    else items=await Promise.all((block.cards||[]).map(resolveManual));
    type='grid';
   }

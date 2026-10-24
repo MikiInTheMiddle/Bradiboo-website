@@ -1,3 +1,4 @@
+import {visualMediaURL} from './visual-media';
 import {sourceVideo} from './card-function';
 import {selectedAudio,sourceAudioTracks} from './card-audio';
 import {sourceAudio,resolveCardAudio} from './card-audio';
@@ -15,11 +16,11 @@ export const cardSourceFields=():Field[]=>[
  {name:'overrideImage',label:'Sostituisci l’immagine ereditata',type:'checkbox',admin:{condition:(_,s)=>s.sourceMode==='profile'||s.sourceMode==='linked'||Boolean(s.source)&&s.sourceMode!=='manual'&&s.sourceMode!=='profile'}},
 ];
 export function linkedCard(s:any){return s.sourceMode==='profile'||s.sourceMode==='linked'||s.sourceMode!=='manual'&&Boolean(s.source||s.sourceContent);}
-const image=(value:any)=>value&&typeof value==='object'&&(!value.mimeType||value.mimeType.startsWith('image/'))?value.url||undefined:undefined;
+const image=visualMediaURL;
 export function sourceCard(relation:string,doc:any):WireLink|undefined {
  if(!doc||!['characters','production-containers','media'].includes(relation)&&doc._status!=='published')return;
  if(relation==='media')return {label:doc.alt||doc.filename||'Immagine',image:image(doc),alt:doc.alt||undefined,href:''};
- if(relation==='characters')return {audioTracks:sourceAudioTracks(doc),...sourceVideo(doc),cardAudio:sourceAudio(doc),section:doc.editorialSection||'Braditriboo',identityAppearance:characterIdentityAppearance(doc.cardIdentity),label:doc.name,description:doc.description||undefined,image:image(doc.portrait),mobileImage:image(doc.portraitMobile),href:`/braditriboo/${doc.slug}`};
+ if(relation==='characters')return {hoverImage:image(doc.cardIdentity?.hoverImage),audioTracks:sourceAudioTracks(doc),...sourceVideo(doc),cardAudio:sourceAudio(doc),section:doc.editorialSection||'Braditriboo',identityAppearance:characterIdentityAppearance(doc.cardIdentity),label:doc.name,description:doc.description||undefined,image:image(doc.portrait),mobileImage:image(doc.portraitMobile),href:`/braditriboo/${doc.slug}`};
  if(relation==='production-containers')return {audioTracks:sourceAudioTracks(doc),...sourceVideo(doc),cardAudio:sourceAudio(doc),section:doc.editorialSection||undefined,container:{id:String(doc.id),title:doc.title},label:doc.title,description:doc.description||undefined,image:image(doc.cover),mobileImage:image(doc.coverMobile),href:safeLink(doc.url)||''};
  if(relation==='contents')return {audioTracks:sourceAudioTracks(doc),...sourceVideo(doc),cardAudio:sourceAudio(doc),...productionMetadata(doc),label:doc.title,description:doc.description||undefined,image:image(doc.cover),mobileImage:image(doc.coverMobile),href:doc.kind==='episodio'?`/guarda?contenuto=${encodeURIComponent(doc.slug)}#watch-player`:safeLink(doc.url)||'',badge:doc.highlightBadge||undefined,badgeBackgroundColor:doc.highlightBadgeBackgroundColor||undefined,badgeTextColor:doc.highlightBadgeTextColor||undefined};
  const blocks=(doc.blocks||[]).filter((b:any)=>!b.draft);
@@ -32,7 +33,7 @@ export function sourceCard(relation:string,doc:any):WireLink|undefined {
  const coverBlock=candidates.find(Boolean);
  const cover=coverBlock?.image||image(doc.pageBackgroundImage)||image(doc.character?.portrait);
  const mobile=coverBlock?.mobileImage||(!coverBlock&&!image(doc.pageBackgroundImage)?image(doc.character?.portraitMobile):undefined);
- return {identityAppearance:doc.path?.startsWith('/braditriboo/')?characterIdentityAppearance(doc.character?.cardIdentity):undefined,label:hero?.title||doc.title,description:hero?.note||undefined,image:cover,mobileImage:mobile,focalX:coverBlock?.focalX??undefined,focalY:coverBlock?.focalY??undefined,href:safeLink(doc.path)||'',ctaLabel:hero?.ctaLabel||undefined};
+ return {hoverImage:image(doc.character?.cardIdentity?.hoverImage),identityAppearance:doc.path?.startsWith('/braditriboo/')?characterIdentityAppearance(doc.character?.cardIdentity):undefined,label:hero?.title||doc.title,description:hero?.note||undefined,image:cover,mobileImage:mobile,focalX:coverBlock?.focalX??undefined,focalY:coverBlock?.focalY??undefined,href:safeLink(doc.path)||'',ctaLabel:hero?.ctaLabel||undefined};
 }
 export function inheritCard(base:WireLink|undefined,local:WireLink,settings:any):WireLink {
  if(!base||!linkedCard(settings))return local;

@@ -1,3 +1,4 @@
+import {visualMediaURL} from './visual-media';
 import {sourceAudio,resolveCardAudio} from './card-audio';
 import {safeLink} from './presentation';
 import type {WireLink} from './wireframe';
@@ -6,7 +7,7 @@ export function resolveGalleryMoments(rows:any[],selectionMode?:string|null,sele
  const ids=Array.isArray(selected)?new Set(selected.map(String)):new Set<string>();
  return rows.flatMap((row:any,index:number)=>{
   const image=row.image&&typeof row.image==='object'?row.image:undefined;
-  if(!image?.url||image.mimeType&&!image.mimeType.startsWith('image/'))return [];
+  if(!visualMediaURL(image))return [];
   const id=String(row.id??index);
   if(selectionMode==='selected'&&!ids.has(id))return [];
   const mobile=row.mobileImage&&typeof row.mobileImage==='object'?row.mobileImage:undefined;
@@ -30,5 +31,5 @@ export function justifiedRows(items:GalleryItem[],width:number,gap:number){
  return rows.map(items=>({items,ratios:items.map(ratio),height:Math.max(1,Math.min(width<700?320:420,height(items)))}));
 }
 
-export function simpleGalleryRows(photos:any[]=[]){return photos.filter(m=>m&&typeof m==='object'&&m.url&&(!m.mimeType||m.mimeType.startsWith('image/'))).map(m=>({id:`photo-${m.id}`,image:m,alt:m.alt||''}));}
+export function simpleGalleryRows(photos:any[]=[]){return photos.filter(m=>Boolean(visualMediaURL(m))).map(m=>({id:`photo-${m.id}`,image:m,alt:m.alt||''}));}
 export function sourceGalleryRows(doc:any){return [...simpleGalleryRows(doc?.momentPhotos||[]),...(doc?.moments||[])];}

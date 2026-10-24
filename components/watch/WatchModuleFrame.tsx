@@ -1,3 +1,4 @@
+import {VisualMedia} from '../visual-media';
 import {ConsentVideo} from '@/components/cookie-consent';
 import type {CSSProperties,ReactNode} from 'react';
 import type {WireBlock} from '@/lib/wireframe';
@@ -10,7 +11,7 @@ export function WatchModuleFrame({block,children}:{block:WireBlock;children:Reac
   <div className="wf-interactive-background" aria-hidden="true" style={{backgroundColor:!image?block.backgroundColor:undefined,opacity:block.opacity??1,filter:block.blur?`blur(${block.blur}px)`:undefined}}>{image&&<picture>{block.mobileImage&&<source media="(max-width:700px)" srcSet={block.mobileImage}/>}<img src={image} alt="" style={{objectPosition:`${block.focalX??50}% ${block.focalY??50}%`}}/>{block.presentation==='wide'&&<span className="wf-interactive-veil"/>}</picture>}</div>
   {block.badge&&<CookieLabel className="wf-block-badge" backgroundColor={block.badgeBackgroundColor} textColor={block.badgeTextColor}>{block.badge}</CookieLabel>}
   <div className="wf-block-content wf-interactive-content"><div>{children}</div>
-  {block.media&&<div className="wf-module-media">{block.media.kind==='youtube'?<ConsentVideo title={block.title} src={block.media.url} loading="lazy" allowFullScreen/>:block.media.kind==='video'?<video src={block.media.url} controls playsInline preload="metadata"/>:<picture>{block.media.mobileImage&&<source media="(max-width:700px)" srcSet={block.media.mobileImage}/>}<img src={block.media.url} alt="" loading="lazy"/></picture>}</div>}
+  {block.media&&<div className="wf-module-media">{block.media.kind==='youtube'?<ConsentVideo title={block.title} src={block.media.url} loading="lazy" allowFullScreen/>:block.media.kind==='video'?<video src={block.media.url} controls playsInline preload="metadata"/>:<VisualMedia src={block.media.url} mobileImage={block.media.mobileImage} alt={block.title} loading="lazy"/>}</div>}
   {block.cta&&<Link className="wf-action" href={block.cta.href}>{block.cta.label} →</Link>}</div>
  </section>;
 }

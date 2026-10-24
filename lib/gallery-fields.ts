@@ -1,8 +1,9 @@
+import {visualMediaFilter} from './visual-media';
 import {cardAudioField} from './card-audio';
 import type {Field} from 'payload';
 export const momentFields=():Field[]=>[cardAudioField(),
- {name:'image',label:'Immagine',type:'upload',relationTo:'media',required:true,filterOptions:{mimeType:{contains:'image/'}}},
- {name:'mobileImage',label:'Alternativa mobile (facoltativa)',type:'upload',relationTo:'media',filterOptions:{mimeType:{contains:'image/'}}},
+ {name:'image',label:'Immagine',type:'upload',relationTo:'media',required:true,filterOptions:visualMediaFilter},
+ {name:'mobileImage',label:'Alternativa mobile (facoltativa)',type:'upload',relationTo:'media',filterOptions:visualMediaFilter},
  {name:'title',label:'Titolo (facoltativo)',type:'text'},
  {name:'caption',label:'Didascalia (facoltativa)',type:'textarea'},
  {name:'alt',label:'Testo alternativo locale (facoltativo)',type:'text',hooks:{beforeValidate:[({value})=>value||'']},admin:{description:'Vuoto: usa il testo alternativo già salvato nel Media.'}},
@@ -10,7 +11,7 @@ export const momentFields=():Field[]=>[cardAudioField(),
  {name:'content',label:'Episodio o produzione collegata (facoltativo)',type:'relationship',relationTo:'contents'},
  {name:'href',label:'Destinazione alternativa (facoltativa)',type:'text'},
 ];
-export const galleryPhotosField=(name='momentPhotos',local=false):Field=>({name,label:'Foto',type:'upload',relationTo:'media',hasMany:true,filterOptions:{mimeType:{contains:'image/'}},admin:{description:'Seleziona o carica più foto insieme. Testo alternativo e dimensioni provengono dai Media; non servono schede aggiuntive.',...(local?{condition:(_:any,s:any)=>s.gallerySourceMode==='manual'}:{})}});
+export const galleryPhotosField=(name='momentPhotos',local=false):Field=>({name,label:'Foto',type:'upload',relationTo:'media',hasMany:true,filterOptions:visualMediaFilter,admin:{description:'Seleziona o carica più foto insieme. Testo alternativo e dimensioni provengono dai Media; non servono schede aggiuntive.',...(local?{condition:(_:any,s:any)=>s.gallerySourceMode==='manual'}:{})}});
 export const momentsField=():Field=>({name:'moments',label:'Immagini con dettagli (facoltative)',type:'array',fields:momentFields(),admin:{description:'Archivio condiviso: le gallerie collegate usano questi elementi senza copiarli. L’ordine è trascinabile.'}});
 export const galleryFields=():Field[]=>[
  {name:'gallerySourceMode',label:'Immagini della galleria',type:'radio',options:[{label:'Dalla sorgente della pagina',value:'page'},{label:'Da una sorgente scelta',value:'linked'},{label:'Inserite qui',value:'manual'}],admin:{layout:'horizontal',description:'Vuoto: usa la sorgente associata alla pagina (o il suo personaggio).'}},

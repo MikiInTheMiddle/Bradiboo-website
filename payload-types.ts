@@ -213,7 +213,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -871,7 +871,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -1509,7 +1509,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -2147,7 +2147,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -2785,7 +2785,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -3423,7 +3423,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -4061,7 +4061,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -4701,7 +4701,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -5339,7 +5339,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -5977,7 +5977,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -6615,7 +6615,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -7266,7 +7266,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -7771,7 +7771,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -8150,7 +8150,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -8552,7 +8552,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -9399,7 +9399,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -10432,7 +10432,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -11078,7 +11078,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -11727,7 +11727,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -12182,7 +12182,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -12584,7 +12584,7 @@ export interface Page {
             mediaSource?: ('upload' | 'youtube') | null;
             youtubeURL?: string | null;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -13039,7 +13039,7 @@ export interface Page {
             youtubeURL?: string | null;
             media?: (number | null) | Media;
             /**
-             * Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.
+             * Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.
              */
             mediaMobileImage?: (number | null) | Media;
             contentLayout?: ('auto' | 'text-first' | 'media-first' | 'stacked') | null;
@@ -13753,6 +13753,10 @@ export interface Character {
    * Le card ereditano lo stesso aspetto della Home: fondo trasparente, nome e immagine del personaggio. Qui scegli i colori hover; lo stile comune del blocco e le singole card possono sovrascrivere le impostazioni.
    */
   cardIdentity?: {
+    /**
+     * Facoltativa. Le card del personaggio la ereditano; vuoto mantiene l’immagine normale.
+     */
+    hoverImage?: (number | null) | Media;
     enabled?: boolean | null;
     backgroundColor?: string | null;
     textColor?: string | null;
@@ -21879,6 +21883,7 @@ export interface CharactersSelect<T extends boolean = true> {
   cardIdentity?:
     | T
     | {
+        hoverImage?: T;
         enabled?: T;
         backgroundColor?: T;
         textColor?: T;

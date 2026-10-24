@@ -19,6 +19,7 @@
   "dependencies": {
     "@base-ui/react": "1.7.0",
     "@libsql/client": "0.14.0",
+    "@lottiefiles/dotlottie-web": "0.81.0",
     "@payloadcms/db-sqlite": "^3.90.2",
     "@payloadcms/next": "^3.90.2",
     "@payloadcms/plugin-cloud-storage": "3.90.2",

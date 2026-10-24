@@ -7,10 +7,11 @@ export function HomeReveal({ children }: { children: ReactNode }) {
  const root = useRef<HTMLDivElement>(null);
  useEffect(() => {
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (!root.current || motion.matches || !('IntersectionObserver' in window)) return;
+  const container=root.current?.parentElement;
+  if (!container || motion.matches || !('IntersectionObserver' in window)) return;
   const animations = new Map<Element, Animation>();
   const targets: HTMLElement[] = [];
-  root.current.querySelectorAll<HTMLElement>('.wf-block').forEach(block => {
+  container.querySelectorAll<HTMLElement>('.wf-block,.watch-rail').forEach(block => {
    if (block.dataset.reveal === 'off') return;
    if (block.querySelector('.wf-items')) {
     block.querySelectorAll<HTMLElement>('.wf-block-content > div:first-child, .wf-module-media, .wf-items > a, .wf-items > article').forEach(el => targets.push(el));
@@ -23,19 +24,17 @@ export function HomeReveal({ children }: { children: ReactNode }) {
     animation?.play();
     observer.unobserve(entry.target);
    });
-  }, { threshold: 0, rootMargin: '0px 0px -96px 0px' });
+  }, { threshold: 0, rootMargin: '0px 0px -32px 0px' });
   targets.forEach((el, index) => {
    // Do not hide content the visitor has already scrolled past during hydration.
-   if (el.getBoundingClientRect().bottom < 0) return;
-   const rotation = Math.random() * 4 - 2;
+   const rect=el.getBoundingClientRect();
+   if (rect.bottom < 0 || rect.top < innerHeight*.8) return;
    const card = el.parentElement?.classList.contains('wf-items');
-   const stagger = card ? Array.from(el.parentElement!.children).indexOf(el) % 4 * 55 : 0;
+   const stagger = card ? Array.from(el.parentElement!.children).indexOf(el) % 4 * 45 : 0;
    const animation = el.animate([
-    { opacity: 0, transform: `translateY(${card ? 24 : 32}px) rotate(${rotation}deg)`, offset: 0 },
-    { opacity: 1, transform: `translateY(-4px) rotate(${-rotation * .14}deg)`, offset: .72 },
-    { opacity: 1, transform: 'translateY(1px) rotate(0deg)', offset: .9 },
-    { opacity: 1, transform: 'translateY(0) rotate(0deg)', offset: 1 },
-   ], { duration: 620, delay: 200 + stagger, easing: 'cubic-bezier(.2,.65,.3,1)', fill: 'both', id: `home-reveal-${index}` });
+    { opacity: 0, translate: `0 ${card?16:22}px` },
+    { opacity: 1, translate: '0 0' },
+   ], { duration: 650, delay: stagger, easing: 'cubic-bezier(.22,.61,.36,1)', fill: 'both', id: `scroll-reveal-${index}` });
    animation.pause();
    animation.currentTime = 0;
    animation.onfinish = () => animation.cancel();
@@ -48,10 +47,10 @@ export function HomeReveal({ children }: { children: ReactNode }) {
    });
   };
   const reduceMotion = () => { if (motion.matches) { observer.disconnect(); animations.forEach(a => a.cancel()); } };
-  const current = root.current;
+  const current = container;
   current.addEventListener('focusin', revealFocus);
   motion.addEventListener('change', reduceMotion);
   return () => { observer.disconnect(); animations.forEach(a => a.cancel()); current.removeEventListener('focusin', revealFocus); motion.removeEventListener('change', reduceMotion); };
  }, []);
- return <div ref={root} className="home-reveal">{children}</div>;
+ return <>{children}<div hidden ref={root}/></>;
 }

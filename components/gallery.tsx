@@ -1,4 +1,5 @@
 'use client';
+import {VisualMedia} from './visual-media';
 import {CardVideo} from './card-video';
 import {CardAudioPlayer,CardAudioBlockControl} from './card-audio';
 import {useEffect,useRef,useState,type CSSProperties} from 'react';
@@ -13,7 +14,7 @@ export function Gallery({block}:{block:WireBlock}){
  const items=(block.items||[]) as GalleryItem[];const settings=block.gallerySettings||{};const gap=settings.gap??20;const layout=settings.layout||'carousel';
  const card=(item:GalleryItem,ratio?:number)=>{
   const props={className:'gallery-card',...cardHoverAttributes(item.appearance),style:{...cardSurfaceStyle(item.appearance),...(ratio?{flex:`${ratio} 1 0px`}:{})} as CSSProperties};
-  const content=<><picture>{item.mobileImage&&<source media="(max-width:700px)" srcSet={item.mobileImage}/>}<img src={item.image} alt={item.alt||''} loading="lazy" style={{objectPosition:`${item.focalX??50}% ${item.focalY??50}%`}}/></picture>{(settings.showTitle!==false&&item.label||settings.showCaption!==false&&item.description)&&<span className="gallery-caption">{settings.showTitle!==false&&item.label&&<strong className="card-title" style={item.appearance?blockTextStyle(item.appearance,'title'):undefined}>{item.label}</strong>}{settings.showCaption!==false&&item.description&&<span className="card-description" style={item.appearance?blockTextStyle(item.appearance,'note'):undefined}>{item.description}</span>}</span>}</>;
+  const content=<><VisualMedia src={item.image!} mobileImage={item.mobileImage} alt={item.alt||''} loading="lazy" style={{objectPosition:`${item.focalX??50}% ${item.focalY??50}%`}}/>{(settings.showTitle!==false&&item.label||settings.showCaption!==false&&item.description)&&<span className="gallery-caption">{settings.showTitle!==false&&item.label&&<strong className="card-title" style={item.appearance?blockTextStyle(item.appearance,'title'):undefined}>{item.label}</strong>}{settings.showCaption!==false&&item.description&&<span className="card-description" style={item.appearance?blockTextStyle(item.appearance,'note'):undefined}>{item.description}</span>}</span>}</>;
   if(item.cardAudio||item.cardFunction==='video')return <article key={item.momentID} {...props}>{content}{item.href&&item.cardFunction!=='video'&&item.cardAudio?.ctaMode!=='audio'&&<Link href={item.href}>Scopri di più →</Link>}{item.cardFunction==='video'?<CardVideo item={item}/>:item.cardAudio&&<CardAudioPlayer audio={item.cardAudio} title={item.label}/>}</article>;
   return item.href?<Link key={item.momentID} href={item.href} {...props}>{content}</Link>:<article key={item.momentID} {...props} tabIndex={0}>{content}</article>;
  };

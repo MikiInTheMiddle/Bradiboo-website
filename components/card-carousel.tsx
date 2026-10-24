@@ -28,8 +28,8 @@ export function CardCarousel({children,variant='carousel',label='Contenuti in pr
  return <div className={variant==='rail'?'wf-rail-scroll':'wf-carousel'} data-scroll-left={edges.left||undefined} data-scroll-right={edges.right||undefined}>
   <div className={`wf-items wf-scroll-track${variant==='carousel'?' wf-carousel-items':''}`} ref={ref} id={trackID} onScroll={()=>{suspendHover();measure();}} tabIndex={edges.overflow?0:undefined} role="region" aria-label={label}>{children}</div>
   {edges.overflow&&<div className="wf-scroll-controls" aria-label={`Controlli: ${label}`}>
-   {edges.left&&<button className="wf-scroll-previous" type="button" aria-controls={trackID} aria-label={`Scorri indietro: ${label}`} onClick={()=>move(-1)}>←</button>}
-   {edges.right&&<button className="wf-scroll-next" type="button" aria-controls={trackID} aria-label={`Scorri avanti: ${label}`} onClick={()=>move(1)}>→</button>}
+   {edges.left&&<button className="wf-scroll-previous" type="button" aria-controls={trackID} aria-label={`Scorri indietro: ${label}`} onClick={()=>move(-1)}><span aria-hidden="true">→</span></button>}
+   {edges.right&&<button className="wf-scroll-next" type="button" aria-controls={trackID} aria-label={`Scorri avanti: ${label}`} onClick={()=>move(1)}><span aria-hidden="true">→</span></button>}
   </div>}
  </div>;
 }

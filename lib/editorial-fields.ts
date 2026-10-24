@@ -1,3 +1,4 @@
+import {visualMediaFilter} from './visual-media';
 import {watchRailSelectionFields} from './watch-rail-selection';
 import {ctaAlignmentField} from './cta-alignment';
 import {eyebrowFields} from './card-eyebrow';
@@ -28,7 +29,7 @@ export const commonFields = (): Field[] => [
  color('backgroundColor','Colore fondo blocco'),
  {name:'backgroundOpacity',label:'Opacità fondo (%)',type:'number',min:0,max:100},
  {name:'backgroundBlur',label:'Sfocatura dietro il blocco (px)',type:'number',min:0,max:30},
- {name:'mediaMobileImage',label:'Media — immagine alternativa mobile',type:'upload',relationTo:'media',filterOptions:{mimeType:{contains:'image/'}},admin:{condition:(_,s)=>Boolean(s.showMedia)&&s.mediaSource!=='youtube',description:'Solo per immagini del contenuto, non per il fondo. Facoltativa: senza alternativa viene usata la principale.'}},
+ {name:'mediaMobileImage',label:'Media — immagine alternativa mobile',type:'upload',relationTo:'media',filterOptions:visualMediaFilter,admin:{condition:(_,s)=>Boolean(s.showMedia)&&s.mediaSource!=='youtube',description:'Immagini, GIF, video o animazioni Lottie del contenuto, non del fondo. Facoltativa: senza alternativa viene usata la principale.'}},
  { name: 'showMedia', label: 'Mostra media del blocco', type: 'checkbox', defaultValue: false },
  { name: 'mediaSource', label: 'Sorgente media', type: 'select', options: [{ label: 'File caricato', value: 'upload' }, { label: 'YouTube', value: 'youtube' }], defaultValue: 'upload', admin: { condition: (_, s) => Boolean(s.showMedia) } },
  { name: 'youtubeURL', label: 'URL YouTube', type: 'text', admin: { condition: (_, s) => Boolean(s.showMedia) && s.mediaSource === 'youtube' }, validate: (v: string | null | undefined) => {
@@ -56,9 +57,9 @@ export const heroFields: Field[] = [
  ...heroEdgeFields('backgroundImage').map(f=>({...f,admin:{...f.admin,condition:((previous)=>((d:any,s:any,c:any)=>s.backgroundMode==='image'&&(!s.randomHero||!s.heroImages?.length)&&(!previous||previous(d,s,c))))(f.admin?.condition)}} as Field)),
  {name:'randomHero',label:'Scegli un’immagine casuale a ogni apertura',type:'checkbox',admin:{condition:(_,s)=>s.backgroundMode==='image',description:'Una sola immagine per visita. Se il set è vuoto viene usata l’immagine di fondo.'}},
  {name:'heroImages',label:'Set immagini della Hero',type:'array',admin:{condition:(_,s)=>s.backgroundMode==='image'&&Boolean(s.randomHero),description:'Ogni immagine può avere una variante mobile e un proprio punto focale.'},fields:[
-  {name:'image',label:'Immagine principale',type:'upload',relationTo:'media',filterOptions:{mimeType:{contains:'image/'}}},
+  {name:'image',label:'Immagine principale',type:'upload',relationTo:'media',filterOptions:visualMediaFilter},
   ...heroEdgeFields('image'),
-  {name:'mobileImage',label:'Alternativa mobile',type:'upload',relationTo:'media',filterOptions:{mimeType:{contains:'image/'}}},
+  {name:'mobileImage',label:'Alternativa mobile',type:'upload',relationTo:'media',filterOptions:visualMediaFilter},
   {type:'row',fields:[{name:'focalX',label:'Focus orizzontale (%)',type:'number',min:0,max:100,admin:{width:'50%'}},{name:'focalY',label:'Focus verticale (%)',type:'number',min:0,max:100,admin:{width:'50%'}}]},
  ]},
  ...ctaFields(),

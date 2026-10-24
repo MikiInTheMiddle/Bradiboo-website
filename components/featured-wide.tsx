@@ -1,4 +1,5 @@
 'use client';
+import {VisualMedia} from './visual-media';
 import {ConsentVideo} from '@/components/cookie-consent';
 
 import {CardVideo} from './card-video';
@@ -51,15 +52,15 @@ export function FeaturedWide({block}:{block:WireBlock}) {
   <div className="featured-wide-slide" role="group" aria-roledescription="slide" aria-label={`${active+1} di ${items.length}`}>
    <div className="featured-wide-background" aria-hidden="true" style={{backdropFilter:(appearance?.backgroundBlur??block.blur)?`blur(${appearance?.backgroundBlur??block.blur}px)`:undefined,WebkitBackdropFilter:(appearance?.backgroundBlur??block.blur)?`blur(${appearance?.backgroundBlur??block.blur}px)`:undefined}}>
     <div style={{position:'absolute',inset:0,backgroundColor:backgroundMode==='transparent'||backgroundMode==='image'&&image?'transparent':appearance?.backgroundColor?resolveColor(appearance.backgroundColor):block.backgroundColor||'#223668',opacity:(appearance?.backgroundOpacity??((block.opacity??1)*100))/100}}/>
-   {backgroundMode==='image'&&image&&<picture key={image+active} className="featured-wide-picture" style={{opacity:(appearance?.backgroundOpacity??((block.opacity??1)*100))/100,filter:(appearance?.backgroundBlur??block.blur)?`blur(${appearance?.backgroundBlur??block.blur}px)`:undefined}}>{item.mobileImage&&<source media="(max-width: 700px)" srcSet={item.mobileImage}/>}<img src={image} alt="" loading={block.type==='hero'?'eager':'lazy'} fetchPriority={block.type==='hero'?'high':undefined} style={{objectPosition:`${item.focalX??50}% ${item.focalY??50}%`}}/></picture>}
+   {backgroundMode==='image'&&image&&<div key={image+active} className="featured-wide-picture" style={{opacity:(appearance?.backgroundOpacity??((block.opacity??1)*100))/100,filter:(appearance?.backgroundBlur??block.blur)?`blur(${appearance?.backgroundBlur??block.blur}px)`:undefined}}><VisualMedia src={image} mobileImage={item.mobileImage} alt="" loading={block.type==='hero'?'eager':'lazy'} fetchPriority={block.type==='hero'?'high':undefined} style={{objectPosition:`${item.focalX??50}% ${item.focalY??50}%`}}/></div>}
    </div>
    <div className="featured-wide-scrim" aria-hidden="true" style={{'--wide-shade':(appearance?.overlayOpacity??(backgroundMode==='image'?(block.wideOverlayOpacity??55):0))/100*(backgroundMode==='image'?(appearance?.backgroundOpacity??((block.opacity??1)*100))/100:1)} as CSSProperties}/>
    <div {...visibilityAttributes(appearance)} style={ctaVariables(appearance) as CSSProperties} className="featured-wide-content" aria-live="polite" aria-atomic="true">
-    {block.showText!==false&&<><CardEyebrow item={item} settings={[block,block.cardAppearance,item.wideAppearance]}/>{block.gallerySettings?.showTitle!==false&&item.label?.trim()&&<Heading className="featured-wide-title" style={{...blockTextStyle(typography,'title'),...(block.characterHero?{'--character-title-base':blockTextStyle(typography,'title')?.fontSize,'--character-title-fit':`${80/(Math.max(1,Array.from(item.label||'').length)*.58)}vw`}: {})} as CSSProperties}>{item.label}</Heading>}
+    {block.showText!==false&&<><CardEyebrow item={item} settings={[block,block.cardAppearance,item.wideAppearance]}/>{block.gallerySettings?.showTitle!==false&&item.label?.trim()&&<Heading className="featured-wide-title" style={{...blockTextStyle(typography,'title'),...(block.characterHero?{'--character-title-base':blockTextStyle(typography,'title')?.fontSize,'--character-title-fit':'13.7vw'}: {})} as CSSProperties}>{item.label}</Heading>}
     {block.gallerySettings?.showCaption!==false&&item.description&&<p className="featured-wide-note" style={blockTextStyle(typography,'note')}>{item.description}</p>}
     </>}{isSingleBlock&&block.facts&&<dl className="wf-facts">{block.facts.map(f=><div key={f.label}><dt>{f.label}</dt><dd>{f.value}</dd></div>)}</dl>}
     {isSingleBlock&&block.audio&&<div><audio controls src={block.audio} preload="none"/>{block.audioCaption&&<p>{block.audioCaption}</p>}</div>}
-    {isSingleBlock&&block.media&&<div className="wf-module-media">{block.media.kind==='youtube'?<ConsentVideo src={block.media.url} title={block.title+' — video'} loading="lazy" allow="encrypted-media; picture-in-picture" allowFullScreen/>:block.media.kind==='video'?<video src={block.media.url} controls playsInline preload="metadata"/>:<picture>{block.media.mobileImage&&<source media="(max-width:700px)" srcSet={block.media.mobileImage}/>}<img src={block.media.url} alt="" loading="lazy"/></picture>}</div>}
+    {isSingleBlock&&block.media&&<div className="wf-module-media">{block.media.kind==='youtube'?<ConsentVideo src={block.media.url} title={block.title+' — video'} loading="lazy" allow="encrypted-media; picture-in-picture" allowFullScreen/>:block.media.kind==='video'?<video src={block.media.url} controls playsInline preload="metadata"/>:<VisualMedia src={block.media.url} mobileImage={block.media.mobileImage} alt={block.title} loading="lazy"/>}</div>}
     {item.cardFunction==='video'&&<CardVideo item={item}/>}
     {item.cardAudio&&<><CardAudioPlayer key={active+item.cardAudio.url} audio={item.cardAudio} title={item.label}/>{block.showAudioControl&&<CardAudioBlockControl/>}</>}
     {item.href&&item.cardFunction!=='video'&&item.cardAudio?.ctaMode!=='audio'&&<div className="wf-cta-row" data-cta-align={resolveCTAAlignment(block.ctaAlign,block.cardAppearance?.ctaAlign,item.wideAppearance?.ctaAlign)}><Link className="featured-wide-cta" href={item.href}>{item.ctaLabel||'Scopri di più'} <span aria-hidden="true">→</span></Link></div>}
@@ -67,8 +68,8 @@ export function FeaturedWide({block}:{block:WireBlock}) {
   </div>
   </div>
   {items.length>1&&<>
-   <button type="button" className="featured-wide-arrow featured-wide-prev" aria-label="Contenuto precedente" onClick={()=>move(-1)}><ChevronLeft size={24} aria-hidden="true"/></button>
-   <button type="button" className="featured-wide-arrow featured-wide-next" aria-label="Contenuto successivo" onClick={()=>move(1)}><ChevronRight size={24} aria-hidden="true"/></button>
+   <button type="button" className="featured-wide-arrow featured-wide-prev" aria-label="Contenuto precedente" onClick={()=>move(-1)}><span aria-hidden="true">→</span></button>
+   <button type="button" className="featured-wide-arrow featured-wide-next" aria-label="Contenuto successivo" onClick={()=>move(1)}><span aria-hidden="true">→</span></button>
    <div className="featured-wide-dots" aria-label="Scegli contenuto">{items.map((slide,index)=><button type="button" key={index} aria-label={`Mostra ${index+1}: ${slide.label}`} aria-current={active===index?'true':undefined} onClick={()=>select(index,index>active?1:-1)}><span/></button>)}</div>
   </>}
  </div>;

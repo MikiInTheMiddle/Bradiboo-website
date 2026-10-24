@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {visualMediaKind,visualMediaURL} from '../lib/visual-media';
+import {sourceCard} from '../lib/card-source';
+import {resolveGalleryMoments,simpleGalleryRows} from '../lib/gallery-model';
+for(const [url,kind] of [['/media/anim.json','lottie'],['/media/anim.LOTTIE?x=1','lottie'],['/media/a.gif','image'],['/media/clip.webm','video']] as const)assert.equal(visualMediaKind(url),kind);
+const json={id:1,url:'/media/anim.json',filename:'anim.json',mimeType:'application/json',alt:'Animazione'};
+assert.equal(visualMediaURL(json),json.url);assert.equal(sourceCard('media',json)?.image,json.url);
+assert.equal(visualMediaURL({url:'/media/a.mp3',mimeType:'audio/mpeg'}),undefined);
+assert.equal(resolveGalleryMoments([{image:json}]).length,1);assert.equal(simpleGalleryRows([json]).length,1);
+const character=sourceCard('characters',{name:'Bradford',slug:'bradford',cardIdentity:{hoverImage:{url:'/media/hover.gif',mimeType:'image/gif'}}});assert.equal(character?.hoverImage,'/media/hover.gif');
+console.log('OK: visual types, Lottie source cards/gallery, audio exclusion and inherited character hover image.');
