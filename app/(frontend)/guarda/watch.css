@@ -333,3 +333,7 @@
 }
 
 @media(prefers-reduced-motion:reduce) { .watch-title-row .watch-details-mark { transition:none; } }
+
+/* Pointer opening should not leave the automatically focused close control outlined. */
+.site-ui .watch-search-dialog[data-keyboard="false"] .watch-search-heading .watch-primary:focus { outline:none; }
+.watch-search-heading .watch-primary { -webkit-tap-highlight-color:transparent; }
