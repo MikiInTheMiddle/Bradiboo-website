@@ -314,15 +314,15 @@
 .watch-title-row h2 { min-width:0; }
 .watch-floating-veil { display:none; }
 @media(max-width:700px) {
- .watch-title-row .watch-details-toggle { display:grid; place-items:center; flex:none; width:38px; height:38px; margin:0; padding:0; border-radius:50%; background:#7135ed; color:#fff; font:600 30px/1 var(--home-caption); }
- .watch-title-row .watch-details-mark { display:block; transition:transform .3s ease; }
+ .watch-title-row .watch-details-toggle { display:grid; place-items:center; justify-content:center; align-content:center; flex:none; width:38px; height:38px; margin:0; padding:0; border-radius:50%; background:#7135ed; color:#fff; font:600 30px/1 var(--home-caption); }
+ .watch-title-row .watch-details-mark { display:block; width:24px; height:24px; margin:0; transform-origin:center; transition:transform .3s ease; }
  .watch-title-row .watch-details-toggle[aria-expanded="true"] .watch-details-mark { transform:rotate(45deg); }
  .watch-unified .watch-now { padding-bottom:16px; }
  .site-ui .watch-unified .watch-zap[data-zap-mode] { width:112px; align-items:center; gap:0; transition:transform .65s cubic-bezier(.22,.61,.36,1),opacity .5s ease; }
  .site-ui .watch-unified .watch-zap[data-zap-mode] .watch-zap-toggle { width:108px; height:108px; min-height:108px; margin:0; padding:5px; }
  .site-ui .watch-unified .watch-zap[data-zap-mode] #watch-zap-controls:not([hidden]) { position:absolute; left:calc(100% + 14px); top:50%; transform:translateY(-50%); }
  .site-ui .watch-unified .watch-zap[data-zap-mode="full"] #watch-zap-controls:not([hidden]) { top:auto; left:50%; bottom:126px; transform:translateX(-50%); }
- .watch-floating-veil { display:block; position:fixed; inset:auto 0 0; height:180px; pointer-events:none; background:linear-gradient(to top,#24316270,transparent); mix-blend-mode:multiply; z-index:19; transition:opacity .6s ease; }
+ .watch-floating-veil { display:block; position:fixed; inset:auto 0 0; height:230px; pointer-events:none; background:linear-gradient(to top,#243162b3 0%,#24316266 45%,transparent 100%); mix-blend-mode:multiply; z-index:19; transition:opacity .6s ease; }
  .watch-floating-veil[data-player-visible="false"] { opacity:0; }
 }
 @media(prefers-reduced-motion:reduce) { .watch-floating-veil,.site-ui .watch-unified .watch-zap[data-zap-mode] { transition:none; } }
