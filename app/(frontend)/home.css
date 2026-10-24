@@ -277,7 +277,9 @@
 }
 
 /* Half: edge-to-edge media, with the text below. Default keeps its inset frame. */
-.site-ui .wf-items > [data-card-composition="half"] { padding:0;gap:14px; }
+/* Layout density must not override the Half card composition. */
+.site-ui .wf-items > [data-card-composition="half"],
+.site-ui .wf-block[data-card-layout="compact"] .wf-items > [data-card-composition="half"] { padding:0;gap:14px; }
 .site-ui .wf-items > [data-card-composition="half"] > picture { width:100%;flex:none;overflow:hidden;border-radius:inherit; border-bottom-left-radius:0;border-bottom-right-radius:0; }
 .site-ui .wf-items > [data-card-composition="half"] .wf-card-image { width:100%;border-radius:0;object-fit:cover; }
 .site-ui .wf-items > [data-card-composition="half"] > :not(picture):not(.character-media-frame):not(.wf-card-badge):not(.wf-card-destination):not(.watch-card-image):not(.bradi-cookie) { margin-inline:22px; }
