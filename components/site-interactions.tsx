@@ -1,12 +1,8 @@
 'use client';
 
-import { useEffect, useState, type ReactNode, type PointerEvent, type MouseEvent, type CSSProperties } from 'react';
+import { type ReactNode, type PointerEvent, type MouseEvent, type CSSProperties } from 'react';
 
-export function UXPreview({ children, enabled, className = '',style }: { children: ReactNode; enabled: boolean; className?: string;style?:CSSProperties }) {
- const [visible, setVisible] = useState(false);
- useEffect(() => {
-  try { setVisible(sessionStorage.getItem('bradiboo-ux-references') === 'true'); } catch {}
- }, []);
+export function SiteInteractions({ children, className = '',style }: { children: ReactNode; className?: string;style?:CSSProperties }) {
  function rotateCard(event:PointerEvent<HTMLDivElement>) {
   if(event.pointerType!=='mouse'||!(event.target instanceof Element))return;
   const card=event.target.closest<HTMLElement>('.wf-items > a, .wf-items > article, .watch-card, .gallery-card');
@@ -28,13 +24,7 @@ export function UXPreview({ children, enabled, className = '',style }: { childre
   if(!card||event.relatedTarget instanceof Node&&card.contains(event.relatedTarget))return;
   card.removeAttribute('data-navigation-leaving');card.removeAttribute('data-hover-suspended');
  }
- function toggle() {
-  const next = !visible;
-  setVisible(next);
-  try { sessionStorage.setItem('bradiboo-ux-references', String(next)); } catch {}
- }
- return <div style={style} onPointerOver={rotateCard} onPointerOut={resetLeavingCard} onClickCapture={leaveCard} className={`ux-preview ${className}${enabled && visible ? ' ux-preview-visible' : ''}`}>
+ return <div style={style} onPointerOver={rotateCard} onPointerOut={resetLeavingCard} onClickCapture={leaveCard} className={`site-interactions ${className}`}>
   {children}
-  {enabled && <button type="button" className="ux-preview-toggle" aria-pressed={visible} onClick={toggle} title="Mostra o nascondi nomi, tipi e riferimenti dei blocchi">{visible ? 'Nascondi riferimenti UX' : 'Riferimenti UX'}</button>}
  </div>;
 }

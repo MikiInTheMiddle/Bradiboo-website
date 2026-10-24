@@ -73,7 +73,7 @@
 .site-ui .wf-footer > strong { font-family:'Bradi Display',sans-serif; font-size:34px; font-weight:400; text-transform:lowercase; }
 .site-ui .wf-footer nav { align-items:center; font-size:17px; }
 .site-ui .wf-footer small { font:400 13px/1.6 var(--home-caption); border-color:#ffffff40; }
-.site-ui .wf-block-label,.site-ui .wf-page-meta,.site-ui .wf-facts dt { font-family:var(--home-caption); }
+.site-ui .wf-facts dt { font-family:var(--home-caption); }
 .site-ui :is(a,button):focus-visible { outline:3px solid #44149f; outline-offset:5px; }
 .site-ui .wf-footer a:focus-visible { outline-color:#f8c023; }
 @media(max-width:900px) {
