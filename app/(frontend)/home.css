@@ -764,3 +764,7 @@
 @media(max-width:600px) { .site-ui .footer-legal { font-size:11px; gap:4px 8px; } }
 
 .character-media-frame:has(.character-hover-media) > :not(.character-hover-media) { opacity:calc(1 - var(--character-swap)); transition:opacity .35s ease; }
+
+/* The compact BradiBITES artwork carries its own alpha; keep the page visible behind it. */
+.site-ui .wf-featured-wide[data-compact-mobile-hero="true"] .featured-wide,
+.site-ui .wf-hero[data-compact-mobile-hero="true"] .wf-hero-background { background-color:transparent!important; }
