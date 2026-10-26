@@ -12031,9 +12031,9 @@ export interface Page {
                 }[]
               | null;
             /**
-             * Nastro verticale: immagini portrait a scorrimento orizzontale, senza autoplay. Moodboard: mosaico bilanciato automaticamente.
+             * Nastro verticale: immagini portrait a scorrimento orizzontale, senza autoplay. Moodboard: mosaico bilanciato automaticamente. Galleria con miniature: immagine grande con anteprime a destra, sotto su mobile.
              */
-            galleryLayout?: ('carousel' | 'reel' | 'moodboard') | null;
+            galleryLayout?: ('carousel' | 'reel' | 'moodboard' | 'thumbnails') | null;
             galleryGap?: number | null;
             galleryShowTitle?: boolean | null;
             galleryShowCaption?: boolean | null;
@@ -12888,9 +12888,9 @@ export interface Page {
                 }[]
               | null;
             /**
-             * Nastro verticale: immagini portrait a scorrimento orizzontale, senza autoplay. Moodboard: mosaico bilanciato automaticamente.
+             * Nastro verticale: immagini portrait a scorrimento orizzontale, senza autoplay. Moodboard: mosaico bilanciato automaticamente. Galleria con miniature: immagine grande con anteprime a destra, sotto su mobile.
              */
-            galleryLayout?: ('carousel' | 'reel' | 'moodboard') | null;
+            galleryLayout?: ('carousel' | 'reel' | 'moodboard' | 'thumbnails') | null;
             galleryGap?: number | null;
             galleryShowTitle?: boolean | null;
             galleryShowCaption?: boolean | null;
