@@ -12,24 +12,30 @@ export function databaseFetchWithReconnect(fetcher:typeof fetch=globalThis.fetch
   const original=new Request(input,init);
   const controller=new AbortController();
   const cancel=()=>controller.abort(original.signal.reason);
-  if(original.signal.aborted)cancel();
-  else original.signal.addEventListener('abort',cancel,{once:true});
-  // Keep the controller strongly referenced for the complete libSQL response.
-  // Buffer SQL responses here so a stalled body is bounded too, not just headers.
+  if(original.signal.aborted)cancel();else original.signal.addEventListener('abort',cancel,{once:true});
   const timer=setTimeout(()=>controller.abort(new DOMException('Database request deadline exceeded','TimeoutError')),deadlineMs);
-  const request=new Request(original,{signal:controller.signal});
-  try{
+  let rejectAbort:(reason:unknown)=>void=()=>{};
+  const aborted=new Promise<never>((_,reject)=>{rejectAbort=reject;});
+  const onAbort=()=>rejectAbort(controller.signal.reason);
+  controller.signal.addEventListener('abort',onAbort,{once:true});
+  const exchange=async()=>{
+   controller.signal.throwIfAborted();
+   const body=['GET','HEAD'].includes(original.method)?undefined:await original.arrayBuffer();
    for(let attempt=0;;attempt++){
     try{
-     request.signal.throwIfAborted();
-     const response=await fetcher(request.clone(),{signal:controller.signal});
-     const body=await response.arrayBuffer();
-     return new Response([204,205,304].includes(response.status)?null:body,{status:response.status,statusText:response.statusText,headers:response.headers});
+     controller.signal.throwIfAborted();
+     // URL + explicit init preserves the signal through Next's patched fetch.
+     // SQL transport must never be cached; only the published DTO above it is.
+     const response=await fetcher(original.url,{method:original.method,headers:original.headers,body,signal:controller.signal,cache:'no-store',redirect:original.redirect});
+     const bytes=await response.arrayBuffer();
+     return new Response([204,205,304].includes(response.status)?null:bytes,{status:response.status,statusText:response.statusText,headers:response.headers});
     }catch(error){
      if(attempt>=2||controller.signal.aborted||!failedBeforeSending(error))throw error;
      await new Promise(resolve=>setTimeout(resolve,150*(attempt+1)));
     }
    }
-  }finally{clearTimeout(timer);original.signal.removeEventListener('abort',cancel);}
+  };
+  try{return await Promise.race([exchange(),aborted]);}
+  finally{clearTimeout(timer);original.signal.removeEventListener('abort',cancel);controller.signal.removeEventListener('abort',onAbort);}
  };
 }
