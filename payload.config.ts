@@ -17,6 +17,7 @@ import { seedWireframe } from './lib/seed';
 import {groupCollections,groupGlobals} from './lib/admin-navigation';
 import {organizeBlock,organizeCollections,organizeGlobals} from './lib/admin-layout';
 import { siteNavigationFields } from './lib/site-fields';
+import {siteSettings} from './lib/site-settings';
 import { watchTerms, termField } from './lib/watch-terms';
 import { watchContentFields, watchGlobal } from './lib/watch-fields';
 import { characterFields, characterBlocks } from './lib/character-fields';
@@ -127,6 +128,6 @@ export default buildConfig({
       { name: 'blocks', label: 'Moduli', type: 'blocks', blocks, filterOptions:({siblingData})=>(siblingData as any)?.blocks?.some((b:any)=>b.blockType==='characterFriends')?true:blocks.filter(b=>b.slug!=='characterFriends').map(b=>b.slug) },
     ] },
   ])),
-  globals: groupGlobals(organizeGlobals([watchGlobal, {slug:'navigation',label:'Menu, footer e navigazione Studio',access:{read:()=>true,update:authenticated},fields:siteNavigationFields}])),
+  globals: groupGlobals(organizeGlobals([siteSettings,watchGlobal, {slug:'navigation',label:'Menu, footer e navigazione Studio',access:{read:()=>true,update:authenticated},fields:siteNavigationFields}])),
   onInit: process.env.NODE_ENV === 'production' ? undefined : seedWireframe,
 });

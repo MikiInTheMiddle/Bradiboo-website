@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {randomUUID} from 'node:crypto';
+import {createClient} from '@libsql/client';
+import {siteIcons} from '../lib/site-icons';
+import {siteSettings} from '../lib/site-settings';
+import {collectMediaReferences} from '../lib/published-media';
+import {installMediaPublicationIndex,indexedPublishedMedia} from '../lib/media-publication-index';
+assert.deepEqual(siteIcons(),{icon:[{url:'/favicon.svg',type:'image/svg+xml'}]});
+const png=siteIcons({url:'/api/media/file/icon.png?prefix=media',mimeType:'image/png',width:512,height:512,updatedAt:'2026-10-26T12:00:00Z'}) as any;
+assert.equal(png.icon[0].sizes,'512x512');assert.equal(png.apple[0].url,png.icon[0].url);
+assert.match(png.icon[0].url,/prefix=media&v=/);
+assert.notEqual(png.icon[0].url,(siteIcons({url:'/api/media/file/icon.png?prefix=media',updatedAt:'new'}) as any).icon[0].url);
+const svg=siteIcons({url:'/icon.svg',mimeType:'image/svg+xml'}) as any;assert.equal(svg.icon[0].sizes,'any');assert.equal(svg.apple,undefined);
+assert.deepEqual([...collectMediaReferences(siteSettings.fields,{favicon:5})],[5]);
+assert.equal(await (siteSettings.access!.update as any)({req:{user:null}}),false);
+assert.equal(await (siteSettings.access!.update as any)({req:{user:{id:1}}}),true);
+const file='/private/tmp/bradiboo-site-settings-'+randomUUID()+'.db';const client=createClient({url:'file:'+file});
+try{
+ await client.batch(['CREATE TABLE media(id INTEGER PRIMARY KEY)','INSERT INTO media VALUES(5),(6),(7)','CREATE TABLE navigation(id INTEGER PRIMARY KEY,brand TEXT)','INSERT INTO navigation VALUES(1,\'BRADIBOO\')'],'write');
+ await installMediaPublicationIndex(client,['navigation']);
+ const original=(await client.execute('SELECT * FROM navigation')).rows;
+ await client.executeMultiple(fs.readFileSync('scripts/site-settings-schema.sql','utf8'));
+ await installMediaPublicationIndex(client,['site_settings']);
+ const collect=async()=>[...collectMediaReferences(siteSettings.fields,(await client.execute('SELECT favicon_id AS favicon FROM site_settings LIMIT 1')).rows[0])];
+ assert.deepEqual(await indexedPublishedMedia(client,collect),[]);
+ await client.execute('INSERT INTO site_settings(id,favicon_id) VALUES(1,5)');assert.deepEqual(await indexedPublishedMedia(client,collect),[5]);
+ await client.execute('UPDATE site_settings SET favicon_id=6 WHERE id=1');assert.deepEqual(await indexedPublishedMedia(client,collect),[6],'Replacing the icon revokes its previous public reference');
+ await client.execute('UPDATE site_settings SET favicon_id=NULL WHERE id=1');assert.deepEqual(await indexedPublishedMedia(client,collect),[],'Removing the icon restores default and revokes its reference');
+ assert.deepEqual((await client.execute('SELECT * FROM navigation')).rows,original);assert.equal((await client.execute('PRAGMA foreign_key_check')).rows.length,0);
+}finally{client.close();fs.rmSync(file,{force:true});}
+console.log('OK: icon metadata, PNG/SVG, cache version, admin access, additive schema and publication/replacement/removal of the icon.');

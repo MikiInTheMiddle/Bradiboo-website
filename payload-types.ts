@@ -105,10 +105,12 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    'site-settings': SiteSetting;
     watch: Watch;
     navigation: Navigation;
   };
   globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     watch: WatchSelect<false> | WatchSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
   };
@@ -22109,6 +22111,21 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Configurazioni condivise da tutte le pagine del sito.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  /**
+   * Icona unica per tutte le pagine. Consigliata un’immagine quadrata PNG da 512 × 512 px oppure SVG. Salvando, l’icona scelta viene resa pubblica. Vuoto: mantiene l’icona predefinita.
+   */
+  favicon?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "watch".
  */
@@ -22842,6 +22859,16 @@ export interface Navigation {
   coherenceVersion?: number | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  favicon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

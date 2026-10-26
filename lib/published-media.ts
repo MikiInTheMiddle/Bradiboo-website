@@ -66,7 +66,7 @@ async function publicMedia(req: PayloadRequest): Promise<number[]> {
     } while (true);
   });
   const globals = req.payload.config.globals.map(async global => {
-    const doc = await req.payload.findGlobal({ slug: global.slug as 'navigation' | 'watch', depth: 0, overrideAccess: false, user: null });
+    const doc = await req.payload.findGlobal({ slug: global.slug as 'navigation' | 'watch' | 'site-settings', depth: 0, overrideAccess: false, user: null });
     collectMediaReferences(global.fields, doc, ids);
   });
   await Promise.all([...collections, ...globals]);

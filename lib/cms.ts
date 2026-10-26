@@ -217,3 +217,5 @@ export async function getCMSPages(){const payload=await getPayload({config});con
 export async function getMenu(){const payload=await getPayload({config});return (await payload.findGlobal({slug:'navigation',depth:0})).items||[];}
 
 export async function getSiteNavigation(){const payload=await getPayload({config});return payload.findGlobal({slug:'navigation',depth:1});}
+
+export async function getSiteSettings(){const payload=await getPayload({config});return payload.findGlobal({slug:'site-settings',depth:1,overrideAccess:false});}
