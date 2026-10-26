@@ -1,3 +1,4 @@
+import {publicRead} from './public-cache';
 import {applyWatchCardFunction} from './watch-card-function';
 import {sourceAudioTracks} from './card-audio';
 import {sourceAudio,resolveCardAudio} from './card-audio';
@@ -14,7 +15,7 @@ const preview=process.env.WIREFRAME_PREVIEW==='true';
 const mediaURL=(m:any)=>m&&typeof m==='object'?m.url||undefined:undefined;
 function rowContent(row:any){return {...(row?.cardTitle?{title:row.cardTitle}:{}),...(row?.cardDescription!=null?{description:row.cardDescription}:{}),...(mediaURL(row?.cardImage)?{image:mediaURL(row.cardImage)}:{}),...(mediaURL(row?.mobileImage)?{mobileImage:mediaURL(row.mobileImage)}:{}),...(row?.focalX!=null?{focalX:row.focalX}:{}),...(row?.focalY!=null?{focalY:row.focalY}:{})};}
 
-export async function getWatchData(){
+async function loadWatchData(){
  const payload=await getPayload({config});
  const req=await createLocalReq({},payload);
  const [result,cast,settings,vocabulary]=await Promise.all([
@@ -47,3 +48,5 @@ export async function getWatchData(){
  const remoteButtons=(settings.remoteButtons||[]).map((b,index)=>({id:b.id||String(index),label:b.label,icon:b.icon||'shapes',image:typeof b.image==='object'&&b.image?.url?b.image.url:undefined,keywords:termSlugs(b.keywordTerms)}));
  return {items,characters,rails,preview,filters,remoteButtons,fullZap:settings.fullZap===true,zapLogo:mediaURL(settings.zapLogo),searchIcon:mediaURL(settings.searchIcon),themeOptions,keywordOptions};
 }
+
+export const getWatchData=publicRead('watch-catalog',loadWatchData);

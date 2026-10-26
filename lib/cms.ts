@@ -1,3 +1,4 @@
+import {publicRead} from './public-cache';
 import {productBackground} from './product-model';
 import {hasBlockContent,requiresBlockItems} from './block-content-visibility';
 import {branchPublication,hiddenBranchPath,hiddenBranchPage} from './branch-publication';
@@ -47,7 +48,7 @@ function cardContent(value?:SlideSettings){return Object.fromEntries(Object.entr
 function slideSettings(value?:SlideSettings){return value?Object.fromEntries(Object.entries({actionSettings:{cardFunction:value.cardFunction,videoSettings:value.videoSettings,audioSettings:value.audioSettings},wideAppearance:normalizedWide(value.wideAppearance),mobileImage:mediaURL(value.mobileImage),focalX:value.focalX??undefined,focalY:value.focalY??undefined,hideBadge:value.hideBadge??undefined,wideBadge:value.slideBadge||undefined}).filter(([,v])=>v!==undefined)):{};}
 function manualCard(c:Card):WireLink {return {cardFunction:c.cardFunction,...sourceVideo({playbackSource:c.videoSettings?.mode==='upload'?'file':'youtube',playbackFile:c.videoSettings?.file,playbackURL:c.videoSettings?.url}),cardAudio:resolveCardAudio(undefined,c.audioSettings),...slideSettings(c),mobileImage:mediaURL(c.mobileImage),focalX:c.focalX??undefined,focalY:c.focalY??undefined,hideBadge:c.hideBadge||undefined,appearance:c.appearance,label:c.label,href:safeLink(c.href)||'',description:c.description||undefined,image:mediaURL(c.image),badge:c.badge||undefined,badgeBackgroundColor:c.badgeBackgroundColor||undefined,badgeTextColor:c.badgeTextColor||undefined,ctaLabel:c.ctaLabel||undefined};}
 function contentCard(c:Content):WireLink {return {audioTracks:sourceAudioTracks(c),...sourceVideo(c),cardAudio:sourceAudio(c),...productionMetadata(c),label:c.title,href:c.kind==='episodio'?`/guarda?contenuto=${encodeURIComponent(c.slug)}#watch-player`:safeLink(c.url)||'',description:c.description||undefined,image:mediaURL(c.cover),mobileImage:mediaURL(c.coverMobile),badge:c.highlightBadge||undefined,badgeBackgroundColor:c.highlightBadgeBackgroundColor||undefined,badgeTextColor:c.highlightBadgeTextColor||undefined};}
-export async function getCMSPage(path: string): Promise<WirePage | undefined> {
+async function loadCMSPage(path: string): Promise<WirePage | undefined> {
  const payload=await getPayload({config});
  const req=await createLocalReq({},payload);
  const publication=await branchPublication(payload);if(hiddenBranchPath(path,publication))return;
@@ -213,9 +214,16 @@ export async function getCMSPage(path: string): Promise<WirePage | undefined> {
  }
  return {cloudBackground:{enabled:Boolean(page.cloudBackground?.enabled),layers:[page.cloudBackground?.layer1,page.cloudBackground?.layer2,page.cloudBackground?.layer3].map(v=>mediaURL(v)||'')},footerOverride:page.footerOverride,redirectTo:safeLink(page.redirectTo),path:page.path,title:page.title,group:page.group||'',purpose:page.purpose||'',status:page._status==='draft'?'draft':undefined,blocks,...resolveHeroPageBackground({color:gradientColors(page.pageBackgroundColor)?page.pageBackgroundColor!:color(page.pageBackgroundColor)==='transparent'&&(page.blocks||[]).some((b:any)=>b.blockType==='headlessProduct'&&b.section==='overview')?productBackground(product)||'transparent':color(page.pageBackgroundColor),image:mediaURL(page.pageBackgroundImage)},{linked:Boolean(page.heroBackground),override:Boolean(page.customHeroBackground),color:page.heroBackgroundColor,mode:page.heroBackgroundMode,endColor:page.heroBackgroundEndColor,overrideEnd:Boolean(page.customHeroBackgroundEnd)},heroBackground)};
 }
-export async function getCMSPages(){const payload=await getPayload({config});const result=await payload.find({collection:'pages',where:{hideFromSitemap:{not_equals:true}},limit:100,sort:'createdAt',depth:0,overrideAccess:preview});const publication=await branchPublication(payload);return result.docs.filter(page=>!hiddenBranchPage(page,publication)).map(page=>({path:page.path,title:page.title,group:page.group||'',purpose:page.purpose||'',status:page._status==='draft'?'draft' as const:undefined}));}
-export async function getMenu(){const payload=await getPayload({config});return (await payload.findGlobal({slug:'navigation',depth:0})).items||[];}
+async function loadCMSPages(){const payload=await getPayload({config});const result=await payload.find({collection:'pages',where:{hideFromSitemap:{not_equals:true}},limit:100,sort:'createdAt',depth:0,overrideAccess:preview});const publication=await branchPublication(payload);return result.docs.filter(page=>!hiddenBranchPage(page,publication)).map(page=>({path:page.path,title:page.title,group:page.group||'',purpose:page.purpose||'',status:page._status==='draft'?'draft' as const:undefined}));}
+async function loadMenu(){const payload=await getPayload({config});return (await payload.findGlobal({slug:'navigation',depth:0})).items||[];}
 
-export async function getSiteNavigation(){const payload=await getPayload({config});return payload.findGlobal({slug:'navigation',depth:1});}
+async function loadSiteNavigation(){const payload=await getPayload({config});return payload.findGlobal({slug:'navigation',depth:1});}
 
-export async function getSiteSettings(){const payload=await getPayload({config});return payload.findGlobal({slug:'site-settings',depth:1,overrideAccess:false});}
+async function loadSiteSettings(){const payload=await getPayload({config});return payload.findGlobal({slug:'site-settings',depth:1,overrideAccess:false});}
+
+const cachedCMSPage=publicRead('page',async(path:string)=>(await loadCMSPage(path))??null);
+export async function getCMSPage(path:string){return (await cachedCMSPage(path))??undefined;}
+export const getCMSPages=publicRead('sitemap',loadCMSPages);
+export const getMenu=publicRead('menu',loadMenu);
+export const getSiteNavigation=publicRead('navigation',loadSiteNavigation);
+export const getSiteSettings=publicRead('settings',loadSiteSettings);

@@ -1,9 +1,10 @@
+import {publicRead} from '@/lib/public-cache';
 import type {ReactNode} from 'react';
 import {getPayload} from 'payload';
 import config from '@/payload.config';
 import {WatchNavigationMenu} from './watch-navigation-menu';
 import {cache} from 'react';
-export const getNavigationGroups=cache(async()=>{
+const loadNavigationGroups=async()=>{
  const payload=await getPayload({config});
  const [characters,containers,productions]=await Promise.all([
   payload.find({collection:'characters',limit:100,depth:0,sort:'id'}),
@@ -14,7 +15,8 @@ export const getNavigationGroups=cache(async()=>{
   characters:characters.docs.map(character=>({id:character.id,title:character.name,url:`/braditriboo/${character.slug}`,productions:[]})),
   watch:containers.docs.filter(c=>c.url&&c.showInExplore!==false).map(c=>({id:c.id,title:c.title,url:c.url!,productions:productions.docs.filter(p=>p.showInExplore!==false&&(typeof p.container==='object'?p.container?.id:p.container)===c.id&&p.url).map(p=>({id:p.id,title:p.title,url:p.url!}))})),
  };
-});
+};
+export const getNavigationGroups=cache(publicRead('navigation-groups',loadNavigationGroups));
 /** Desktop and mobile share the same published hierarchy. */
 export async function WatchNavigation({currentPath,children}:{currentPath:string;children:ReactNode}){
  const groups=await getNavigationGroups();

@@ -1,3 +1,4 @@
+import {withPublicCollectionCache,withPublicGlobalCache} from './lib/public-cache-hooks';
 import {databaseFetchWithReconnect} from './lib/database-fetch';
 import {branchRead,invalidateBranchPublication} from './lib/branch-publication';
 import {publishedMediaRead} from './lib/published-media';
@@ -78,7 +79,7 @@ export default buildConfig({
     fetch: databaseFetchWithReconnect(),
   } }),
   typescript: { outputFile: path.resolve('payload-types.ts') },
-  collections: groupCollections(organizeCollections([watchTerms,
+  collections: withPublicCollectionCache(groupCollections(organizeCollections([watchTerms,
     { slug: 'users', labels: { singular: 'Utente', plural: 'Utenti' }, auth: true, access: { ...editable, read: authenticated }, fields: [{ name: 'name', label: 'Nome', type: 'text' }] },
     { slug: 'media', hooks:{beforeChange:[mediaEdgeColor]}, labels: { singular: 'Media', plural: 'Media' }, access: { ...editable, read: publishedMediaRead }, upload: { staticDir: path.resolve('media') }, fields: [{name:'bottomEdgeColor',label:'Colore bordo inferiore (automatico)',type:'text',admin:{readOnly:true,description:'Rilevato dall’immagine per il raccordo con il fondo pagina.'}}, {name:'hasHeroGradientEndColor',label:'Associa un colore finale al gradiente della Hero',type:'checkbox',admin:{description:'Quando questa immagine è usata come Hero, la pagina può ereditare questo colore finale. Il fondo Uniforme continua a usare solo il colore del bordo inferiore.'}}, {...solidEdgeField('heroGradientEndColor','Colore finale del gradiente'),admin:{...solidEdgeField('heroGradientEndColor','Colore finale del gradiente').admin,condition:(_,s)=>Boolean(s.hasHeroGradientEndColor)}}, { name: 'alt', label: 'Testo alternativo', type: 'text', required: true }] },
     { slug: 'characters', labels: { singular: 'Personaggio', plural: 'Personaggi' }, admin: { useAsTitle: 'name' }, access: { ...editable, read: () => true }, fields: [
@@ -129,7 +130,7 @@ export default buildConfig({
       { name: 'pageBackgroundImage', label: 'Immagine fondo pagina', type: 'upload', relationTo: 'media' },
       { name: 'blocks', label: 'Moduli', type: 'blocks', blocks, filterOptions:({siblingData})=>(siblingData as any)?.blocks?.some((b:any)=>b.blockType==='characterFriends')?true:blocks.filter(b=>b.slug!=='characterFriends').map(b=>b.slug) },
     ] },
-  ])),
-  globals: groupGlobals(organizeGlobals([siteSettings,watchGlobal, {slug:'navigation',label:'Menu, footer e navigazione Studio',access:{read:()=>true,update:authenticated},fields:siteNavigationFields}])),
+  ]))),
+  globals: withPublicGlobalCache(groupGlobals(organizeGlobals([siteSettings,watchGlobal, {slug:'navigation',label:'Menu, footer e navigazione Studio',access:{read:()=>true,update:authenticated},fields:siteNavigationFields}]))),
   onInit: process.env.NODE_ENV === 'production' ? undefined : seedWireframe,
 });

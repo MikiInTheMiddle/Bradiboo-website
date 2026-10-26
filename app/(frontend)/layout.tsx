@@ -8,7 +8,7 @@ import './globals.css';
 import './home.css';
 
 export async function generateMetadata():Promise<Metadata>{
- const settings=await getSiteSettings();
+ const settings=await getSiteSettings().catch(()=>({favicon:undefined}));
  const favicon=typeof settings.favicon==='object'?settings.favicon:undefined;
  return {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000')),
