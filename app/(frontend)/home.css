@@ -829,3 +829,9 @@
 .site-ui :is(p,.wf-description,.featured-wide-note):is([style*="text-align:center"],[style*="text-align: center"]),
 .site-ui [style*="text-align:center"] :is(p,.wf-description),
 .site-ui [style*="text-align: center"] :is(p,.wf-description) { text-wrap:balance; }
+
+/* Approach values: full-width, compact stacked cards on phones. */
+@media(max-width:700px) {
+ .site-ui [data-page-path="/studio/approccio"] [data-block-title="Quello in cui crediamo"] .wf-items { display:grid; grid-template-columns:minmax(0,1fr); gap:14px; }
+ .site-ui [data-page-path="/studio/approccio"] [data-block-title="Quello in cui crediamo"] .wf-items > :is(a,article) { width:100%; max-width:none; min-height:0; height:auto; padding:20px; gap:10px; }
+}
