@@ -784,3 +784,11 @@
 @media(hover:none) and (pointer:coarse) {
  .site-ui .wf-items > a[data-card-kind="character"]:is([data-press-feedback],[data-navigation-pending]) { transform:none; }
 }
+
+@media(max-width:800px) {
+ .mobile-menu-scroll { display:flex; flex-direction:column; }
+ .site-ui .mobile-menu-dialog .mobile-menu-level { flex:1; }
+ .site-ui .mobile-menu-dialog .mobile-menu-level:has(> .mobile-menu-secondary) { display:flex; flex-direction:column; }
+ .site-ui .mobile-menu-dialog .mobile-menu-secondary { flex:none; margin-top:auto; margin-bottom:0; padding-top:28px; }
+ .site-ui .mobile-menu-dialog .mobile-menu-secondary :is(a,button) { font-size:17px; min-height:48px; }
+}
