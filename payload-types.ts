@@ -347,7 +347,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -582,7 +582,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -743,7 +743,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -985,7 +985,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -1220,7 +1220,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -1381,7 +1381,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -1623,7 +1623,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -1858,7 +1858,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -2019,7 +2019,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -2261,7 +2261,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -2496,7 +2496,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -2657,7 +2657,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -2899,7 +2899,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -3134,7 +3134,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -3295,7 +3295,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -3537,7 +3537,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -3772,7 +3772,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -3933,7 +3933,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -4177,7 +4177,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -4412,7 +4412,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -4573,7 +4573,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -4815,7 +4815,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -5050,7 +5050,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -5211,7 +5211,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -5453,7 +5453,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -5688,7 +5688,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -5849,7 +5849,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -6091,7 +6091,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -6326,7 +6326,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -6487,7 +6487,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -6742,7 +6742,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -6977,7 +6977,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -7138,7 +7138,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -7356,7 +7356,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -7550,7 +7550,7 @@ export interface Page {
                     /**
                      * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -7643,7 +7643,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -7861,7 +7861,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -8022,7 +8022,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -8266,7 +8266,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -8427,7 +8427,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -8668,7 +8668,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -8871,7 +8871,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -9110,7 +9110,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -9271,7 +9271,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -9514,7 +9514,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -9749,7 +9749,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -9946,7 +9946,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -10143,7 +10143,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -10304,7 +10304,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -10546,7 +10546,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -10781,7 +10781,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -10942,7 +10942,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -11195,7 +11195,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -11438,7 +11438,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -11599,7 +11599,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -11817,7 +11817,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -12054,7 +12054,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -12296,7 +12296,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -12457,7 +12457,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -12674,7 +12674,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -12911,7 +12911,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -13152,7 +13152,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -13354,7 +13354,7 @@ export interface Page {
                     /**
                      * Riguarda solo questa card; il blocco resta Default.
                      */
-                    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                     /**
                      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                      */
@@ -13515,7 +13515,7 @@ export interface Page {
               /**
                * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
                */
-              composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+              composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
               /**
                * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                */
@@ -22162,7 +22162,7 @@ export interface Watch {
           /**
            * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
            */
-          composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+          composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
           /**
            * Nasconde senza cancellare il contenuto o scollegare la sorgente.
            */
@@ -22344,7 +22344,7 @@ export interface Watch {
                 /**
                  * Riguarda solo questa card; il blocco resta Default.
                  */
-                composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+                composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
                 /**
                  * Nasconde senza cancellare il contenuto o scollegare la sorgente.
                  */
@@ -22527,7 +22527,7 @@ export interface Watch {
     /**
      * Presentazione comune delle card di questo blocco. Gli override dei singoli elementi prevalgono.
      */
-    composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+    composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
     /**
      * Nasconde senza cancellare il contenuto o scollegare la sorgente.
      */
@@ -22653,7 +22653,7 @@ export interface Watch {
           /**
            * Riguarda solo questa card; il blocco resta Default.
            */
-          composition?: ('inherit' | 'stacked' | 'half' | 'overlay') | null;
+          composition?: ('inherit' | 'stacked' | 'half' | 'horizontal' | 'overlay') | null;
           /**
            * Nasconde senza cancellare il contenuto o scollegare la sorgente.
            */
