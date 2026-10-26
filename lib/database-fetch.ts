@@ -10,9 +10,6 @@ function failedBeforeSending(error:unknown):boolean {
 export function databaseFetchWithReconnect(fetcher:typeof fetch=globalThis.fetch):typeof fetch {
  return async(input,init)=>{
   const request=new Request(input,init);
-  // Serverless instances can resume with sockets already closed by the DB proxy.
-  // Do not reuse those idle HTTP connections; preserve DB transaction semantics.
-  request.headers.set('Connection','close');
   for(let attempt=0;;attempt++){
    try{return await fetcher(request.clone());}
    catch(error){
