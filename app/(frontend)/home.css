@@ -774,3 +774,13 @@
  .site-ui.home-ui .wf-character-grid > .wf-block-content:has(> .wf-module-media) > div:first-child > .wf-block-title { order:-2; }
  .site-ui.home-ui .wf-character-grid > .wf-block-content > .wf-module-media { order:-1; }
 }
+
+
+/* Keep both character pictures in the same box and the entire card tappable. */
+.character-hover-media > picture { display:block; width:100%; height:100%; }
+.site-ui .wf-items > a[data-card-kind="character"] { touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.site-ui .wf-items > a[data-card-kind="character"] .character-media-frame { pointer-events:none; }
+.site-ui .wf-items > [data-card-kind="character"] .character-hover-media .wf-card-image { display:block; width:100%; height:100%; aspect-ratio:auto; object-fit:contain; }
+@media(hover:none) and (pointer:coarse) {
+ .site-ui .wf-items > a[data-card-kind="character"]:is([data-press-feedback],[data-navigation-pending]) { transform:none; }
+}
