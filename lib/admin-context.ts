@@ -18,7 +18,8 @@ export function backgroundChoice(s:Record<string,any>,kind:'block'|'card'|'slide
 }
 function when(field:Field,condition:Condition):Field {
  const previous=field.admin?.condition;
- return {...field,admin:{...field.admin,condition:(data,s,ctx)=>condition(data,s,ctx)&&(!previous||previous(data,s,ctx))}} as Field;
+ const combined:Condition=(data,s,ctx)=>condition(data,s,ctx)&&(!previous||previous(data,s,ctx));
+ return Object.assign({},field,{admin:{...field.admin,condition:combined}});
 }
 /** UI conditions only: keep every stored name, value and required constraint intact. */
 export function contextualControls(fields:Field[]):Field[]{
@@ -30,18 +31,18 @@ export function contextualControls(fields:Field[]):Field[]{
   kind=options.includes('page')?'block':options.includes('inherit')?'card':'slide';
  }
  const ordered=mode?[mode,...fields.filter(f=>f!==mode)]:fields;
- return ordered.map(field=>{
+ return ordered.map((field):Field=>{
   const key=name(field)||'';
   if(names.has('showText')&&textNames.has(key))field=when(field,(_,s)=>s.showText!==false);
   if(names.has('showMedia')&&['media','mediaSource','youtubeURL'].includes(key))field=when(field,(_,s)=>Boolean(s.showMedia));
   if(names.has('backgroundMode')){
-   if(key==='backgroundMode'&&field.type==='select')field={...field,label:false,admin:{...field.admin,components:{...field.admin?.components,Field:{path:'/components/admin/BackgroundMode#BackgroundMode',clientProps:{kind}}}}};
+   if(key==='backgroundMode'&&field.type==='select')field=Object.assign({},field,{label:false,admin:{...field.admin,components:{...field.admin?.components,Field:{path:'/components/admin/BackgroundMode#BackgroundMode',clientProps:{kind}}}}});
    if(key==='backgroundColor'){
-    field={...field,label:'Colore',admin:{...field.admin,components:{...field.admin?.components,Field:{path:'/components/admin/ColorField#ColorField',clientProps:{label:'Colore',solidOnly:true}}}}} as Field;
+    field=Object.assign({},field,{label:'Colore',admin:{...field.admin,components:{...field.admin?.components,Field:{path:'/components/admin/ColorField#ColorField',clientProps:{label:'Colore',solidOnly:true}}}}});
     field=when(field,(_,s)=>backgroundChoice(s,kind)==='color');
    }
    if(key==='backgroundImage'||kind==='slide'&&key==='image')field=when(field,(_,s)=>backgroundChoice(s,kind)==='image');
-   if(key==='backgroundOpacity'){field={...field,admin:{...field.admin,description:'0% rende il fondo invisibile; 100% lo mostra completamente.'}} as Field;field=when(field,(_,s)=>['color','image'].includes(backgroundChoice(s,kind)));}
+   if(key==='backgroundOpacity'){field=Object.assign({},field,{admin:{...field.admin,description:'0% rende il fondo invisibile; 100% lo mostra completamente.'}});field=when(field,(_,s)=>['color','image'].includes(backgroundChoice(s,kind)));}
    if(key==='overlayOpacity'||key==='wideOverlayOpacity')field=when(field,(_,s)=>backgroundChoice(s,kind)==='image'||kind==='card'&&backgroundChoice(s,kind)==='inherit'&&s.composition!=='stacked');
    if(['mobileImage','focalX','focalY'].includes(key))field=when(field,(_,s)=>backgroundChoice(s,kind)==='image');
    if(key==='backgroundBlur')field=when(field,(_,s)=>backgroundChoice(s,kind)!=='inherit');
