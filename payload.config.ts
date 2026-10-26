@@ -1,3 +1,4 @@
+import {databaseFetchWithReconnect} from './lib/database-fetch';
 import {branchRead,invalidateBranchPublication} from './lib/branch-publication';
 import {publishedMediaRead} from './lib/published-media';
 import {privateMediaStorage} from './lib/private-blob';
@@ -74,6 +75,7 @@ export default buildConfig({
   db: sqliteAdapter({ push: process.env.PAYLOAD_SCHEMA_PUSH !== 'false', client: {
     url: process.env.DATABASE_URL || process.env.TURSO_DATABASE_URL || 'file:./bradiboo.db',
     authToken: process.env.DATABASE_AUTH_TOKEN || process.env.TURSO_AUTH_TOKEN,
+    fetch: databaseFetchWithReconnect(),
   } }),
   typescript: { outputFile: path.resolve('payload-types.ts') },
   collections: groupCollections(organizeCollections([watchTerms,
