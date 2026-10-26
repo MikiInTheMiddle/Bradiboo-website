@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { WireShell } from '@/components/wireframe';
 import { getCMSPages } from '@/lib/cms';
 export const dynamic = 'force-dynamic';

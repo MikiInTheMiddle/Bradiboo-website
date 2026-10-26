@@ -3,7 +3,7 @@ import {VisualMedia} from './visual-media';
 import {CardVideo} from './card-video';
 import {CardAudioPlayer,CardAudioBlockControl} from './card-audio';
 import {useEffect,useId,useRef,useState,type CSSProperties,type ReactNode,type KeyboardEvent,type PointerEvent} from 'react';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import {justifiedRows,type GalleryItem} from '@/lib/gallery-model';
 import {blockTextStyle} from '@/lib/text-style';
 import {cardSurfaceStyle,cardHoverAttributes} from '@/lib/card-style';

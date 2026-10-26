@@ -12,7 +12,7 @@ import {cardSurfaceStyle,cardHoverAttributes} from '@/lib/card-style';
 import {blockTextStyle,type BlockTypography} from '@/lib/text-style';
 import {CookieLabel} from '@/components/cookie-label';
 import { useMemo, useState, useRef, useEffect, useId } from 'react';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { Sparkles, Heart, Hourglass, Sun, Users, Star, Wind, Mountain, Leaf, Palette, Music, FlaskConical, Compass, Shapes, House, Rocket, Bike, Shuffle, Play, X, Search, Zap, type LucideIcon } from 'lucide-react';
 import { filterWatch, pickWatch, remoteMatches, watchThemes, watchKeywords, type WatchItem, type WatchRail, type WatchCharacter, type WatchFilterConfig, type RemoteButton, defaultWatchFilters } from '@/lib/watch-model';
 const icons:Record<string,LucideIcon>={sparkles:Sparkles,heart:Heart,hourglass:Hourglass,sun:Sun,users:Users,star:Star,wind:Wind,mountain:Mountain,leaf:Leaf,palette:Palette,music:Music,flask:FlaskConical,compass:Compass,shapes:Shapes,home:House,rocket:Rocket,bike:Bike};

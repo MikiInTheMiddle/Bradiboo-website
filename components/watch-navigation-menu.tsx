@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import {CookieLabel} from './cookie-label';
 import {useEffect,useId,useRef,useState,type ReactNode} from 'react';
 type Entry={id:number;title:string;url:string;productions:{id:number;title:string;url:string}[]};

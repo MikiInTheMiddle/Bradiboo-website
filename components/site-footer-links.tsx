@@ -1,5 +1,5 @@
 import type {ReactNode} from 'react';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import {CookiePreferencesButton} from './cookie-consent';
 import {cookiePolicyPath,privacyPolicyURL,socialLinks} from '@/lib/legal';
 function SocialIcon({name}:{name:string}){

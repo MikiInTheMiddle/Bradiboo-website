@@ -8,7 +8,7 @@ import {visibilityAttributes,ctaVariables} from '@/lib/card-controls';
 import {resolveCTAAlignment} from '@/lib/cta-alignment';
 import {CardEyebrow} from './card-eyebrow';
 import {useRef,useState,type CSSProperties} from 'react';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import {ChevronLeft,ChevronRight} from 'lucide-react';
 import type {WireBlock} from '@/lib/wireframe';
 import {resolveColor} from '@/lib/background';

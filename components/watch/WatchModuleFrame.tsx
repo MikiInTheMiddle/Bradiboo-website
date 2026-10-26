@@ -4,7 +4,7 @@ import type {CSSProperties,ReactNode} from 'react';
 import type {WireBlock} from '@/lib/wireframe';
 import {textColorValue} from '@/lib/text-style';
 import {CookieLabel} from '../cookie-label';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 export function WatchModuleFrame({block,children}:{block:WireBlock;children:ReactNode}){
  const image=block.backgroundMode==='image'?block.backgroundImage:undefined;
  return <section data-content-layout={block.contentLayout} className={`wf-watch-module wf-block wf-interactive-module${block.presentation==='wide'?' wf-interactive-wide':''}`} style={{color:textColorValue(block.textColor),backdropFilter:block.blur?`blur(${block.blur}px)`:undefined,'--block-veil':(block.wideOverlayOpacity??55)/100} as CSSProperties}>

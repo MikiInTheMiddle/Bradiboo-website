@@ -20,7 +20,7 @@ import {FeaturedWide} from './featured-wide';
 import {cardSurfaceStyle,cardHoverAttributes} from '@/lib/card-style';
 import {CookieLabel} from './cookie-label';
 import {blockHeading,blockTextStyle,textColorValue} from '@/lib/text-style';
-import Link from 'next/link';
+import Link from '@/components/site-link';
 import { HomeReveal } from './home-reveal';
 import { SiteInteractions } from './site-interactions';
 import { pageBackgroundStyle } from '@/lib/background';
