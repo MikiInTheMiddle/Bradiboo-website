@@ -768,3 +768,9 @@
 /* The compact BradiBITES artwork carries its own alpha; keep the page visible behind it. */
 .site-ui .wf-featured-wide[data-compact-mobile-hero="true"] .featured-wide,
 .site-ui .wf-hero[data-compact-mobile-hero="true"] .wf-hero-background { background-color:transparent!important; }
+
+@media(max-width:700px) {
+ .site-ui.home-ui .wf-character-grid > .wf-block-content:has(> .wf-module-media) > div:first-child { display:contents; }
+ .site-ui.home-ui .wf-character-grid > .wf-block-content:has(> .wf-module-media) > div:first-child > .wf-block-title { order:-2; }
+ .site-ui.home-ui .wf-character-grid > .wf-block-content > .wf-module-media { order:-1; }
+}
