@@ -13,7 +13,7 @@ function SocialIcon({name}:{name:string}){
  return <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{shapes[name]}</svg>;
 }
 export function FooterLinks(){
- return <><nav className="footer-socials" aria-label="Social">{socialLinks.map(item=><a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label} title={item.label}><SocialIcon name={item.label}/></a>)}</nav><div className="footer-contact"><a href="mailto:ciao@bradiboo.com">ciao@bradiboo.com · Scrivici</a></div><nav className="footer-legal" aria-label="Informazioni legali"><Link href={cookiePolicyPath}>Cookie Policy</Link><CookiePreferencesButton/><a href={privacyPolicyURL}>Privacy Policy</a></nav></>;
+ return <><nav className="footer-socials" aria-label="Social">{socialLinks.map(item=><a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label} title={item.label}><SocialIcon name={item.label}/></a>)}</nav><div className="footer-contact"><a href="mailto:ciao@bradiboo.com" target="_blank" rel="noopener noreferrer">ciao@bradiboo.com · Scrivici</a></div><nav className="footer-legal" aria-label="Informazioni legali"><Link href={cookiePolicyPath}>Cookie Policy</Link><CookiePreferencesButton/><a href={privacyPolicyURL}>Privacy Policy</a></nav></>;
 }
 
-export function FooterNote({text}:{text:string}){return <small>{text.split(/(bradiboo@pec\.it)/g).map((part,index)=>part==='bradiboo@pec.it'?<a key={index} href="mailto:bradiboo@pec.it">{part}</a>:part)}</small>;}
+export function FooterNote({text}:{text:string}){return <small>{text.split(/(bradiboo@pec\.it)/g).map((part,index)=>part==='bradiboo@pec.it'?<a key={index} href="mailto:bradiboo@pec.it" target="_blank" rel="noopener noreferrer">{part}</a>:part)}</small>;}
