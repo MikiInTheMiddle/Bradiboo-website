@@ -2,6 +2,8 @@ import { withPayload } from '@payloadcms/next/withPayload';
 import type { NextConfig } from 'next';
 const httpSQLite = process.env.LIBSQL_HTTP_ONLY === 'true';
 const config: NextConfig = {
+  // Isolate local production checks from an already running development server.
+  distDir: process.env.BRADIBOO_BUILD_DIR || '.next',
   // Opt-in for a single CLI release after a successful local type check.
   // This variable is never stored in project settings; Git builds check types.
   typescript: { ignoreBuildErrors: process.env.BRADIBOO_PRECHECKED_BUILD === 'true' },

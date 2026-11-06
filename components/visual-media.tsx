@@ -22,6 +22,8 @@ function GifImage({src,alt='',className,style,loading}:Props){
 }
 function ResponsiveAnimation(props:Props){const [mobile,setMobile]=useState(false);useEffect(()=>{const query=matchMedia('(max-width:700px)');const update=()=>setMobile(query.matches);update();query.addEventListener('change',update);return()=>query.removeEventListener('change',update);},[]);const src=mobile&&props.mobileImage?props.mobileImage:props.src;const {mobileImage,...rest}=props;return visualMediaKind(src)==='image'?(/\.gif(?:[?#]|$)/i.test(src)?<GifImage {...rest} src={src}/>:<img {...rest} src={src}/>):<Animation {...props} src={src}/>;}
 export function VisualMedia(props:Props){
+ // Incomplete CMS media must not crash static generation of the whole site.
+ if(!props.src)return null;
  if(/\.gif(?:[?#]|$)/i.test(props.src)||props.mobileImage&&/\.gif(?:[?#]|$)/i.test(props.mobileImage)||visualMediaKind(props.src)!=='image'||props.mobileImage&&visualMediaKind(props.mobileImage)!=='image')return <ResponsiveAnimation {...props}/>;
  const {mobileImage,src,...rest}=props;
  return <picture>{mobileImage&&<source media="(max-width:700px)" srcSet={mobileImage}/>}<img src={src} {...rest}/></picture>;

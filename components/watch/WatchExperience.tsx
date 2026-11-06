@@ -11,6 +11,8 @@ import {CardEyebrow} from '@/components/card-eyebrow';
 import {cardSurfaceStyle,cardHoverAttributes} from '@/lib/card-style';
 import {blockTextStyle,type BlockTypography} from '@/lib/text-style';
 import {CookieLabel} from '@/components/cookie-label';
+import {Suspense} from 'react';
+import {useSearchParams} from 'next/navigation';
 import { useMemo, useState, useRef, useEffect, useId } from 'react';
 import Link from '@/components/site-link';
 import { Sparkles, Heart, Hourglass, Sun, Users, Star, Wind, Mountain, Leaf, Palette, Music, FlaskConical, Compass, Shapes, House, Rocket, Bike, Shuffle, Play, X, Search, Zap, type LucideIcon } from 'lucide-react';
@@ -24,6 +26,12 @@ function ContentCard({item,onSelect}:{item:WatchItem;onSelect:(item:WatchItem)=>
  {appearance?.composition==='overlay'&&<span className="wf-card-media-space" aria-hidden="true"/>}<CardEyebrow item={item} settings={[appearance]}/><strong className="card-title" style={appearance?blockTextStyle(appearance,'title'):undefined}>{item.title}</strong><span className="card-description" style={appearance?blockTextStyle(appearance,'note'):undefined}>{item.description}</span><span className="watch-card-action">Guarda ora →</span>
  </button>;}
 function Rail({rail,onSelect}:{rail:WatchRail;onSelect:(item:WatchItem)=>void}){if(!rail.items.length)return null;const surface=rail.surface;return <section className="watch-rail wf-rail"><div className="watch-rail-surface" aria-hidden="true" style={{backgroundColor:surface?.backgroundMode==='color'?resolveColor(surface.backgroundColor):undefined,opacity:(surface?.backgroundOpacity??100)/100,backdropFilter:surface?.backgroundBlur?`blur(${surface.backgroundBlur}px)`:undefined}}>{surface?.backgroundMode==='image'&&surface.backgroundImage&&<><picture style={{filter:surface.backgroundBlur?`blur(${surface.backgroundBlur}px)`:undefined}}>{surface.mobileImage&&<source media="(max-width:700px)" srcSet={surface.mobileImage}/>}<img src={surface.backgroundImage} alt="" loading="lazy" style={{objectPosition:`${surface.focalX??50}% ${surface.focalY??50}%`}}/></picture><span style={{background:`rgb(10 15 38 / ${(surface.overlayOpacity??0)/100})`}}/></>}</div><div className="watch-rail-heading" style={{color:surface?.textColor&&surface.textColor!=='transparent'?resolveColor(surface.textColor):'#ffffff'}}><div><h2>{rail.title}</h2>{rail.description&&<p>{rail.description}</p>}</div></div><CardCarousel variant="rail" label={rail.title}>{rail.items.map(item=><ContentCard key={item.id} item={item} onSelect={onSelect}/>)}</CardCarousel></section>;}
+/** The URL chooses the episode after hydration. No server render per query. */
+function WatchURLSelection({items,onSelect}:{items:WatchItem[];onSelect:(item:WatchItem|undefined)=>void}){
+ const slug=useSearchParams().get('contenuto');
+ useEffect(()=>{onSelect(items.find(item=>item.slug===slug)||items[0]);},[slug,items,onSelect]);
+ return null;
+}
 export function WatchExperience({items:sourceItems,characters,rails:sourceRails,filters=defaultWatchFilters,remoteButtons=[],fullZap=false,zapLogo,searchIcon,catalogTitle='Cerca una storia',initialItemID,showAudioControl=false,themeOptions=watchThemes,keywordOptions=watchKeywords}:{items:WatchItem[];characters:WatchCharacter[];rails:WatchRail[];preview:boolean;remote?:boolean;filters?:WatchFilterConfig[];remoteButtons?:RemoteButton[];fullZap?:boolean;zapLogo?:string;searchIcon?:string;catalogTitle?:string;catalogNote?:string;initialItemID?:string;typography?:BlockTypography;showHeading?:boolean;showAudioControl?:boolean;cardLayout?:string;themeOptions?:{value:string;label:string}[];keywordOptions?:{value:string;label:string}[]}){
  const items=useMemo(()=>sourceItems.filter(i=>Boolean(i.video)&&!i.demo),[sourceItems]);
  const rails=useMemo(()=>sourceRails.map(r=>({...r,items:r.items.filter(i=>Boolean(i.video)&&!i.demo)})).filter(r=>r.items.length),[sourceRails]);
@@ -53,6 +61,7 @@ export function WatchExperience({items:sourceItems,characters,rails:sourceRails,
  function pressRemote(button:RemoteButton){const next=pickWatch(remoteMatches(items,button.keywords),current?.id);if(next){choose(next);setRemoteMessage(button.label);}else {setZapOpen(false);zapTrigger.current?.focus();setRemoteMessage(`Nessun video disponibile per «${button.label}». Prova un altro pulsante.`);}}
  const renderFilter=(key:string)=>key==='characters'?<div className="watch-filter-options">{characters.map(c=><label key={c.id}><input type="checkbox" checked={selectedCharacters.includes(c.id)} onChange={()=>setCharacters(toggle(selectedCharacters,c.id))}/>{c.name}</label>)}</div>:key==='themes'||key==='keywords'?<div className="watch-filter-options">{(key==='themes'?themeOptions:keywordOptions).map(t=><label key={t.value}><input type="checkbox" checked={(key==='themes'?themes:keywords).includes(t.value)} onChange={()=>key==='themes'?setThemes(toggle(themes,t.value)):setKeywords(toggle(keywords,t.value))}/>{t.label}</label>)}</div>:key==='kind'?<div className="watch-filter-options" role="radiogroup" aria-label="Tipo di contenuto">{[{value:'',label:'Tutti i tipi'},...kinds].map(k=><label key={k.value}><input type="radio" name={kindGroupID} checked={kind===k.value} onChange={()=>setKind(k.value)}/>{k.label}</label>)}</div>:<p>Solo video disponibili.</p>;
  return <div className="watch-experience watch-unified">
+ <Suspense fallback={null}><WatchURLSelection items={items} onSelect={setCurrent}/></Suspense>
 
  {showAudioControl&&items.some(i=>i.cardAudio)&&<CardAudioBlockControl/>}
  <div ref={stage} className="watch-stage" data-zap-open={zapOpen}>

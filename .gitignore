@@ -43,3 +43,6 @@ next-env.d.ts
 /bradiboo.db*
 /media/
 *.tsbuildinfo
+
+.next-*/
+/scripts/fixtures/**/.next/

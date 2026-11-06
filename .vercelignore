@@ -11,3 +11,5 @@ bradiboo.db*
 .deploy-cache
 
 scripts/fixtures/
+
+.next-*/

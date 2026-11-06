@@ -1,4 +1,7 @@
 import {publicRead} from './public-cache';
+import {cache} from 'react';
+import {collectionTag,globalTag,pageTag,PUBLIC_HIERARCHY_TAG} from './public-cache-tags';
+import {pageCacheDependencies} from './page-cache-dependencies';
 import {productBackground} from './product-model';
 import {hasBlockContent,requiresBlockItems} from './block-content-visibility';
 import {branchPublication,hiddenBranchPath,hiddenBranchPage} from './branch-publication';
@@ -221,9 +224,29 @@ async function loadSiteNavigation(){const payload=await getPayload({config});ret
 
 async function loadSiteSettings(){const payload=await getPayload({config});return payload.findGlobal({slug:'site-settings',depth:1,overrideAccess:false});}
 
-const cachedCMSPage=publicRead('page',async(path:string)=>(await loadCMSPage(path))??null);
-export async function getCMSPage(path:string){return (await cachedCMSPage(path))??undefined;}
-export const getCMSPages=publicRead('sitemap',loadCMSPages);
-export const getMenu=publicRead('menu',loadMenu);
-export const getSiteNavigation=publicRead('navigation',loadSiteNavigation);
-export const getSiteSettings=publicRead('settings',loadSiteSettings);
+// Cache a small dependency description separately from the resolved public page.
+// Both carry the page tag, so changing blocks also updates future invalidations.
+const getPageDependencies=publicRead('page-dependencies',async(path:string)=>{
+ const payload=await getPayload({config});
+ const result=await payload.find({collection:'pages',where:{path:{equals:path}},limit:1,depth:0,draft:false,overrideAccess:false});
+ return pageCacheDependencies(payload.collections.pages.config.fields,result.docs[0]||{});
+},false,path=>({tags:[pageTag(path),PUBLIC_HIERARCHY_TAG]}));
+const cachedCMSPage=publicRead('page',async(path:string,_dependencies:ReturnType<typeof pageCacheDependencies>)=>(await loadCMSPage(path))??null,false,(path,dependencies)=>({tags:[pageTag(path),PUBLIC_HIERARCHY_TAG,...dependencies.tags],revalidate:dependencies.revalidate}));
+export const getCMSPage=cache(async(path:string)=>(await cachedCMSPage(path,await getPageDependencies(path)))??undefined);
+export const getCMSPages=cache(publicRead('sitemap',loadCMSPages,false,()=>({tags:[collectionTag('pages'),PUBLIC_HIERARCHY_TAG]})));
+export const getMenu=cache(publicRead('menu',loadMenu,false,()=>({tags:[globalTag('navigation')]})));
+export const getSiteNavigation=cache(publicRead('navigation',loadSiteNavigation,false,()=>({tags:[globalTag('navigation'),collectionTag('media')]})));
+export const getSiteSettings=cache(publicRead('settings',loadSiteSettings,false,()=>({tags:[globalTag('site-settings'),collectionTag('media')]})));
+
+/** All published routes, including pages hidden only from the sitemap.
+ * New pages remain available via dynamicParams without rebuilding the site.
+ */
+export async function getStaticPagePaths(){
+ const payload=await getPayload({config});const paths:string[]=[];
+ for(let page=1;;page++){
+  const result=await payload.find({collection:'pages',page,limit:100,depth:0,draft:false,overrideAccess:false,select:{path:true}});
+  paths.push(...result.docs.map(doc=>doc.path));
+  if(!result.hasNextPage)break;
+ }
+ return paths.filter(path=>path.startsWith('/')&&!['/','/guarda','/guarda/telecomando','/mappa-sito'].includes(path));
+}

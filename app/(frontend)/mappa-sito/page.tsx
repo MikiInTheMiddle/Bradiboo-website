@@ -1,7 +1,8 @@
 import Link from '@/components/site-link';
 import { WireShell } from '@/components/wireframe';
 import { getCMSPages } from '@/lib/cms';
-export const dynamic = 'force-dynamic';
+export const dynamic = 'error';
+export const revalidate = false;
 
 export default async function SitemapPage() {
   const pages = (await getCMSPages()).filter(page=>page.status!=='draft');

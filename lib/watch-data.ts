@@ -1,4 +1,5 @@
 import {publicRead} from './public-cache';
+import {collectionTag,globalTag,PUBLIC_HIERARCHY_TAG} from './public-cache-tags';
 import {applyWatchCardFunction} from './watch-card-function';
 import {sourceAudioTracks} from './card-audio';
 import {sourceAudio,resolveCardAudio} from './card-audio';
@@ -49,4 +50,4 @@ async function loadWatchData(){
  return {items,characters,rails,preview,filters,remoteButtons,fullZap:settings.fullZap===true,zapLogo:mediaURL(settings.zapLogo),searchIcon:mediaURL(settings.searchIcon),themeOptions,keywordOptions};
 }
 
-export const getWatchData=publicRead('watch-catalog',loadWatchData);
+export const getWatchData=publicRead('watch-catalog',loadWatchData,false,()=>({tags:[globalTag('watch'),PUBLIC_HIERARCHY_TAG,...['contents','characters','production-containers','media','watch-terms'].map(collectionTag)]}));
