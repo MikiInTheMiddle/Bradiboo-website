@@ -1,4 +1,4 @@
-import {RandomHeroPicture} from './random-hero-picture';
+import {HeroPageBackground,RandomHeroPicture,RandomHeroProvider} from './random-hero-picture';
 import {VisualMedia} from './visual-media';
 import {PageClouds} from '@/components/page-clouds';
 import {hasBlockContent} from '@/lib/block-content-visibility';
@@ -24,7 +24,6 @@ import {blockHeading,blockTextStyle,textColorValue} from '@/lib/text-style';
 import Link from '@/components/site-link';
 import { HomeReveal } from './home-reveal';
 import { SiteInteractions } from './site-interactions';
-import { pageBackgroundStyle } from '@/lib/background';
 import { CardCarousel } from './card-carousel';
 import {Fragment,type CSSProperties} from 'react';
 import { getSiteNavigation } from '@/lib/cms';
@@ -96,8 +95,8 @@ export function WirePageView({page}:{page:WirePage}){
  }:block);
  const hero=home&&visibleBlocks[0]?.type==='hero'?visibleBlocks[0]:undefined;
  const blocks=hero?visibleBlocks.slice(1):visibleBlocks;
- const content=<>{hero&&<HomeEntrance><Block block={{...hero,skipReveal:true}} index={0} home/></HomeEntrance>}<div className="wf-page-background" data-hero-background={page.backgroundMobileColor?'true':undefined} style={pageBackgroundStyle(page)}><PageClouds settings={page.cloudBackground}/><main className="wf-main" data-page-path={page.path}><BlockSequence blocks={blocks} home={home} offset={hero?1:0}/></main></div></>;
- return <WireShell footerOverride={page.footerOverride} currentPath={page.path} immersiveHome={Boolean(hero)}>{content}</WireShell>;
+ const content=<>{hero&&<HomeEntrance><Block block={{...hero,skipReveal:true}} index={0} home/></HomeEntrance>}<HeroPageBackground fallback={{backgroundColor:page.backgroundColor,backgroundImage:page.backgroundImage,backgroundMobileColor:page.backgroundMobileColor}}><PageClouds settings={page.cloudBackground}/><main className="wf-main" data-page-path={page.path}><BlockSequence blocks={blocks} home={home} offset={hero?1:0}/></main></HeroPageBackground></>;
+ return <WireShell footerOverride={page.footerOverride} currentPath={page.path} immersiveHome={Boolean(hero)}>{hero?.heroImageVariants?.length?<RandomHeroProvider images={hero.heroImageVariants}>{content}</RandomHeroProvider>:content}</WireShell>;
 }
 
 function BlockSequence({blocks,home=false,offset=0}:{blocks:WireBlock[];home?:boolean;offset?:number}) {

@@ -1,10 +1,13 @@
 'use client';
 
-import {useEffect,useRef,useState,type CSSProperties} from 'react';
+import {createContext,useContext,useEffect,useRef,useState,type CSSProperties,type ReactNode} from 'react';
 import {chooseHeroImage,type HeroImage} from '@/lib/hero-images';
+import {pageBackgroundStyle} from '@/lib/background';
 import {VisualMedia} from './visual-media';
 
-export function RandomHeroPicture({images,className="wf-background-picture",style}:{images:HeroImage[];className?:string;style?:CSSProperties}){
+const HeroSelection=createContext<HeroImage|undefined>(undefined);
+
+export function RandomHeroProvider({images,children}:{images:HeroImage[];children:ReactNode}){
  const [selected,setSelected]=useState<HeroImage>();
  const initialized=useRef(false);
  useEffect(()=>{
@@ -20,6 +23,16 @@ export function RandomHeroPicture({images,className="wf-background-picture",styl
   }
  },[images]);
 
+ return <HeroSelection.Provider value={selected}>{children}</HeroSelection.Provider>;
+}
+
+export function HeroPageBackground({fallback,children}:{fallback:NonNullable<HeroImage['pageBackground']>;children:ReactNode}){
+ const background=useContext(HeroSelection)?.pageBackground??fallback;
+ return <div className="wf-page-background" data-hero-background={background.backgroundMobileColor?'true':undefined} style={pageBackgroundStyle(background)}>{children}</div>;
+}
+
+export function RandomHeroPicture({images,className="wf-background-picture",style}:{images:HeroImage[];className?:string;style?:CSSProperties}){
+ const selected=useContext(HeroSelection);
  const renderPicture=(image:HeroImage|undefined)=>image?.image&&(
   <div className={`${className} wf-random-hero-picture`} style={{
    ...style,
