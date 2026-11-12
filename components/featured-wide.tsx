@@ -1,4 +1,5 @@
 'use client';
+import {RandomHeroPicture} from './random-hero-picture';
 import {VisualMedia} from './visual-media';
 import {ConsentVideo} from '@/components/cookie-consent';
 
@@ -37,6 +38,12 @@ export function FeaturedWide({block}:{block:WireBlock}) {
  const backgroundMode=appearance?.backgroundMode||(block.backgroundMode==='page'?'transparent':block.backgroundMode==='own'?'color':block.backgroundMode==='image'?'image':isSingleBlock?(block.backgroundImage?'image':'transparent'):'image');
  const image=appearance?.mediaVisibility==='hide'?undefined:appearance?.backgroundImage||item.image||block.backgroundImage;
  const badge=labelFor(active);
+ const pictureBlur=appearance?.backgroundBlur??block.blur;
+ const pictureStyle={
+  opacity:block.compactMobileHero?1:(appearance?.backgroundOpacity??((block.opacity??1)*100))/100,
+  filter:pictureBlur?`blur(${pictureBlur}px)`:undefined,
+ };
+ const heroVariants=isSingleBlock&&block.type==='hero'?block.heroImageVariants:undefined;
  return <div className="featured-wide" role="region" aria-roledescription="carosello" aria-label={block.title}
   onTouchStart={e=>{start.current=e.touches[0].clientX;}}
   onTouchEnd={e=>{if(start.current!==null){const delta=e.changedTouches[0].clientX-start.current;if(Math.abs(delta)>50&&items.length>1)move(delta<0?1:-1);}start.current=null;}}
@@ -52,7 +59,7 @@ export function FeaturedWide({block}:{block:WireBlock}) {
   <div className="featured-wide-slide" role="group" aria-roledescription="slide" aria-label={`${active+1} di ${items.length}`}>
    <div className="featured-wide-background" aria-hidden="true" style={{backdropFilter:(appearance?.backgroundBlur??block.blur)?`blur(${appearance?.backgroundBlur??block.blur}px)`:undefined,WebkitBackdropFilter:(appearance?.backgroundBlur??block.blur)?`blur(${appearance?.backgroundBlur??block.blur}px)`:undefined}}>
     <div style={{position:'absolute',inset:0,backgroundColor:backgroundMode==='transparent'||backgroundMode==='image'&&image?'transparent':appearance?.backgroundColor?resolveColor(appearance.backgroundColor):block.backgroundColor||'#223668',opacity:(appearance?.backgroundOpacity??((block.opacity??1)*100))/100}}/>
-   {backgroundMode==='image'&&image&&<div key={image+active} className="featured-wide-picture" style={{opacity:block.compactMobileHero?1:(appearance?.backgroundOpacity??((block.opacity??1)*100))/100,filter:(appearance?.backgroundBlur??block.blur)?`blur(${appearance?.backgroundBlur??block.blur}px)`:undefined}}><VisualMedia src={image} mobileImage={item.mobileImage} alt="" loading={block.type==='hero'?'eager':'lazy'} fetchPriority={block.type==='hero'?'high':undefined} style={{objectPosition:`${item.focalX??50}% ${item.focalY??50}%`}}/></div>}
+   {backgroundMode==='image'&&image&&(heroVariants?.length?<RandomHeroPicture images={heroVariants} className="featured-wide-picture" style={pictureStyle}/>:<div key={image+active} className="featured-wide-picture" style={pictureStyle}><VisualMedia src={image} mobileImage={item.mobileImage} alt="" loading={block.type==='hero'?'eager':'lazy'} fetchPriority={block.type==='hero'?'high':undefined} style={{objectPosition:`${item.focalX??50}% ${item.focalY??50}%`}}/></div>)}
    </div>
    <div className="featured-wide-scrim" aria-hidden="true" style={{'--wide-shade':(appearance?.overlayOpacity??(backgroundMode==='image'?(block.wideOverlayOpacity??55):0))/100*(backgroundMode==='image'?(appearance?.backgroundOpacity??((block.opacity??1)*100))/100:1)} as CSSProperties}/>
    <div {...visibilityAttributes(appearance)} style={ctaVariables(appearance) as CSSProperties} className="featured-wide-content" aria-live="polite" aria-atomic="true">

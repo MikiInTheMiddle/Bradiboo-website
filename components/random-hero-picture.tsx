@@ -4,7 +4,7 @@ import {useEffect,useRef,useState,type CSSProperties} from 'react';
 import {chooseHeroImage,type HeroImage} from '@/lib/hero-images';
 import {VisualMedia} from './visual-media';
 
-export function RandomHeroPicture({images}:{images:HeroImage[]}){
+export function RandomHeroPicture({images,className="wf-background-picture",style}:{images:HeroImage[];className?:string;style?:CSSProperties}){
  const [selected,setSelected]=useState<HeroImage>();
  const initialized=useRef(false);
  useEffect(()=>{
@@ -21,11 +21,12 @@ export function RandomHeroPicture({images}:{images:HeroImage[]}){
  },[images]);
 
  const renderPicture=(image:HeroImage|undefined)=>image?.image&&(
-  <div className="wf-background-picture wf-random-hero-picture" style={{
+  <div className={`${className} wf-random-hero-picture`} style={{
+   ...style,
    '--hero-loading-color':image.color,
    '--hero-mobile-loading-color':image.mobileColor||image.color,
   } as CSSProperties}>
-   <VisualMedia src={image.image} mobileImage={image.mobileImage} alt="" loading="eager" style={{objectPosition:`${image.focalX??50}% ${image.focalY??50}%`}}/>
+   <VisualMedia src={image.image} mobileImage={image.mobileImage} alt="" loading="eager" fetchPriority="high" style={{objectPosition:`${image.focalX??50}% ${image.focalY??50}%`}}/>
   </div>
  );
 
