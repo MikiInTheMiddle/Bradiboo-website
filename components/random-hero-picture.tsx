@@ -1,0 +1,33 @@
+'use client';
+
+import {useEffect,useRef,useState,type CSSProperties} from 'react';
+import {chooseHeroImage,type HeroImage} from '@/lib/hero-images';
+import {VisualMedia} from './visual-media';
+
+export function RandomHeroPicture({images}:{images:HeroImage[]}){
+ const [selected,setSelected]=useState<HeroImage>();
+ const initialized=useRef(false);
+ useEffect(()=>{
+  if(initialized.current)return;
+  initialized.current=true;
+  let previous:string|null=null;
+  try{previous=sessionStorage.getItem('bradiboo-home-hero');}catch{}
+  const alternatives=images.filter(image=>image.image!==previous);
+  const next=chooseHeroImage(alternatives.length?alternatives:images);
+  setSelected(next);
+  if(next?.image){
+   try{sessionStorage.setItem('bradiboo-home-hero',next.image);}catch{}
+  }
+ },[images]);
+
+ const renderPicture=(image:HeroImage|undefined)=>image?.image&&(
+  <div className="wf-background-picture wf-random-hero-picture" style={{
+   '--hero-loading-color':image.color,
+   '--hero-mobile-loading-color':image.mobileColor||image.color,
+  } as CSSProperties}>
+   <VisualMedia src={image.image} mobileImage={image.mobileImage} alt="" loading="eager" style={{objectPosition:`${image.focalX??50}% ${image.focalY??50}%`}}/>
+  </div>
+ );
+
+ return <>{renderPicture(selected)}<noscript>{renderPicture(images[0])}</noscript></>;
+}

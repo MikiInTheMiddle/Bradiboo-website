@@ -147,7 +147,9 @@ async function loadCMSPage(path: string): Promise<WirePage | undefined> {
   let heroColor=block.customEdgeColor?edgeColor(block.edgeColor):mediaEdge(block.backgroundImage);
   let heroMobileColor=block.customEdgeColor?edgeColor(block.edgeColor):mediaEdge(block.mobileImage)||heroColor;
   if(type==='hero'&&block.backgroundMode==='image'&&block.randomHero){
-   const chosen=chooseHeroImage((block.heroImages||[]).map(c=>({image:mediaURL(c.image),mobileImage:mediaURL(c.mobileImage),focalX:c.focalX??50,focalY:c.focalY??50,color:c.customEdgeColor?edgeColor(c.edgeColor):mediaEdge(c.image),mobileColor:c.customEdgeColor?edgeColor(c.edgeColor):mediaEdge(c.mobileImage)||mediaEdge(c.image),endColor:mediaEnd(c.image),mobileEndColor:mediaEnd(c.image)})));
+   const variants=(block.heroImages||[]).map(c=>({image:mediaURL(c.image),mobileImage:mediaURL(c.mobileImage),focalX:c.focalX??50,focalY:c.focalY??50,color:c.customEdgeColor?edgeColor(c.edgeColor):mediaEdge(c.image),mobileColor:c.customEdgeColor?edgeColor(c.edgeColor):mediaEdge(c.mobileImage)||mediaEdge(c.image),endColor:mediaEnd(c.image),mobileEndColor:mediaEnd(c.image)})).filter(c=>c.image);
+   const chosen=path==='/'?variants[0]:chooseHeroImage(variants);
+   if(path==='/'&&variants.length>1)visual.heroImageVariants=variants;
    if(chosen){Object.assign(visual,{backgroundImage:chosen.image,mobileImage:chosen.mobileImage,focalX:chosen.focalX,focalY:chosen.focalY});heroColor=chosen.color;heroMobileColor=chosen.mobileColor;heroEnd=chosen.endColor;heroMobileEnd=chosen.mobileEndColor;}
   }
   if(type==='hero')Object.assign(visual,{heroLoadingColor:heroColor,heroMobileLoadingColor:heroMobileColor});
@@ -231,7 +233,7 @@ const getPageDependencies=publicRead('page-dependencies',async(path:string)=>{
  const result=await payload.find({collection:'pages',where:{path:{equals:path}},limit:1,depth:0,draft:false,overrideAccess:false});
  return pageCacheDependencies(payload.collections.pages.config.fields,result.docs[0]||{});
 },false,path=>({tags:[pageTag(path),PUBLIC_HIERARCHY_TAG]}));
-const cachedCMSPage=publicRead('page',async(path:string,_dependencies:ReturnType<typeof pageCacheDependencies>)=>(await loadCMSPage(path))??null,false,(path,dependencies)=>({tags:[pageTag(path),PUBLIC_HIERARCHY_TAG,...dependencies.tags],revalidate:dependencies.revalidate}));
+const cachedCMSPage=publicRead('page-hero-variants',async(path:string,_dependencies:ReturnType<typeof pageCacheDependencies>)=>(await loadCMSPage(path))??null,false,(path,dependencies)=>({tags:[pageTag(path),PUBLIC_HIERARCHY_TAG,...dependencies.tags],revalidate:dependencies.revalidate}));
 export const getCMSPage=cache(async(path:string)=>(await cachedCMSPage(path,await getPageDependencies(path)))??undefined);
 export const getCMSPages=cache(publicRead('sitemap',loadCMSPages,false,()=>({tags:[collectionTag('pages'),PUBLIC_HIERARCHY_TAG]})));
 export const getMenu=cache(publicRead('menu',loadMenu,false,()=>({tags:[globalTag('navigation')]})));

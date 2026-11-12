@@ -8,7 +8,7 @@ export type WireBlock = BlockTypography & {characterHero?:boolean;compactMobileH
   watchRailMode?:string;watchRailSelections?:import('./watch-rail-selection').WatchRailSelection[];cardAppearance?:CardAppearance;catalogOverrides?:{cardFunction?:string;videoSettings?:any;audioSettings?:any;id?:string;position?:number;appearance?:CardAppearance;title?:string|null;description?:string|null;image?:string;mobileImage?:string;focalX?:number;focalY?:number}[];
   cardLayout?:'auto'|'grid'|'carousel'|'compact';presentation?:'cards'|'wide';wideOverlayOpacity?:number;
   type: 'watchExperience' | 'zapExperience' | 'hero' | 'intro' | 'grid' | 'rail' | 'split' | 'media' | 'related' | 'cta' | 'list';
-  heroImageMode?:boolean;heroLoadingColor?:string;heroMobileLoadingColor?:string;
+  heroImageVariants?:import('./hero-images').HeroImage[];heroImageMode?:boolean;heroLoadingColor?:string;heroMobileLoadingColor?:string;
   skipReveal?:boolean;
   label: string;
   title: string;

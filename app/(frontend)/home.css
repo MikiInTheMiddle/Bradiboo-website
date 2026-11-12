@@ -870,3 +870,8 @@
 .site-ui .wf-items > [data-card-composition="horizontal"]:not(:has(> .character-media-frame)),
 .site-ui .wf-items > [data-card-composition="horizontal"][data-hide-media] {grid-template-columns:minmax(0,1fr);}
 .site-ui .wf-items > [data-card-composition="horizontal"] > .wf-placeholder {display:none;}
+
+.wf-random-hero-picture { background-color:var(--hero-loading-color,#223668); }
+@media (max-width:700px) {
+ .wf-random-hero-picture { background-color:var(--hero-mobile-loading-color,var(--hero-loading-color,#223668)); }
+}

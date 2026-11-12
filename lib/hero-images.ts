@@ -1,5 +1,5 @@
 export type HeroImage={image?:string;mobileImage?:string;focalX?:number;focalY?:number;color?:string;mobileColor?:string;endColor?:string;mobileEndColor?:string};
-/** Pick once on the server; preserve mobile and focal data from that same row. */
+/** Keep the mobile variant and focal point from the selected row. */
 export function chooseHeroImage(images:HeroImage[],random=Math.random):HeroImage|undefined{
  const valid=images.filter(image=>Boolean(image.image));
  if(!valid.length)return;
